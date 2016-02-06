@@ -1,5 +1,5 @@
 /*
- *  Copyright 2001-2012 Stephen Colebourne
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -131,7 +131,7 @@ public final class CachedDateTimeZone extends StorableDateTimeZone {
         return info;
     }
 
-    private final static class Info {
+    private static final class Info {
         // For first Info in chain, iPeriodStart's lower 32 bits are clear.
         public final long iPeriodStart;
         public final DateTimeZone iZoneRef;

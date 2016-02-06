@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -34,13 +34,12 @@ import org.teavm.jso.impl.JSParser;
  */
 public class AstWriterTest {
     private StringBuilder sb = new StringBuilder();
-    private SourceWriter sourceWriter;
     private AstWriter writer;
 
     public AstWriterTest() {
         SourceWriterBuilder builder = new SourceWriterBuilder(null);
         builder.setMinified(true);
-        sourceWriter = builder.build(sb);
+        SourceWriter sourceWriter = builder.build(sb);
         writer = new AstWriter(sourceWriter);
     }
 

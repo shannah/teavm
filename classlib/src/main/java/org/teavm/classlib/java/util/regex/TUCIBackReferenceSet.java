@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,8 +36,9 @@ class TUCIBackReferenceSet extends TCIBackReferenceSet {
     public int matches(int stringIndex, CharSequence testString, TMatchResultImpl matchResult) {
         String group = getString(matchResult);
 
-        if (group == null || (stringIndex + group.length()) > matchResult.getRightBound())
+        if (group == null || (stringIndex + group.length()) > matchResult.getRightBound()) {
             return -1;
+        }
 
         for (int i = 0; i < group.length(); i++) {
             if (Character.toLowerCase(Character.toUpperCase(group.charAt(i))) != Character.toLowerCase(Character
@@ -52,6 +52,6 @@ class TUCIBackReferenceSet extends TCIBackReferenceSet {
 
     @Override
     public String getName() {
-        return "UCI back reference: " + this.groupIndex; //$NON-NLS-1$
+        return "UCI back reference: " + groupIndex; //$NON-NLS-1$
     }
 }

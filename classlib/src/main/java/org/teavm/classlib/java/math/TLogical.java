@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ package org.teavm.classlib.java.math;
  * <li>xor</li>
  * </ul>
  */
-class TLogical {
+final class TLogical {
 
     /** Just to denote that this class can't be instantiated. */
 
@@ -207,8 +207,7 @@ class TLogical {
                     resDigits = new int[resLength];
                     resDigits[resLength - 1] = 1;
 
-                    TBigInteger result = new TBigInteger(-1, resLength, resDigits);
-                    return result;
+                    return new TBigInteger(-1, resLength, resDigits);
                 }
             }
         }
@@ -224,8 +223,7 @@ class TLogical {
             resDigits[i] = longer.digits[i];
         }
 
-        TBigInteger result = new TBigInteger(-1, resLength, resDigits);
-        return result;
+        return new TBigInteger(-1, resLength, resDigits);
     }
 
     /** @see TBigInteger#andNot(TBigInteger) */
@@ -372,8 +370,7 @@ class TLogical {
                         resDigits = new int[resLength];
                         resDigits[resLength - 1] = 1;
 
-                        TBigInteger result = new TBigInteger(-1, resLength, resDigits);
-                        return result;
+                        return new TBigInteger(-1, resLength, resDigits);
                     }
                 }
             }
@@ -395,9 +392,8 @@ class TLogical {
             resDigits[i] = positive.digits[i];
         }
 
-        TBigInteger result = new TBigInteger(-1, resLength, resDigits);
-        return result;
-            }
+        return new TBigInteger(-1, resLength, resDigits);
+    }
 
     /** @return sign = 1, magnitude = -val.magnitude & ~(-that.magnitude)*/
     static TBigInteger andNotNegative(TBigInteger val, TBigInteger that) {
@@ -503,8 +499,7 @@ class TLogical {
             resDigits[i] = longer.digits[i];
         }
 
-        TBigInteger result = new TBigInteger(1, resLength, resDigits);
-        return result;
+        return new TBigInteger(1, resLength, resDigits);
     }
 
     /** @return sign = -1, magnitude = -(-val.magnitude | -that.magnitude) */
@@ -803,8 +798,7 @@ class TLogical {
                         resDigits = new int[resLength];
                         resDigits[resLength - 1] = 1;
 
-                        TBigInteger result = new TBigInteger(-1, resLength, resDigits);
-                        return result;
+                        return new TBigInteger(-1, resLength, resDigits);
                 }
             }
         }

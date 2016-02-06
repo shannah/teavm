@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -64,6 +64,7 @@ public class TByte extends TNumber implements TComparable<TByte> {
         return new TByte(value);
     }
 
+    @SuppressWarnings("StringBufferReplaceableByString")
     public static String toString(byte value) {
         return new StringBuilder().append(value).toString();
     }

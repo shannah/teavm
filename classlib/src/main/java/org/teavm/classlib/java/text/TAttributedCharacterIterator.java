@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import org.teavm.classlib.java.util.TSet;
 
 public interface TAttributedCharacterIterator extends TCharacterIterator {
 
-    public static class Attribute implements TSerializable {
+    class Attribute implements TSerializable {
         public static final Attribute INPUT_METHOD_SEGMENT = new Attribute(
                 "input_method_segment");
 

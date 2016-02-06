@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -135,9 +135,8 @@ public final class DateTimeZoneProvider {
                 }
             }
 
-            if (scoreTable.size() == 1 || scoreTable.get(0).tz.previousTransition(time) == time) {
-                return scoreTable.get(0).tz;
-            } else if (scoreTable.size() > 1 && scoreTable.get(0).value + 48 * 60 < scoreTable.get(1).value) {
+            if (scoreTable.size() == 1 || scoreTable.get(0).tz.previousTransition(time) == time
+                    || scoreTable.size() > 1 && scoreTable.get(0).value + 48 * 60 < scoreTable.get(1).value) {
                 return scoreTable.get(0).tz;
             }
 
@@ -165,7 +164,7 @@ public final class DateTimeZoneProvider {
         DateTimeZone tz;
         int value;
 
-        public Score(DateTimeZone tz) {
+        Score(DateTimeZone tz) {
             this.tz = tz;
         }
     }

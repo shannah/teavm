@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ public class TNoSuchElementException extends TRuntimeException {
     private static final long serialVersionUID = -4890604137042866919L;
 
     public TNoSuchElementException() {
-        super();
     }
 
     public TNoSuchElementException(TString message) {

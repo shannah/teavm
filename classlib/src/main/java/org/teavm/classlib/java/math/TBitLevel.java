@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ package org.teavm.classlib.java.math;
  * All operations are provided in immutable way, and some in both mutable and
  * immutable.
  */
-class TBitLevel {
+final class TBitLevel {
 
     /** Just to denote that this class can't be instantiated. */
     private TBitLevel() {
@@ -287,7 +287,6 @@ class TBitLevel {
         }
         if (count == 0) {
             System.arraycopy(source, intCount, result, 0, resultLen);
-            i = resultLen;
         } else {
             int leftShiftCount = 32 - count;
 
@@ -296,7 +295,6 @@ class TBitLevel {
                 result[i] = (source[i + intCount] >>> count) | (source[i + intCount + 1] << leftShiftCount);
             }
             result[i] = source[i + intCount] >>> count;
-            i++;
         }
 
         return allZero;
@@ -306,11 +304,8 @@ class TBitLevel {
      * Performs a flipBit on the BigInteger, returning a BigInteger with the the
      * specified bit flipped.
      *
-     * @param intCount
-     *            : the index of the element of the digits array where the
-     *            operation will be performed
-     * @param bitNumber
-     *            : the bit's position in the intCount element
+     * @param val the index of the element of the digits array where the operation will be performed
+     * @param n the bit's position in the intCount element
      */
     static TBigInteger flipBit(TBigInteger val, int n) {
         int resSign = (val.sign == 0) ? 1 : val.sign;

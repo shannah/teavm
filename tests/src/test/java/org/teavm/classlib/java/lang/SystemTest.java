@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -55,6 +55,7 @@ public class SystemTest {
         assertEquals("baz", dest[2]);
     }
 
+    @SuppressWarnings("SuspiciousSystemArraycopy")
     @Test
     public void copiesToSuperclassArrayWhenItemsMatch() {
         Object[] src = { "foo", "bar", "baz" };
@@ -65,6 +66,7 @@ public class SystemTest {
         assertEquals("baz", dest[2]);
     }
 
+    @SuppressWarnings("SuspiciousSystemArraycopy")
     @Test
     public void failsToConverItemsCopyingArray() {
         Object[] src = { "foo", 23, "baz" };
@@ -79,6 +81,7 @@ public class SystemTest {
         }
     }
 
+    @SuppressWarnings("SuspiciousSystemArraycopy")
     @Test(expected = ArrayStoreException.class)
     public void failsToCopyToUnrelatedReferenceArray() {
         String[] src = { "foo", "bar", "baz" };
@@ -91,16 +94,19 @@ public class SystemTest {
         System.arraycopy(new Object[0], 0, new Object[0], 0, 1);
     }
 
+    @SuppressWarnings("SuspiciousSystemArraycopy")
     @Test(expected = ArrayStoreException.class)
     public void failsToCopyArraysWithIncompatibleElements() {
         System.arraycopy(new Object[1], 0, new int[1], 0, 1);
     }
 
+    @SuppressWarnings("SuspiciousSystemArraycopy")
     @Test(expected = NullPointerException.class)
     public void failsToCopyFromNullSource() {
         System.arraycopy(null, 0, new int[1], 0, 1);
     }
 
+    @SuppressWarnings("SuspiciousSystemArraycopy")
     @Test(expected = NullPointerException.class)
     public void failsToCopyToNullTarget() {
         System.arraycopy(new Object[1], 0, null, 0, 1);

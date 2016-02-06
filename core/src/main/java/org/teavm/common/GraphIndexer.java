@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -104,8 +104,8 @@ public class GraphIndexer {
 
     private void propagatePriorities(Graph graph, int[] priorities) {
         boolean allZero = true;
-        for (int i = 0; i < priorities.length; ++i) {
-            if (priorities[i] != 0) {
+        for (int priority : priorities) {
+            if (priority != 0) {
                 allZero = false;
                 break;
             }
@@ -248,7 +248,7 @@ public class GraphIndexer {
         int priority;
         int weight;
 
-        public WeightedNode(int index, int priority, int weight) {
+        WeightedNode(int index, int priority, int weight) {
             this.index = index;
             this.priority = priority;
             this.weight = weight;

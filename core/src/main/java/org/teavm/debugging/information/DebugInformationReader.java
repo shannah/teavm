@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class DebugInformationReader {
     private InputStream input;
     private int lastNumber;
 
-    public DebugInformationReader(InputStream input) {
+    DebugInformationReader(InputStream input) {
         this.input = input;
     }
 
@@ -121,13 +121,12 @@ class DebugInformationReader {
         int lastFile = 0;
         int lastLine = 0;
         int index = 0;
-        for (int i = 0; i < sizes.length; ++i) {
+        for (int sz : sizes) {
             while (types[j] == 0) {
                 ++j;
             }
-            size = sizes[i];
             RecordArrayBuilder.SubArray array = builder.get(j++).getArray(0);
-            for (int k = 0; k < size; ++k) {
+            for (int k = 0; k < sz; ++k) {
                 lastFile += processSign(files[index]);
                 lastLine += processSign(lines[index]);
                 array.add(lastFile);

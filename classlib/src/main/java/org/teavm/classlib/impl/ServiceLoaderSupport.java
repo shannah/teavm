@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -139,11 +139,7 @@ public class ServiceLoaderSupport extends AbstractDependencyListener implements 
         if (ref.getClassName().equals("java.util.ServiceLoader") && ref.getName().equals("loadServices")) {
             method.getResult().propagate(agent.getType("[java.lang.Object"));
             allClassesNode.connect(method.getResult().getArrayItem());
-            method.getResult().getArrayItem().addConsumer(new DependencyConsumer() {
-                @Override public void consume(DependencyType type) {
-                    initConstructor(agent, type.getName(), location);
-                }
-            });
+            method.getResult().getArrayItem().addConsumer(type -> initConstructor(agent, type.getName(), location));
         }
     }
 

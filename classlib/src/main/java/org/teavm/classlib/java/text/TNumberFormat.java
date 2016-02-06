@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -36,9 +36,6 @@ public abstract class TNumberFormat extends TFormat {
     private int minimumFractionDigits;
     private TRoundingMode roundingMode = TRoundingMode.HALF_EVEN;
     TCurrency currency = TCurrency.getInstance(TLocale.getDefault());
-
-    public TNumberFormat() {
-    }
 
     @Override
     public Object clone() {
@@ -101,7 +98,7 @@ public abstract class TNumberFormat extends TFormat {
         return TLocale.getAvailableLocales();
     }
 
-    public final static TNumberFormat getIntegerInstance() {
+    public static TNumberFormat getIntegerInstance() {
         return getIntegerInstance(TLocale.getDefault());
     }
 
@@ -115,7 +112,7 @@ public abstract class TNumberFormat extends TFormat {
         return format;
     }
 
-    public final static TNumberFormat getInstance() {
+    public static TNumberFormat getInstance() {
         return getNumberInstance();
     }
 
@@ -139,7 +136,7 @@ public abstract class TNumberFormat extends TFormat {
         return minimumIntegerDigits;
     }
 
-    public final static TNumberFormat getNumberInstance() {
+    public static TNumberFormat getNumberInstance() {
         return getNumberInstance(TLocale.getDefault());
     }
 
@@ -148,7 +145,7 @@ public abstract class TNumberFormat extends TFormat {
         return new TDecimalFormat(pattern, new TDecimalFormatSymbols(locale));
     }
 
-    public final static TNumberFormat getPercentInstance() {
+    public static TNumberFormat getPercentInstance() {
         return getPercentInstance(TLocale.getDefault());
     }
 
@@ -157,11 +154,11 @@ public abstract class TNumberFormat extends TFormat {
         return new TDecimalFormat(pattern, new TDecimalFormatSymbols(locale));
     }
 
-    public final static TNumberFormat getCurrencyInstance() {
+    public static TNumberFormat getCurrencyInstance() {
         return getCurrencyInstance(TLocale.getDefault());
     }
 
-    public final static TNumberFormat getCurrencyInstance(TLocale locale) {
+    public static TNumberFormat getCurrencyInstance(TLocale locale) {
         String pattern = CLDRHelper.resolveCurrencyFormat(locale.getLanguage(), locale.getCountry());
         return new TDecimalFormat(pattern, new TDecimalFormatSymbols(locale));
     }

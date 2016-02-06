@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ public abstract class TCharsetDecoder {
             throw new IllegalArgumentException("maxCharsPerByte must be positive. Actual value is "
                     + maxCharsPerByte);
         }
-        this.charset = cs;
+        charset = cs;
         this.averageCharsPerByte = averageCharsPerByte;
         this.maxCharsPerByte = maxCharsPerByte;
     }
@@ -62,7 +62,7 @@ public abstract class TCharsetDecoder {
         if (newReplacement == null || newReplacement.isEmpty()) {
             throw new IllegalArgumentException("New replacement is null or empty");
         }
-        this.replacement = newReplacement;
+        replacement = newReplacement;
         implReplaceWith(newReplacement);
         return this;
     }
@@ -78,7 +78,7 @@ public abstract class TCharsetDecoder {
         if (newAction == null) {
             throw new IllegalArgumentException("newAction must be non-null");
         }
-        this.malformedAction = newAction;
+        malformedAction = newAction;
         implOnMalformedInput(newAction);
         return this;
     }
@@ -94,7 +94,7 @@ public abstract class TCharsetDecoder {
         if (newAction == null) {
             throw new IllegalArgumentException("newAction must be non-null");
         }
-        this.unmappableAction = newAction;
+        unmappableAction = newAction;
         implOnUnmappableCharacter(newAction);
         return this;
     }

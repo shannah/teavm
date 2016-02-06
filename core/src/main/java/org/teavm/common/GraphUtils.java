@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -240,8 +240,7 @@ public final class GraphUtils {
         int[] set = new int[items.length];
         int sz = 0;
         int last = -1;
-        for (int i = 0; i < items.length; ++i) {
-            int item = items[i];
+        for (int item : items) {
             if (item != last) {
                 set[sz++] = item;
                 last = item;

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ class JavaInvocationProcessor implements NodeVisitor {
     private CallLocation location;
     private int idGenerator;
 
-    public JavaInvocationProcessor(JSTypeHelper typeHelper, JSBodyRepository repository,
+    JavaInvocationProcessor(JSTypeHelper typeHelper, JSBodyRepository repository,
             ClassReaderSource classSource, Diagnostics diagnostics) {
         this.typeHelper = typeHelper;
         this.repository = repository;
@@ -191,10 +191,7 @@ class JavaInvocationProcessor implements NodeVisitor {
         if (!((Name) propertyGet.getTarget()).getIdentifier().equals("javaMethods")) {
             return false;
         }
-        if (!propertyGet.getProperty().getIdentifier().equals("get")) {
-            return false;
-        }
+        return propertyGet.getProperty().getIdentifier().equals("get");
 
-        return true;
     }
 }

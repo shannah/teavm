@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class JavaInvocationTest {
         return a + b;
     }
 
-    static abstract class Num implements JSObject {
+    abstract static class Num implements JSObject {
         @JSBody(params = "n", script = "return n;")
         public static native Num create(int n);
 

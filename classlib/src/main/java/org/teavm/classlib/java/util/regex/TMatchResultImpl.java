@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,17 +29,17 @@ import java.util.Arrays;
  */
 class TMatchResultImpl implements TMatchResult {
 
-    private int[] groupBounds = null;
+    private int[] groupBounds;
 
-    private int[] consumers = null;
+    private int[] consumers;
 
-    private int[] compQuantCounters = null;
+    private int[] compQuantCounters;
 
-    private CharSequence string = null;
+    private CharSequence string;
 
-    private int groupCount = 0;
+    private int groupCount;
 
-    private boolean valid = false;
+    private boolean valid;
 
     private int leftBound;
 
@@ -48,13 +47,13 @@ class TMatchResultImpl implements TMatchResult {
 
     int startIndex;
 
-    private boolean transparentBounds = false;
+    private boolean transparentBounds;
 
-    private boolean anchoringBounds = false;
+    private boolean anchoringBounds;
 
-    boolean hitEnd = false;
+    boolean hitEnd;
 
-    boolean requireEnd = false;
+    boolean requireEnd;
 
     int previousMatch = -1;
 
@@ -63,34 +62,34 @@ class TMatchResultImpl implements TMatchResult {
     TMatchResultImpl(CharSequence string, int leftBound, int rightBound, int groupCount, int compQuantCount,
             int consumersCount) {
         this.groupCount = ++groupCount;
-        this.groupBounds = new int[groupCount * 2];
+        groupBounds = new int[groupCount * 2];
 
-        this.consumers = new int[consumersCount];
+        consumers = new int[consumersCount];
         Arrays.fill(consumers, -1);
 
-        if (compQuantCount > 0)
-            this.compQuantCounters = new int[compQuantCount];
+        if (compQuantCount > 0) {
+            compQuantCounters = new int[compQuantCount];
+        }
         Arrays.fill(groupBounds, -1);
         reset(string, leftBound, rightBound);
     }
 
     TMatchResult cloneImpl() {
-        TMatchResultImpl res = new TMatchResultImpl(this.string, this.leftBound, this.rightBound, this.groupCount - 1, 0,
-                0);
+        TMatchResultImpl res = new TMatchResultImpl(string, leftBound, rightBound, groupCount - 1, 0, 0);
 
         res.valid = valid;
         if (valid) {
-            System.arraycopy(groupBounds, 0, res.groupBounds, 0, this.groupBounds.length);
+            System.arraycopy(groupBounds, 0, res.groupBounds, 0, groupBounds.length);
         }
         return res;
     }
 
     public void setConsumed(int counter, int value) {
-        this.consumers[counter] = value;
+        consumers[counter] = value;
     }
 
     public int getConsumed(int counter) {
-        return this.consumers[counter];
+        return consumers[counter];
     }
 
     @Override
@@ -127,16 +126,18 @@ class TMatchResultImpl implements TMatchResult {
 
     @Override
     public String group(int group) {
-        if (start(group) < 0)
+        if (start(group) < 0) {
             return null;
+        }
         return string.subSequence(start(group), end(group)).toString();
     }
 
     String getGroupNoCheck(int group) {
         int st = getStart(group);
         int end = getEnd(group);
-        if ((end | st | (end - st)) < 0 || end > string.length())
+        if ((end | st | (end - st)) < 0 || end > string.length()) {
             return null;
+        }
 
         return string.subSequence(st, end).toString();
     }
@@ -162,9 +163,9 @@ class TMatchResultImpl implements TMatchResult {
      * used to check zero group for empty match;
      */
     public void finalizeMatch() {
-        if (this.groupBounds[0] == -1) {
-            this.groupBounds[0] = this.startIndex;
-            this.groupBounds[1] = this.startIndex;
+        if (groupBounds[0] == -1) {
+            groupBounds[0] = startIndex;
+            groupBounds[1] = startIndex;
         }
 
         previousMatch = end();
@@ -195,11 +196,11 @@ class TMatchResultImpl implements TMatchResult {
     }
 
     protected void setValid() {
-        this.valid = true;
+        valid = true;
     }
 
     protected boolean isValid() {
-        return this.valid;
+        return valid;
     }
 
     protected void reset(CharSequence newSequence, int leftBound, int rightBound) {
@@ -208,11 +209,13 @@ class TMatchResultImpl implements TMatchResult {
         Arrays.fill(groupBounds, -1);
         Arrays.fill(consumers, -1);
 
-        if (newSequence != null)
-            this.string = newSequence;
-        if (leftBound >= 0)
-            this.setBounds(leftBound, rightBound);
-        this.startIndex = this.leftBound;
+        if (newSequence != null) {
+            string = newSequence;
+        }
+        if (leftBound >= 0) {
+            setBounds(leftBound, rightBound);
+        }
+        startIndex = this.leftBound;
     }
 
     protected void reset() {
@@ -230,11 +233,11 @@ class TMatchResultImpl implements TMatchResult {
     }
 
     public int getLeftBound() {
-        return this.leftBound;
+        return leftBound;
     }
 
     public int getRightBound() {
-        return this.rightBound;
+        return rightBound;
     }
 
     protected void setMode(int mode) {
@@ -246,19 +249,19 @@ class TMatchResultImpl implements TMatchResult {
     }
 
     protected void useAnchoringBounds(boolean value) {
-        this.anchoringBounds = value;
+        anchoringBounds = value;
     }
 
     protected boolean hasAnchoringBounds() {
-        return this.anchoringBounds;
+        return anchoringBounds;
     }
 
     protected void useTransparentBounds(boolean value) {
-        this.transparentBounds = value;
+        transparentBounds = value;
     }
 
     protected boolean hasTransparentBounds() {
-        return this.transparentBounds;
+        return transparentBounds;
     }
 
     int getPreviousMatchEnd() {

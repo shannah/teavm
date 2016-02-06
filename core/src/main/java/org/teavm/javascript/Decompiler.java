@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ public class Decompiler {
     }
 
     public int getGraphSize() {
-        return this.graph.size();
+        return graph.size();
     }
 
     static class Block {
@@ -126,7 +126,7 @@ public class Decompiler {
         public final int start;
         public final List<TryCatchBookmark> tryCatches = new ArrayList<>();
 
-        public Block(IdentifiedStatement statement, List<Statement> body, int start, int end) {
+        Block(IdentifiedStatement statement, List<Statement> body, int start, int end) {
             this.statement = statement;
             this.body = body;
             this.start = start;
@@ -149,8 +149,7 @@ public class Decompiler {
             orderClasses(className, visited, sequence);
         }
         final List<ClassNode> result = new ArrayList<>();
-        for (int i = 0; i < sequence.size(); ++i) {
-            final String className = sequence.get(i);
+        for (String className : sequence) {
             result.add(decompile(classSource.get(className)));
         }
         return result;
@@ -265,9 +264,8 @@ public class Decompiler {
         try {
             methodNode.setBody(getRegularMethodStatement(program, targetBlocks, false).getStatement());
         } catch (RuntimeException e) {
-            StringBuilder sb = new StringBuilder("Error decompiling method " + method.getReference() + ":\n");
-            sb.append(new ListingBuilder().buildListing(program, "  "));
-            throw new DecompilationException(sb.toString(), e);
+            throw new DecompilationException("Error decompiling method " + method.getReference() + ":\n"
+                    + new ListingBuilder().buildListing(program, "  "), e);
         }
         for (int i = 0; i < program.variableCount(); ++i) {
             methodNode.getVariables().add(program.variableAt(i).getRegister());
@@ -323,10 +321,9 @@ public class Decompiler {
             try {
                 part = getRegularMethodStatement(splitter.getProgram(i), splitter.getBlockSuccessors(i), i > 0);
             } catch (RuntimeException e) {
-                StringBuilder sb = new StringBuilder("Error decompiling method " + method.getReference()
-                        + " part " + i + ":\n");
-                sb.append(new ListingBuilder().buildListing(splitter.getProgram(i), "  "));
-                throw new DecompilationException(sb.toString(), e);
+                String sb = "Error decompiling method " + method.getReference()
+                        + " part " + i + ":\n" + new ListingBuilder().buildListing(splitter.getProgram(i), "  ");
+                throw new DecompilationException(sb, e);
             }
             node.getBody().add(part);
         }
@@ -361,7 +358,7 @@ public class Decompiler {
         }
         indexer = new GraphIndexer(graph, weights, priorities);
         graph = indexer.getGraph();
-        loopGraph = new LoopGraph(this.graph);
+        loopGraph = new LoopGraph(graph);
         unflatCode();
         blockMap = new Block[program.basicBlockCount() * 2 + 1];
         stack = new ArrayDeque<>();
@@ -377,7 +374,7 @@ public class Decompiler {
         parentNode = codeTree.getRoot();
         currentNode = parentNode.getFirstChild();
         generator.async = async;
-        for (int i = 0; i < this.graph.size(); ++i) {
+        for (int i = 0; i < graph.size(); ++i) {
             int node = i < indexer.size() ? indexer.nodeAt(i) : -1;
             int next = i + 1;
             int head = loops[i];

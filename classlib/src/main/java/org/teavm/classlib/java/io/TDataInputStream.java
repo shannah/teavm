@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -148,7 +148,7 @@ public class TDataInputStream extends TFilterInputStream implements TDataInput {
                     }
                     foundTerminator = true;
                     /* Have to be able to peek ahead one byte */
-                    if (!(in.getClass() == TPushbackInputStream.class)) {
+                    if (in.getClass() != TPushbackInputStream.class) {
                         in = new TPushbackInputStream(in);
                     }
                     break;
@@ -218,7 +218,7 @@ public class TDataInputStream extends TFilterInputStream implements TDataInput {
         return convertUTF8WithBuf(buf, out, 0, utfSize);
     }
 
-    public static final TString readUTF(TDataInput in) throws TIOException {
+    public static TString readUTF(TDataInput in) throws TIOException {
         return decodeUTF(in.readUnsignedShort(), in);
     }
 

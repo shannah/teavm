@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -357,7 +357,6 @@ public class TGregorianCalendar extends TCalendar {
             fields[MINUTE] = millis % 60;
             millis /= 60;
             fields[HOUR_OF_DAY] = millis % 24;
-            millis /= 24;
             fields[AM_PM] = fields[HOUR_OF_DAY] > 11 ? 1 : 0;
             fields[HOUR] = fields[HOUR_OF_DAY] % 12;
 
@@ -444,9 +443,8 @@ public class TGregorianCalendar extends TCalendar {
                 throw new IllegalArgumentException();
             }
             if (isSet[YEAR]) {
-                if (isSet[ERA] && fields[ERA] == BC && (fields[YEAR] < 1 || fields[YEAR] > 292269054)) {
-                    throw new IllegalArgumentException();
-                } else if (fields[YEAR] < 1 || fields[YEAR] > 292278994) {
+                if (isSet[ERA] && fields[ERA] == BC && (fields[YEAR] < 1 || fields[YEAR] > 292269054)
+                        || fields[YEAR] < 1 || fields[YEAR] > 292278994) {
                     throw new IllegalArgumentException();
                 }
             }
@@ -575,7 +573,7 @@ public class TGregorianCalendar extends TCalendar {
             timeVal -= julianError() * 86400000L;
         }
 
-        this.time = timeVal - getTimeZoneOffset(timeVal);
+        time = timeVal - getTimeZoneOffset(timeVal);
     }
 
     private int computeYearAndDay(long dayCount, long localTime) {
@@ -599,7 +597,7 @@ public class TGregorianCalendar extends TCalendar {
     }
 
     private long daysFromBaseYear(int iyear) {
-        long year = iyear;
+        @SuppressWarnings("UnnecessaryLocalVariable") long year = iyear;
 
         if (year >= 1970) {
             long days = (year - 1970) * 365 + ((year - 1969) / 4);

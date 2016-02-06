@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ package org.teavm.platform.plugin;
 class BuildTimeResourceGetter implements BuildTimeResourceMethod {
     private int index;
 
-    public BuildTimeResourceGetter(int index) {
+    BuildTimeResourceGetter(int index) {
         this.index = index;
     }
 

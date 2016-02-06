@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,15 +26,15 @@ package org.teavm.classlib.java.util.regex;
  */
 class TUCISequenceSet extends TLeafSet {
 
-    private String string = null;
+    private String string;
 
     TUCISequenceSet(StringBuffer substring) {
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < substring.length(); i++) {
             res.append(Character.toLowerCase(Character.toUpperCase(substring.charAt(i))));
         }
-        this.string = res.toString();
-        this.charCount = res.length();
+        string = res.toString();
+        charCount = res.length();
     }
 
     @Override

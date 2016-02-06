@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -197,7 +197,7 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
         private int sz;
         public TListIteratorImpl(int i, int lastModCount, int sz) {
             this.i = i;
-            this.j = i;
+            j = i;
             this.lastModCount = lastModCount;
             this.sz = sz;
         }
@@ -278,7 +278,6 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
             private int end;
 
             SubAbstractListIterator(TListIterator<E> it, SubAbstractList<E> list, int offset, int length) {
-                super();
                 iterator = it;
                 subList = list;
                 start = offset;
@@ -346,7 +345,6 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
         }
 
         SubAbstractList(TAbstractList<E> list, int start, int end) {
-            super();
             fullList = list;
             modCount = fullList.modCount;
             offset = start;
@@ -356,7 +354,7 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
         @Override
         public void add(int location, E object) {
             if (modCount == fullList.modCount) {
-                if (0 <= location && location <= size) {
+                if (location >= 0 && location <= size) {
                     fullList.add(location + offset, object);
                     size++;
                     modCount = fullList.modCount;
@@ -371,7 +369,7 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
         @Override
         public boolean addAll(int location, TCollection<? extends E> collection) {
             if (modCount == fullList.modCount) {
-                if (0 <= location && location <= size) {
+                if (location >= 0 && location <= size) {
                     boolean result = fullList.addAll(location + offset, collection);
                     if (result) {
                         size += collection.size();
@@ -400,7 +398,7 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
         @Override
         public E get(int location) {
             if (modCount == fullList.modCount) {
-                if (0 <= location && location < size) {
+                if (location >= 0 && location < size) {
                     return fullList.get(location + offset);
                 }
                 throw new IndexOutOfBoundsException();
@@ -416,7 +414,7 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
         @Override
         public TListIterator<E> listIterator(int location) {
             if (modCount == fullList.modCount) {
-                if (0 <= location && location <= size) {
+                if (location >= 0 && location <= size) {
                     return new SubAbstractListIterator<>(fullList.listIterator(location + offset), this, offset, size);
                 }
                 throw new TIndexOutOfBoundsException();
@@ -427,7 +425,7 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
         @Override
         public E remove(int location) {
             if (modCount == fullList.modCount) {
-                if (0 <= location && location < size) {
+                if (location >= 0 && location < size) {
                     E result = fullList.remove(location + offset);
                     size--;
                     modCount = fullList.modCount;
@@ -454,7 +452,7 @@ public abstract class TAbstractList<E> extends TAbstractCollection<E> implements
         @Override
         public E set(int location, E object) {
             if (modCount == fullList.modCount) {
-                if (0 <= location && location < size) {
+                if (location >= 0 && location < size) {
                     return fullList.set(location + offset, object);
                 }
                 throw new TIndexOutOfBoundsException();

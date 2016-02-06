@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,9 +21,12 @@ import java.util.Arrays;
  *
  * @author Alexey Andreev
  */
-public class Base64 {
+public final class Base64 {
     private static char[] alphabet = new char[64];
     private static int[] reverse = new int[256];
+
+    private Base64() {
+    }
 
     static {
         int i = 0;
@@ -37,7 +40,7 @@ public class Base64 {
             alphabet[i++] = c;
         }
         alphabet[i++] = '+';
-        alphabet[i++] = '/';
+        alphabet[i] = '/';
 
         Arrays.fill(reverse, -1);
         for (i = 0; i < alphabet.length; ++i) {

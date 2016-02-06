@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ public class JarSourceFileProvider implements SourceFileProvider {
 
     @Override
     public void close() throws IOException {
-        if (this.zipFile == null) {
+        if (zipFile == null) {
             return;
         }
         ZipFile zipFile = this.zipFile;

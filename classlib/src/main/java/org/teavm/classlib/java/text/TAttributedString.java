@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -424,7 +424,7 @@ public class TAttributedString {
         if (value == null) {
             throw new NullPointerException();
         }
-        if (value.length() == 0 && !attributes.isEmpty()) {
+        if (value.isEmpty() && !attributes.isEmpty()) {
             throw new IllegalArgumentException("Cannot add attributes to empty string");
         }
         text = value;
@@ -452,10 +452,10 @@ public class TAttributedString {
      *             if {@code attribute} is {@code null}.
      */
     public void addAttribute(TAttributedCharacterIterator.Attribute attribute, Object value) {
-        if (null == attribute) {
+        if (attribute == null) {
             throw new NullPointerException();
         }
-        if (text.length() == 0) {
+        if (text.isEmpty()) {
             throw new IllegalArgumentException();
         }
 
@@ -488,7 +488,7 @@ public class TAttributedString {
      *             if {@code attribute} is {@code null}.
      */
     public void addAttribute(TAttributedCharacterIterator.Attribute attribute, Object value, int start, int end) {
-        if (null == attribute) {
+        if (attribute == null) {
             throw new NullPointerException();
         }
         if (start < 0 || end > text.length() || start >= end) {
@@ -513,7 +513,7 @@ public class TAttributedString {
                 it.previous();
                 break;
             } else if (start < range.end || (start == range.end && value.equals(range.value))) {
-                Range r1 = null;
+                Range r1;
                 Range r3;
                 it.remove();
                 r1 = new Range(range.start, start, range.value);

@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +17,7 @@
 package org.teavm.classlib.java.util.regex;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Provides a means of matching regular expressions against a given input,
@@ -48,17 +48,17 @@ import java.util.ArrayList;
  */
 public final class TMatcher implements TMatchResult {
 
-    static int MODE_FIND = 1 << 0;
+    static int MODE_FIND = 1;
 
     static int MODE_MATCH = 1 << 1;
 
-    private TPattern pat = null;
+    private TPattern pat;
 
-    private TAbstractSet start = null;
+    private TAbstractSet start;
 
-    private CharSequence string = null;
+    private CharSequence string;
 
-    private TMatchResultImpl matchResult = null;
+    private TMatchResultImpl matchResult;
 
     // bounds
     private int leftBound = -1;
@@ -66,13 +66,13 @@ public final class TMatcher implements TMatchResult {
     private int rightBound = -1;
 
     // replacements
-    private int appendPos = 0;
+    private int appendPos;
 
-    private String replacement = null;
+    private String replacement;
 
-    private String processedRepl = null;
+    private String processedRepl;
 
-    private ArrayList<Object> replacementParts = null;
+    private ArrayList<Object> replacementParts;
 
     /**
      * Appends a literal part of the input plus a replacement for the current
@@ -102,13 +102,13 @@ public final class TMatcher implements TMatchResult {
      * Parses replacement string and creates pattern
      */
     private String processReplacement(String replacement) {
-        if (this.replacement != null && this.replacement.equals(replacement)) {
+        if (Objects.equals(replacement, replacement)) {
             if (replacementParts == null) {
                 return processedRepl;
             } else {
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < replacementParts.size(); i++) {
-                    sb.append(replacementParts.get(i));
+                for (Object replacementPart : replacementParts) {
+                    sb.append(replacementPart);
                 }
 
                 return sb.toString();
@@ -194,7 +194,7 @@ public final class TMatcher implements TMatchResult {
         if (input == null) {
             throw new NullPointerException("");
         }
-        this.string = input;
+        string = input;
         return reset();
     }
 
@@ -207,8 +207,8 @@ public final class TMatcher implements TMatchResult {
      * @return the {@code Matcher} itself.
      */
     public TMatcher reset() {
-        this.leftBound = 0;
-        this.rightBound = string.length();
+        leftBound = 0;
+        rightBound = string.length();
         matchResult.reset(string, leftBound, rightBound);
         appendPos = 0;
         replacement = null;
@@ -232,8 +232,8 @@ public final class TMatcher implements TMatchResult {
             throw new IndexOutOfBoundsException(start + ", " + end);
         }
 
-        this.leftBound = start;
-        this.rightBound = end;
+        leftBound = start;
+        rightBound = end;
         matchResult.reset(null, start, end);
         appendPos = 0;
         replacement = null;
@@ -379,15 +379,16 @@ public final class TMatcher implements TMatchResult {
      */
     public boolean find() {
         int length = string.length();
-        if (!hasTransparentBounds())
+        if (!hasTransparentBounds()) {
             length = rightBound;
+        }
         if (matchResult.startIndex >= 0 && matchResult.mode() == TMatcher.MODE_FIND) {
             matchResult.startIndex = matchResult.end();
             if (matchResult.end() == matchResult.start()) {
                 matchResult.startIndex++;
             }
 
-            return matchResult.startIndex <= length ? find(matchResult.startIndex) : false;
+            return matchResult.startIndex <= length && find(matchResult.startIndex);
         } else {
             return find(leftBound);
         }
@@ -447,8 +448,9 @@ public final class TMatcher implements TMatchResult {
      */
     public static String quoteReplacement(String s) {
         // first check whether we have smth to quote
-        if (s.indexOf('\\') < 0 && s.indexOf('$') < 0)
+        if (s.indexOf('\\') < 0 && s.indexOf('$') < 0) {
             return s;
+        }
         StringBuilder res = new StringBuilder(s.length() * 2);
         char ch;
         int len = s.length();
@@ -552,7 +554,7 @@ public final class TMatcher implements TMatchResult {
      *             if no successful match has been made.
      */
     public TMatchResult toMatchResult() {
-        return this.matchResult.cloneImpl();
+        return matchResult.cloneImpl();
     }
 
     /**
@@ -665,9 +667,9 @@ public final class TMatcher implements TMatchResult {
         }
         int startIndex = matchResult.getPreviousMatchEnd();
         int mode = matchResult.mode();
-        this.pat = pattern;
-        this.start = pattern.start;
-        matchResult = new TMatchResultImpl(this.string, leftBound, rightBound, pattern.groupCount(),
+        pat = pattern;
+        start = pattern.start;
+        matchResult = new TMatchResultImpl(string, leftBound, rightBound, pattern.groupCount(),
                 pattern.compCount(), pattern.consCount());
         matchResult.setStartIndex(startIndex);
         matchResult.setMode(mode);
@@ -676,11 +678,12 @@ public final class TMatcher implements TMatchResult {
 
     TMatcher(TPattern pat, CharSequence cs) {
         this.pat = pat;
-        this.start = pat.start;
-        this.string = cs;
-        this.leftBound = 0;
-        this.rightBound = string.length();
-        matchResult = new TMatchResultImpl(cs, leftBound, rightBound, pat.groupCount(), pat.compCount(), pat.consCount());
+        start = pat.start;
+        string = cs;
+        leftBound = 0;
+        rightBound = string.length();
+        matchResult = new TMatchResultImpl(cs, leftBound, rightBound, pat.groupCount(), pat.compCount(),
+                pat.consCount());
     }
 
     @Override

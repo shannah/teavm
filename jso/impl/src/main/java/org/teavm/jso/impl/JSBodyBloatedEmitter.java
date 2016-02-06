@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class JSBodyBloatedEmitter implements JSBodyEmitter {
     private String script;
     private String[] parameterNames;
 
-    public JSBodyBloatedEmitter(boolean isStatic, MethodReference method, String script, String[] parameterNames) {
+    JSBodyBloatedEmitter(boolean isStatic, MethodReference method, String script, String[] parameterNames) {
         this.isStatic = isStatic;
         this.method = method;
         this.script = script;

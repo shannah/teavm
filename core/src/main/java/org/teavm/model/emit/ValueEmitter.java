@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public class ValueEmitter {
     ValueType type;
 
     ValueEmitter(ProgramEmitter programEmitter, BasicBlock block, Variable variable, ValueType type) {
-        this.pe = programEmitter;
+        pe = programEmitter;
         this.block = block;
         this.variable = variable;
         this.type = type;

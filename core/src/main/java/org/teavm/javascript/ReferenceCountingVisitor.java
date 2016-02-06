@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ class ReferenceCountingVisitor implements StatementVisitor {
     private IdentifiedStatement target;
     public int count;
 
-    public ReferenceCountingVisitor(IdentifiedStatement target) {
+    ReferenceCountingVisitor(IdentifiedStatement target) {
         this.target = target;
     }
 

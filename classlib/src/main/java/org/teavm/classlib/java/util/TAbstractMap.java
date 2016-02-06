@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ public abstract class TAbstractMap<K, V> extends TObject implements TMap<K, V> {
 
         @Override
         public String toString() {
-            return String.valueOf(getKey()) + "=" + String.valueOf(getValue());
+            return getKey() + "=" + getValue();
         }
     }
 
@@ -127,7 +127,7 @@ public abstract class TAbstractMap<K, V> extends TObject implements TMap<K, V> {
 
         @Override
         public String toString() {
-            return String.valueOf(getKey()) + "=" + String.valueOf(getValue());
+            return getKey() + "=" + getValue();
         }
     }
 
@@ -276,7 +276,7 @@ public abstract class TAbstractMap<K, V> extends TObject implements TMap<K, V> {
     private class KeySet extends TAbstractSet<K> {
         @Override
         public TIterator<K> iterator() {
-            final TIterator<TMap.Entry<K, V>> iter = TAbstractMap.this.entrySet().iterator();
+            final TIterator<TMap.Entry<K, V>> iter = entrySet().iterator();
             return new TIterator<K>() {
                 @Override public boolean hasNext() {
                     return iter.hasNext();
@@ -304,7 +304,7 @@ public abstract class TAbstractMap<K, V> extends TObject implements TMap<K, V> {
 
         @Override
         public TIterator<V> iterator() {
-            final TIterator<TMap.Entry<K, V>> iter = TAbstractMap.this.entrySet().iterator();
+            final TIterator<TMap.Entry<K, V>> iter = entrySet().iterator();
             return new TIterator<V>() {
                 @Override public boolean hasNext() {
                     return iter.hasNext();

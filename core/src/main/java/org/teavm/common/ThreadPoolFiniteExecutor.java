@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -79,6 +79,7 @@ public class ThreadPoolFiniteExecutor implements FiniteExecutor {
         }
     }
 
+    @SuppressWarnings("InfiniteLoopStatement")
     private void takeTask() {
         Queue<Runnable> localQueue = new ArrayDeque<>();
         localQueueues.set(localQueue);

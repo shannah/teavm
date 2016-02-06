@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import java.util.Random;
 /**
  * Provides primality probabilistic methods.
  */
-class TPrimality {
+final class TPrimality {
 
     /** Just to denote that this class can't be instantiated. */
     private TPrimality() {
@@ -145,7 +145,7 @@ class TPrimality {
     /**
      * A random number is generated until a probable prime number is found.
      *
-     * @see TBigInteger#BigInteger(int,int,Random)
+     * @see TBigInteger#TBigInteger(int,int,Random)
      * @see TBigInteger#probablePrime(int,Random)
      * @see #isProbablePrime(TBigInteger, int)
      */
@@ -178,8 +178,6 @@ class TPrimality {
     /**
      * @see TBigInteger#isProbablePrime(int)
      * @see #millerRabin(TBigInteger, int)
-     * @ar.org.fitc.ref Optimizations: "A. Menezes - Handbook of applied
-     *                  Cryptography, Chapter 4".
      */
     static boolean isProbablePrime(TBigInteger n, int certainty) {
         // PRE: n >= 0;
@@ -221,8 +219,6 @@ class TPrimality {
      *            the number of trials.
      * @return {@code false} if the number is definitely compose, otherwise
      *         {@code true} with probability {@code 1 - 4<sup>(-t)</sup>}.
-     * @ar.org.fitc.ref "D. Knuth, The Art of Computer Programming Vo.2, Section
-     *                  4.5.4., Algorithm P"
      */
     private static boolean millerRabin(TBigInteger n, int t) {
         // PRE: n >= 0, t >= 0

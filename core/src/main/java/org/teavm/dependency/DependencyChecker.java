@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ public class DependencyChecker implements DependencyInfo {
             return createFieldNode(preimage, field);
         });
 
-        classCache = new CachedMapper<>(preimage -> createClassDependency(preimage));
+        classCache = new CachedMapper<>(this::createClassDependency);
 
         agent = new DependencyAgent(this);
     }
@@ -209,7 +209,7 @@ public class DependencyChecker implements DependencyInfo {
             dep.used = false;
             lock(dep, false);
             tasks.add(() -> {
-                DependencyGraphBuilder graphBuilder = new DependencyGraphBuilder(DependencyChecker.this);
+                DependencyGraphBuilder graphBuilder = new DependencyGraphBuilder(this);
                 graphBuilder.buildGraph(dep);
                 dep.used = true;
             });
@@ -324,7 +324,7 @@ public class DependencyChecker implements DependencyInfo {
             throw new IllegalStateException("Can't submit class during completion phase");
         }
         callGraph.getNode(methodRef);
-        boolean added = true;
+        boolean added;
         if (callLocation != null && callLocation.getMethod() != null) {
             added = callGraph.getNode(callLocation.getMethod()).addCallSite(methodRef,
                     callLocation.getSourceLocation());
@@ -388,7 +388,7 @@ public class DependencyChecker implements DependencyInfo {
 
     void scheduleMethodAnalysis(MethodDependency dep) {
         tasks.add(() -> {
-            DependencyGraphBuilder graphBuilder = new DependencyGraphBuilder(DependencyChecker.this);
+            DependencyGraphBuilder graphBuilder = new DependencyGraphBuilder(this);
             graphBuilder.buildGraph(dep);
         });
     }
@@ -414,12 +414,10 @@ public class DependencyChecker implements DependencyInfo {
         if (completing) {
             throw new IllegalStateException("Can't submit class during completion phase");
         }
-        boolean added = true;
-        if (location != null) {
-            added = callGraph.getNode(location.getMethod()).addFieldAccess(fieldRef, location.getSourceLocation());
-        } else {
-            added = fieldsAddedByRoot.add(fieldRef);
-        }
+        boolean added = location != null
+                ? callGraph.getNode(location.getMethod()).addFieldAccess(fieldRef, location.getSourceLocation())
+                : fieldsAddedByRoot.add(fieldRef);
+
         FieldDependency dep = fieldCache.map(fieldRef);
         if (!dep.isMissing()) {
             tasks.add(() -> linkClass(fieldRef.getClassName(), location).initClass(location));

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -109,6 +109,7 @@ public class AsyncMethodFinder {
         }
         ClassReader cls = classSource.get("java.lang.Thread");
         MethodReader method = cls != null ? cls.getMethod(new MethodDescriptor("start", void.class)) : null;
+        // TODO: fix this
         return result && method != null;
     }
 

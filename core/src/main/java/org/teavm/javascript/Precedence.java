@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -42,12 +42,12 @@ public enum Precedence {
 
     public Precedence next() {
         int index = ordinal();
-        return index + 1 < cache.length ? cache[index + 1] : cache[index];
+        return cache[index + 1 < cache.length ? index + 1 : index];
     }
 
     public Precedence previous() {
         int index = ordinal();
-        return index > 0 ? cache[index - 1] : cache[index];
+        return cache[index > 0 ? index - 1 : index];
     }
 
     public static Precedence min() {

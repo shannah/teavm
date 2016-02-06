@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -41,14 +41,14 @@ class DependencyClassSource implements ClassHolderSource {
     private List<ClassHolderTransformer> transformers = new ArrayList<>();
     private Map<String, ClassHolder> cache = new HashMap<>();
 
-    public DependencyClassSource(ClassReaderSource innerSource, Diagnostics diagnostics) {
+    DependencyClassSource(ClassReaderSource innerSource, Diagnostics diagnostics) {
         this.innerSource = innerSource;
         this.diagnostics = diagnostics;
     }
 
     @Override
     public ClassHolder get(String name) {
-        return cache.computeIfAbsent(name, n -> findAndTransformClass(n));
+        return cache.computeIfAbsent(name, this::findAndTransformClass);
     }
 
     public void submit(ClassHolder cls) {

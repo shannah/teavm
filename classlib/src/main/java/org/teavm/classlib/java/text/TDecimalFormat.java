@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -1092,7 +1092,6 @@ public class TDecimalFormat extends TNumberFormat {
             }
             if (value >= 10L) {
                 result += 1;
-                value /= 10L;
             }
         } else {
             if (value <= -1_0000_0000_0000_0000L) {
@@ -1113,7 +1112,6 @@ public class TDecimalFormat extends TNumberFormat {
             }
             if (value <= -10L) {
                 result += 1;
-                value /= 10L;
             }
         }
         return result;
@@ -1135,7 +1133,6 @@ public class TDecimalFormat extends TNumberFormat {
         }
         if (value >= 10) {
             result += 1;
-            value /= 10;
         }
         return result;
     }
@@ -1154,8 +1151,8 @@ public class TDecimalFormat extends TNumberFormat {
 
     private MantissaAndExponent getMantissaAndExponent(double value) {
         long mantissaPattern = POW10_ARRAY[17];
-        int exp = 0;
-        long mantissa = 0;
+        int exp
+        long mantissa;
         boolean positive;
         if (value >= 0) {
             positive = true;

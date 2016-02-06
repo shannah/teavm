@@ -6,3 +6,4 @@
 .checkstyle
 .cache-main
 target
+*.iml

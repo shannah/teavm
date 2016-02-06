@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ public class IntegerStack {
     private int head;
 
     public IntegerStack(int capacity) {
-        this.buffer = new int[capacity];
+        buffer = new int[capacity];
     }
 
     public void push(int value) {

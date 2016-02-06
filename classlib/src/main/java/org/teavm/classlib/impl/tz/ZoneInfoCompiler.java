@@ -1,5 +1,5 @@
 /*
- *  Copyright 2001-2013 Stephen Colebourne
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -34,22 +34,6 @@ import org.joda.time.chrono.LenientChronology;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
-/**
- * Compiles IANA ZoneInfo database files into binary files for each time zone
- * in the database. {@link DateTimeZoneBuilder} is used to construct and encode
- * compiled data files. {@link ZoneInfoProvider} loads the encoded files and
- * converts them back into {@link DateTimeZone} objects.
- * <p>
- * Although this tool is similar to zic, the binary formats are not
- * compatible. The latest IANA time zone database files may be obtained
- * <a href="http://www.iana.org/time-zones">here</a>.
- * <p>
- * ZoneInfoCompiler is mutable and not thread-safe, although the main method
- * may be safely invoked by multiple threads.
- *
- * @author Brian S O'Neill
- * @since 1.0
- */
 public class ZoneInfoCompiler {
     static DateTimeOfYear cStartOfYear;
 
@@ -71,12 +55,15 @@ public class ZoneInfoCompiler {
 
     static int parseYear(String str, int def) {
         str = str.toLowerCase();
-        if (str.equals("minimum") || str.equals("min")) {
-            return Integer.MIN_VALUE;
-        } else if (str.equals("maximum") || str.equals("max")) {
-            return Integer.MAX_VALUE;
-        } else if (str.equals("only")) {
-            return def;
+        switch (str) {
+            case "minimum":
+            case "min":
+                return Integer.MIN_VALUE;
+            case "maximum":
+            case "max":
+                return Integer.MAX_VALUE;
+            case "only":
+                return def;
         }
         return Integer.parseInt(str);
     }
@@ -160,7 +147,7 @@ public class ZoneInfoCompiler {
                 return false;
             }
 
-            transitions.add(Long.valueOf(millis));
+            transitions.add(millis);
 
             offset = nextOffset;
         }
@@ -178,7 +165,7 @@ public class ZoneInfoCompiler {
 
             millis = prev;
 
-            long trans = transitions.get(i).longValue();
+            long trans = transitions.get(i);
 
             if (trans - 1 != millis) {
                 System.out.println("*r* Error in " + tz.getID() + " "
@@ -216,8 +203,7 @@ public class ZoneInfoCompiler {
         Map<String, Zone> sourceMap = new TreeMap<>();
 
         // write out the standard entries
-        for (int i = 0; i < iZones.size(); i++) {
-            Zone zone = iZones.get(i);
+        for (Zone zone : iZones) {
             DateTimeZoneBuilder builder = new DateTimeZoneBuilder();
             zone.addToBuilder(builder, iRuleSets);
             StorableDateTimeZone tz = builder.toDateTimeZone(zone.iName, true);
@@ -271,7 +257,7 @@ public class ZoneInfoCompiler {
         String line;
         while ((line = in.readLine()) != null) {
             String trimmed = line.trim();
-            if (trimmed.length() == 0 || trimmed.charAt(0) == '#') {
+            if (trimmed.isEmpty() || trimmed.charAt(0) == '#') {
                 continue;
             }
 
@@ -516,8 +502,7 @@ public class ZoneInfoCompiler {
          * Adds recurring savings rules to the builder.
          */
         public void addRecurring(DateTimeZoneBuilder builder) {
-            for (int i = 0; i < iRules.size(); i++) {
-                Rule rule = iRules.get(i);
+            for (Rule rule : iRules) {
                 rule.addRecurring(builder);
             }
         }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public abstract class Statement {
     }
 
     public static Statement cond(Expr predicate, List<Statement> consequent) {
-        return cond(predicate, consequent, Collections.<Statement>emptyList());
+        return cond(predicate, consequent, Collections.emptyList());
     }
 
     public static InitClassStatement initClass(String className) {

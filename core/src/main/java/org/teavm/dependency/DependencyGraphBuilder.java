@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ class DependencyGraphBuilder {
     private InstructionLocation currentLocation;
     private ExceptionConsumer currentExceptionConsumer;
 
-    public DependencyGraphBuilder(DependencyChecker dependencyChecker) {
+    DependencyGraphBuilder(DependencyChecker dependencyChecker) {
         this.dependencyChecker = dependencyChecker;
     }
 
@@ -113,8 +113,8 @@ class DependencyGraphBuilder {
         }
 
         int nodeClassCount = 0;
-        for (int i = 0; i < nodeMapping.length; ++i) {
-            nodeClassCount = Math.max(nodeClassCount, nodeMapping[i] + 1);
+        for (int aNodeMapping : nodeMapping) {
+            nodeClassCount = Math.max(nodeClassCount, aNodeMapping + 1);
         }
         DependencyNode[] nodeClasses = Arrays.copyOf(dep.getVariables(), nodeClassCount);
         MethodReference ref = method.getReference();
@@ -284,7 +284,7 @@ class DependencyGraphBuilder {
         private DependencyNode[] vars;
         private MethodDependency method;
 
-        public ExceptionConsumer(DependencyChecker checker, ClassReader[] exceptions, DependencyNode[] vars,
+        ExceptionConsumer(DependencyChecker checker, ClassReader[] exceptions, DependencyNode[] vars,
                 MethodDependency method) {
             this.checker = checker;
             this.exceptions = exceptions;
@@ -320,7 +320,7 @@ class DependencyGraphBuilder {
         private final Set<MethodReference> knownMethods = new HashSet<>();
         private ExceptionConsumer exceptionConsumer;
 
-        public VirtualCallConsumer(DependencyNode node, ClassReader filterClass,
+        VirtualCallConsumer(DependencyNode node, ClassReader filterClass,
                 MethodDescriptor methodDesc, DependencyChecker checker, DependencyNode[] parameters,
                 DependencyNode result, DefaultCallGraphNode caller, InstructionLocation location,
                 ExceptionConsumer exceptionConsumer) {
@@ -610,7 +610,7 @@ class DependencyGraphBuilder {
             DependencyNode arrayNode = nodes[array.getIndex()];
             final DependencyNode receiverNode = nodes[receiver.getIndex()];
             if (arrayNode != null && receiverNode != null) {
-                arrayNode.addConsumer(type -> receiverNode.propagate(type));
+                arrayNode.addConsumer(receiverNode::propagate);
                 arrayNode.getArrayItem().connect(receiverNode.getArrayItem());
             }
         }

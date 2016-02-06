@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +30,7 @@ class THangulDecomposedCharSet extends TJointSet {
     /**
      * String representing syllable
      */
-    private String decomposedCharUTF16 = null;
+    private String decomposedCharUTF16;
 
     /**
      * Length of useful part of decomposedChar decomposedCharLength <=
@@ -49,7 +48,7 @@ class THangulDecomposedCharSet extends TJointSet {
      */
     @Override
     public TAbstractSet getNext() {
-        return this.next;
+        return next;
     }
 
     /**
@@ -95,7 +94,7 @@ class THangulDecomposedCharSet extends TJointSet {
          * http://www.unicode.org/versions/Unicode4.0.0/ch03.pdf
          * "3.12 Conjoining Jamo Behavior"
          */
-        int LIndex = -1;
+        int LIndex;
         int VIndex = -1;
         int TIndex = -1;
 
@@ -148,8 +147,10 @@ class THangulDecomposedCharSet extends TJointSet {
                 /*
                  * We deal with LV syllable at testString, so compare it to this
                  */
-                return ((decomposedCharLength == 2) && (decompSyllable[0] == decomposedChar[0]) && (decompSyllable[1] == decomposedChar[1])) ? next
-                        .matches(strIndex, testString, matchResult) : -1;
+                return decomposedCharLength == 2 && decompSyllable[0] == decomposedChar[0]
+                        && decompSyllable[1] == decomposedChar[1]
+                        ? next.matches(strIndex, testString, matchResult)
+                        : -1;
             }
             strIndex++;
             decompSyllable[SyllIndex++] = curSymb;
@@ -183,8 +184,8 @@ class THangulDecomposedCharSet extends TJointSet {
 
     @Override
     public boolean first(TAbstractSet set) {
-        return (set instanceof THangulDecomposedCharSet) ? ((THangulDecomposedCharSet)set).getDecomposedChar().equals(
-                getDecomposedChar()) : true;
+        return !(set instanceof THangulDecomposedCharSet)
+                || ((THangulDecomposedCharSet) set).getDecomposedChar().equals(getDecomposedChar());
     }
 
     @Override

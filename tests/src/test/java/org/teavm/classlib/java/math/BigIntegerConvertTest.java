@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -243,7 +242,10 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testDoubleValuePositiveInfinity2() {
-        String a = "2746723894572364578265426346273456972283746872364768676747462342342342342342342342323423423423423423426767456345745293762384756238475634563456845634568934568347586346578648576478568456457634875673845678456786587345873645767456834756745763457863485768475678465783456702897830296720476846578634576384567845678346573465786457863";
+        String a = "27467238945723645782654263462734569722837468723647686767474623423423423423423"
+                + "42342323423423423423423426767456345745293762384756238475634563456845634568934568347586346578648"
+                + "576478568456457634875673845678456786587345873645767456834756745763457863485768475678465783456702"
+                + "897830296720476846578634576384567845678346573465786457863";
         double aNumber = new BigInteger(a).doubleValue();
         assertTrue(aNumber == Double.POSITIVE_INFINITY);
     }
@@ -254,7 +256,10 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testDoubleValueNegativeInfinity1() {
-        String a = "-2746723894572364578265426346273456972283746872364768676747462342342342342342342342323423423423423423426767456345745293762384756238475634563456845634568934568347586346578648576478568456457634875673845678456786587345873645767456834756745763457863485768475678465783456702897830296720476846578634576384567845678346573465786457863";
+        String a = "-2746723894572364578265426346273456972283746872364768676747462342342342342"
+                + "3423423423234234234234234234267674563457452937623847562384756345634568456345689345683475"
+                + "863465786485764785684564576348756738456784567865873458736457674568347567457634578634"
+                + "85768475678465783456702897830296720476846578634576384567845678346573465786457863";
         double aNumber = new BigInteger(a).doubleValue();
         assertTrue(aNumber == Double.NEGATIVE_INFINITY);
     }
@@ -499,7 +504,11 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testFloatValuePositiveInfinity2() {
-        String a = "2746723894572364578265426346273456972283746872364768676747462342342342342342342342323423423423423423426767456345745293762384756238475634563456845634568934568347586346578648576478568456457634875673845678456786587345873645767456834756745763457863485768475678465783456702897830296720476846578634576384567845678346573465786457863";
+        String a = "274672389457236457826542634627345697228374687236476867674746234234"
+                + "234234234234234232342342342342342342676745634574529376238475623847563456"
+                + "3456845634568934568347586346578648576478568456457634875673845678456786587"
+                + "3458736457674568347567457634578634857684756784657834567028978302967204768"
+                + "46578634576384567845678346573465786457863";
         float aNumber = new BigInteger(a).floatValue();
         assertTrue(aNumber == Float.POSITIVE_INFINITY);
     }
@@ -536,7 +545,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testIntValuePositive1() {
-        byte aBytes[] = {12, 56, 100, -2, -76, 89, 45, 91, 3};
+        byte[] aBytes = { 12, 56, 100, -2, -76, 89, 45, 91, 3 };
         int resInt = 1496144643;
         int aNumber = new BigInteger(aBytes).intValue();
         assertTrue(aNumber == resInt);
@@ -548,7 +557,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testIntValuePositive2() {
-        byte aBytes[] = {12, 56, 100};
+        byte[] aBytes = { 12, 56, 100 };
         int resInt = 800868;
         int aNumber = new BigInteger(aBytes).intValue();
         assertTrue(aNumber == resInt);
@@ -560,7 +569,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testIntValuePositive3() {
-        byte aBytes[] = {56, 13, 78, -12, -5, 56, 100};
+        byte[] aBytes = { 56, 13, 78, -12, -5, 56, 100 };
         int sign = 1;
         int resInt = -184862620;
         int aNumber = new BigInteger(sign, aBytes).intValue();
@@ -573,7 +582,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testIntValueNegative1() {
-        byte aBytes[] = {12, 56, 100, -2, -76, -128, 45, 91, 3};
+        byte[] aBytes = { 12, 56, 100, -2, -76, -128, 45, 91, 3 };
         int sign = -1;
         int resInt = 2144511229;
         int aNumber = new BigInteger(sign, aBytes).intValue();
@@ -586,7 +595,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testIntValueNegative2() {
-        byte aBytes[] = {-12, 56, 100};
+        byte[] aBytes = { -12, 56, 100 };
         int result = -771996;
         int aNumber = new BigInteger(aBytes).intValue();
         assertTrue(aNumber == result);
@@ -598,7 +607,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testIntValueNegative3() {
-        byte aBytes[] = {12, 56, 100, -2, -76, 127, 45, 91, 3};
+        byte[] aBytes = { 12, 56, 100, -2, -76, 127, 45, 91, 3 };
         int sign = -1;
         int resInt = -2133678851;
         int aNumber = new BigInteger(sign, aBytes).intValue();
@@ -611,7 +620,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testLongValuePositive1() {
-        byte aBytes[] = {12, 56, 100, -2, -76, 89, 45, 91, 3, 120, -34, -12, 45, 98};
+        byte[] aBytes = { 12, 56, 100, -2, -76, 89, 45, 91, 3, 120, -34, -12, 45, 98 };
         long result = 3268209772258930018L;
         long aNumber = new BigInteger(aBytes).longValue();
         assertTrue(aNumber == result);
@@ -623,7 +632,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testLongValuePositive2() {
-        byte aBytes[] = {12, 56, 100, 18, -105, 34, -18, 45};
+        byte[] aBytes = { 12, 56, 100, 18, -105, 34, -18, 45 };
         long result = 880563758158769709L;
         long aNumber = new BigInteger(aBytes).longValue();
         assertTrue(aNumber == result);
@@ -635,7 +644,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testLongValueNegative1() {
-        byte aBytes[] = {12, -1, 100, -2, -76, -128, 45, 91, 3};
+        byte[] aBytes = { 12, -1, 100, -2, -76, -128, 45, 91, 3 };
         long result = -43630045168837885L;
         long aNumber = new BigInteger(aBytes).longValue();
         assertTrue(aNumber == result);
@@ -647,7 +656,7 @@ public class BigIntegerConvertTest {
      */
     @Test
     public void testLongValueNegative2() {
-        byte aBytes[] = {-12, 56, 100, 45, -101, 45, 98};
+        byte[] aBytes = { -12, 56, 100, 45, -101, 45, 98 };
         long result = -3315696807498398L;
         long aNumber = new BigInteger(aBytes).longValue();
         assertTrue(aNumber == result);
@@ -660,8 +669,8 @@ public class BigIntegerConvertTest {
     public void testValueOfIntegerMax() {
         long longVal = Integer.MAX_VALUE;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {127, -1, -1, -1};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { 127, -1, -1, -1 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);
@@ -676,8 +685,8 @@ public class BigIntegerConvertTest {
     public void testValueOfIntegerMin() {
         long longVal = Integer.MIN_VALUE;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {-128, 0, 0, 0};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { -128, 0, 0, 0 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);
@@ -692,8 +701,8 @@ public class BigIntegerConvertTest {
     public void testValueOfLongMax() {
         long longVal = Long.MAX_VALUE;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {127, -1, -1, -1, -1, -1, -1, -1};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { 127, -1, -1, -1, -1, -1, -1, -1 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);
@@ -708,8 +717,8 @@ public class BigIntegerConvertTest {
     public void testValueOfLongMin() {
         long longVal = Long.MIN_VALUE;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {-128, 0, 0, 0, 0, 0, 0, 0};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { -128, 0, 0, 0, 0, 0, 0, 0 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);
@@ -724,8 +733,8 @@ public class BigIntegerConvertTest {
     public void testValueOfLongPositive1() {
         long longVal = 268209772258930018L;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {3, -72, -33, 93, -24, -56, 45, 98};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { 3, -72, -33, 93, -24, -56, 45, 98 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);
@@ -741,8 +750,8 @@ public class BigIntegerConvertTest {
     public void testValueOfLongPositive2() {
         long longVal = 58930018L;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {3, -125, 51, 98};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { 3, -125, 51, 98 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);
@@ -757,8 +766,8 @@ public class BigIntegerConvertTest {
     public void testValueOfLongNegative1() {
         long longVal = -268209772258930018L;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {-4, 71, 32, -94, 23, 55, -46, -98};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { -4, 71, 32, -94, 23, 55, -46, -98 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);
@@ -774,8 +783,8 @@ public class BigIntegerConvertTest {
     public void testValueOfLongNegative2() {
         long longVal = -58930018L;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {-4, 124, -52, -98};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { -4, 124, -52, -98 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);
@@ -789,8 +798,8 @@ public class BigIntegerConvertTest {
     public void testValueOfLongZero() {
         long longVal = 0L;
         BigInteger aNumber = BigInteger.valueOf(longVal);
-        byte rBytes[] = {0};
-        byte resBytes[] = new byte[rBytes.length];
+        byte[] rBytes = { 0 };
+        byte[] resBytes = new byte[rBytes.length];
         resBytes = aNumber.toByteArray();
         for(int i = 0; i < resBytes.length; i++) {
             assertTrue(resBytes[i] == rBytes[i]);

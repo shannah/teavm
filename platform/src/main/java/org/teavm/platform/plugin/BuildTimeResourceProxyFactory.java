@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ class BuildTimeResourceProxyFactory {
     private Map<Method, BuildTimeResourceMethod> methods = new HashMap<>();
     private Object[] initialData;
 
-    public BuildTimeResourceProxyFactory(Map<Method, BuildTimeResourceMethod> methods, Object[] initialData) {
+    BuildTimeResourceProxyFactory(Map<Method, BuildTimeResourceMethod> methods, Object[] initialData) {
         this.methods = methods;
         this.initialData = initialData;
     }

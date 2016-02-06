@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ import org.teavm.platform.plugin.PlatformGenerator;
  *
  * @author Alexey Andreev
  */
+@SuppressWarnings("CastToIncompatibleInterface")
 public final class Platform {
     private Platform() {
     }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ public class TIndexOutOfBoundsException extends TRuntimeException {
     private static final long serialVersionUID = -7329782331640782287L;
 
     public TIndexOutOfBoundsException() {
-        super();
     }
 
     public TIndexOutOfBoundsException(TString message) {

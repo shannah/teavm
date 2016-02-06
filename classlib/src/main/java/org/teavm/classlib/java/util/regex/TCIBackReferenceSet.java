@@ -1,27 +1,11 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-/*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,7 +29,7 @@ class TCIBackReferenceSet extends TJointSet {
     protected int consCounter;
 
     public TCIBackReferenceSet(int groupIndex, int consCounter) {
-        this.referencedGroup = groupIndex;
+        referencedGroup = groupIndex;
         this.consCounter = consCounter;
     }
 
@@ -57,8 +41,9 @@ class TCIBackReferenceSet extends TJointSet {
     public int matches(int stringIndex, CharSequence testString, TMatchResultImpl matchResult) {
         String group = getString(matchResult);
 
-        if (group == null || (stringIndex + group.length()) > matchResult.getRightBound())
+        if (group == null || (stringIndex + group.length()) > matchResult.getRightBound()) {
             return -1;
+        }
 
         for (int i = 0; i < group.length(); i++) {
             if (group.charAt(i) != testString.charAt(stringIndex + i) &&
@@ -72,7 +57,7 @@ class TCIBackReferenceSet extends TJointSet {
 
     @Override
     public TAbstractSet getNext() {
-        return this.next;
+        return next;
     }
 
     @Override
@@ -81,13 +66,12 @@ class TCIBackReferenceSet extends TJointSet {
     }
 
     protected String getString(TMatchResultImpl matchResult) {
-        String res = matchResult.getGroupNoCheck(referencedGroup);
-        return res;
+        return matchResult.getGroupNoCheck(referencedGroup);
     }
 
     @Override
     public String getName() {
-        return "CI back reference: " + this.groupIndex;
+        return "CI back reference: " + groupIndex;
     }
 
     @Override

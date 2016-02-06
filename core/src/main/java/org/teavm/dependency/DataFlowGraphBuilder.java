@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import org.teavm.model.instructions.*;
  * @author Alexey Andreev
  */
 public class DataFlowGraphBuilder implements InstructionReader {
-    private int lastIndex;
     private GraphBuilder builder = new GraphBuilder();
     private ObjectIntMap<FieldReference> fieldNodes = new ObjectIntOpenHashMap<>();
     private int returnIndex = -1;
@@ -48,8 +47,8 @@ public class DataFlowGraphBuilder implements InstructionReader {
     }
 
     public int[] buildMapping(ProgramReader program, boolean[] significantParams, boolean needsReturn) {
-        lastIndex = program.variableCount();
-        this.paramCount = significantParams.length;
+        int lastIndex = program.variableCount();
+        paramCount = significantParams.length;
         if (needsReturn) {
             returnIndex = lastIndex++;
             escaping.add(returnIndex);

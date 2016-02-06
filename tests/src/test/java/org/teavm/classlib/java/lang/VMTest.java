@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@ public class VMTest {
         assertEquals(2971215073L, a + b);
     }
 
+    @SuppressWarnings("ThrowCaughtLocally")
     @Test
     public void catchesException() {
         try {
@@ -112,7 +113,7 @@ public class VMTest {
     }
 
     static class SuperClass {
-        static final Integer ONE = new Integer(1);
+        static final Integer ONE = 1;
 
         private Integer value;
 

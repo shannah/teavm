@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -194,7 +194,7 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
     }
 
     public void setAstCache(MethodNodeCache methodAstCache) {
-        this.astCache = methodAstCache;
+        astCache = methodAstCache;
     }
 
     public ProgramCache getProgramCache() {
@@ -652,7 +652,7 @@ public class TeaVM implements TeaVMHost, ServiceRepository {
     }
 
     private List<MethodOptimization> getOptimizations() {
-        return Arrays.<MethodOptimization>asList(new ArrayUnwrapMotion(), new LoopInvariantMotion(),
+        return Arrays.asList(new ArrayUnwrapMotion(), new LoopInvariantMotion(),
                 new GlobalValueNumbering(), new UnusedVariableElimination());
     }
 

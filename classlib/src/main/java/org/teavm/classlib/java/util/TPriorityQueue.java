@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -93,7 +93,7 @@ public class TPriorityQueue<E> extends TAbstractQueue<E> implements TSerializabl
 
     @SuppressWarnings("unchecked")
     private void setComparator(TComparator<? super E> comparator) {
-        this.originalComparator = comparator;
+        originalComparator = comparator;
         if (comparator == null) {
             comparator = new TComparator<Object>() {
                 @Override public int compare(Object o1, Object o2) {

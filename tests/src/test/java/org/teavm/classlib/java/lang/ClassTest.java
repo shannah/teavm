@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -177,16 +177,16 @@ public class ClassTest {
     }
 
     @Retention(RetentionPolicy.RUNTIME)
-    static @interface TestAnnot {
+    @interface TestAnnot {
     }
 
     @Retention(RetentionPolicy.RUNTIME)
-    static @interface AnnotWithDefaultField {
+    @interface AnnotWithDefaultField {
         int x() default 2;
     }
 
     @Retention(RetentionPolicy.RUNTIME)
-    static @interface AnnotWithVariousFields {
+    @interface AnnotWithVariousFields {
         boolean a();
 
         byte b();

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ public class TProperties extends THashtable<Object, Object> {
     private static final int NONE = 0, SLASH = 1, UNICODE = 2, CONTINUE = 3,  KEY_DONE = 4, IGNORE = 5;
 
     public TProperties() {
-        super();
     }
 
     public TProperties(TProperties properties) {
@@ -96,7 +95,7 @@ public class TProperties extends THashtable<Object, Object> {
     }
 
     public String getProperty(String name) {
-        Object result = super.get(name);
+        Object result = get(name);
         String property = result instanceof String ? (String) result : null;
         if (property == null && defaults != null) {
             property = defaults.getProperty(name);
@@ -105,7 +104,7 @@ public class TProperties extends THashtable<Object, Object> {
     }
 
     public String getProperty(String name, String defaultValue) {
-        Object result = super.get(name);
+        Object result = get(name);
         String property = result instanceof String ? (String) result : null;
         if (property == null && defaults != null) {
             property = defaults.getProperty(name);
@@ -126,7 +125,7 @@ public class TProperties extends THashtable<Object, Object> {
             String key = (String) keys.nextElement();
             buffer.append(key);
             buffer.append('=');
-            String property = (String) super.get(key);
+            String property = (String) get(key);
             TProperties def = defaults;
             while (property == null) {
                 property = (String) def.get(key);
@@ -149,7 +148,8 @@ public class TProperties extends THashtable<Object, Object> {
             throw new NullPointerException();
         }
         int mode = NONE, unicode = 0, count = 0;
-        char nextChar, buf[] = new char[40];
+        char nextChar;
+        char[] buf = new char[40];
         int offset = 0, keyLength = -1, intVal;
         boolean firstChar = true;
         TBufferedInputStream bis = new TBufferedInputStream(in);

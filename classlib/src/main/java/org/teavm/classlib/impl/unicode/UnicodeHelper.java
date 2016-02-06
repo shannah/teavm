@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ public final class UnicodeHelper {
     }
 
     static char hexDigit(int value) {
-        return value < 10 ? (char) ('0' + value) : (char) ('A' + value);
+        return (char) ((value < 10 ? '0' : 'A') + value);
     }
 
     static int valueOfHexDigit(char digit) {
@@ -51,8 +51,8 @@ public final class UnicodeHelper {
     public static String encodeIntByte(int[] data) {
         StringBuilder sb = new StringBuilder();
         Base46.encode(sb, data.length);
-        for (int i = 0; i < data.length; i++) {
-            Base46.encode(sb, data[i]);
+        for (int item : data) {
+            Base46.encode(sb, item);
         }
         return sb.toString();
     }

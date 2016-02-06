@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public class Debugger {
     private ConcurrentMap<String, ConcurrentMap<DebugInformation, Object>> debugInformationFileMap =
             new ConcurrentHashMap<>();
     private ConcurrentMap<DebugInformation, String> scriptMap = new ConcurrentHashMap<>();
-    ConcurrentMap<JavaScriptBreakpoint, Breakpoint> breakpointMap = new ConcurrentHashMap<>();
+    final ConcurrentMap<JavaScriptBreakpoint, Breakpoint> breakpointMap = new ConcurrentHashMap<>();
     ConcurrentMap<Breakpoint, Object> breakpoints = new ConcurrentHashMap<>();
     private volatile CallFrame[] callStack;
 
@@ -135,7 +135,7 @@ public class Debugger {
         private String script;
         Set<JavaScriptLocation> locations;
 
-        public CallSiteSuccessorFinder(DebugInformation debugInfo, String script, Set<JavaScriptLocation> locations) {
+        CallSiteSuccessorFinder(DebugInformation debugInfo, String script, Set<JavaScriptLocation> locations) {
             this.debugInfo = debugInfo;
             this.script = script;
             this.locations = locations;

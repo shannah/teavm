@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -135,7 +135,7 @@ public class Renderer implements ExprVisitor, StatementVisitor, RenderingContext
     private static class InjectorHolder {
         public final Injector injector;
 
-        public InjectorHolder(Injector injector) {
+        InjectorHolder(Injector injector) {
             this.injector = injector;
         }
     }
@@ -143,7 +143,7 @@ public class Renderer implements ExprVisitor, StatementVisitor, RenderingContext
     private static class LocationStackEntry {
         NodeLocation location;
 
-        public LocationStackEntry(NodeLocation location) {
+        LocationStackEntry(NodeLocation location) {
             this.location = location;
         }
     }
@@ -155,7 +155,7 @@ public class Renderer implements ExprVisitor, StatementVisitor, RenderingContext
     public Renderer(SourceWriter writer, ListableClassHolderSource classSource, ClassLoader classLoader,
             ServiceRepository services, Set<MethodReference> asyncMethods, Set<MethodReference> asyncFamilyMethods,
             Diagnostics diagnostics) {
-        this.naming = writer.getNaming();
+        naming = writer.getNaming();
         this.writer = writer;
         this.classSource = classSource;
         this.classLoader = classLoader;
@@ -626,8 +626,8 @@ public class Renderer implements ExprVisitor, StatementVisitor, RenderingContext
         }
         writer.appendMethodBody(ref).append("(");
         writer.append("this");
-        for (int i = 0; i < args.size(); ++i) {
-            writer.append(",").ws().append(args.get(i));
+        for (String arg : args) {
+            writer.append(",").ws().append(arg);
         }
         writer.append(");").ws().append("}");
     }
@@ -671,7 +671,7 @@ public class Renderer implements ExprVisitor, StatementVisitor, RenderingContext
         @Override
         public void visit(NativeMethodNode methodNode) {
             try {
-                this.async = methodNode.isAsync();
+                async = methodNode.isAsync();
                 Renderer.this.async = methodNode.isAsync();
                 methodNode.getGenerator().generate(this, writer, methodNode.getReference());
             } catch (IOException e) {
@@ -683,7 +683,7 @@ public class Renderer implements ExprVisitor, StatementVisitor, RenderingContext
         public void visit(RegularMethodNode method) {
             try {
                 Renderer.this.async = false;
-                this.async = false;
+                async = false;
                 MethodReference ref = method.getReference();
                 for (int i = 0; i < method.getParameterDebugNames().size(); ++i) {
                     debugEmitter.emitVariable(method.getParameterDebugNames().get(i).toArray(new String[0]),
@@ -727,7 +727,7 @@ public class Renderer implements ExprVisitor, StatementVisitor, RenderingContext
         public void visit(AsyncMethodNode methodNode) {
             try {
                 Renderer.this.async = true;
-                this.async = true;
+                async = true;
                 MethodReference ref = methodNode.getReference();
                 for (int i = 0; i < methodNode.getParameterDebugNames().size(); ++i) {
                     debugEmitter.emitVariable(methodNode.getParameterDebugNames().get(i).toArray(new String[0]),
@@ -2318,7 +2318,7 @@ public class Renderer implements ExprVisitor, StatementVisitor, RenderingContext
         private List<Expr> arguments;
         private Precedence precedence = Renderer.this.precedence;
 
-        public InjectorContextImpl(List<Expr> arguments) {
+        InjectorContextImpl(List<Expr> arguments) {
             this.arguments = arguments;
         }
 

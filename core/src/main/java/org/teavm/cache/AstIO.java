@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -157,8 +157,7 @@ public class AstIO {
     class NodeWriter implements ExprVisitor, StatementVisitor {
         private DataOutput output;
 
-        public NodeWriter(DataOutput output) {
-            super();
+        NodeWriter(DataOutput output) {
             this.output = output;
         }
 
@@ -798,8 +797,7 @@ public class AstIO {
                 return expr;
             }
             case 3: {
-                ConstantExpr expr = new ConstantExpr();
-                return expr;
+                return new ConstantExpr();
             }
             case 4: {
                 ConstantExpr expr = new ConstantExpr();
@@ -915,7 +913,7 @@ public class AstIO {
     static class IOExceptionWrapper extends RuntimeException {
         private static final long serialVersionUID = -7566355431593608333L;
 
-        public IOExceptionWrapper(Throwable cause) {
+        IOExceptionWrapper(Throwable cause) {
             super(cause);
         }
     }

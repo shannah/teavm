@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ public class ProgramParser implements VariableDebugInformation {
         public final int source;
         public final int target;
 
-        public Step(int source, int target) {
+        Step(int source, int target) {
             this.source = source;
             this.target = target;
         }
@@ -64,16 +64,16 @@ public class ProgramParser implements VariableDebugInformation {
         public final byte type;
         public final int depth;
 
-        public StackFrame(int depth) {
-            this.next = null;
-            this.type = ROOT;
+        StackFrame(int depth) {
+            next = null;
+            type = ROOT;
             this.depth = depth;
         }
 
-        public StackFrame(StackFrame next, byte type) {
+        StackFrame(StackFrame next, byte type) {
             this.next = next;
             this.type = type;
-            this.depth = next != null ? next.depth + 1 : 0;
+            depth = next != null ? next.depth + 1 : 0;
         }
     }
 
@@ -87,7 +87,7 @@ public class ProgramParser implements VariableDebugInformation {
 
     public Program parse(MethodNode method, String className) {
         program = new Program();
-        this.currentClassName = className;
+        currentClassName = className;
         InsnList instructions = method.instructions;
         if (instructions.size() == 0) {
             return program;
@@ -193,8 +193,8 @@ public class ProgramParser implements VariableDebugInformation {
             vars.add(localVar);
         }
         targetInstructions = new ArrayList<>(instructions.size());
-        targetInstructions.addAll(Collections.<List<Instruction>>nCopies(instructions.size(), null));
-        basicBlocks.addAll(Collections.<BasicBlock>nCopies(instructions.size(), null));
+        targetInstructions.addAll(Collections.nCopies(instructions.size(), null));
+        basicBlocks.addAll(Collections.nCopies(instructions.size(), null));
         stackBefore = new StackFrame[instructions.size()];
         stackAfter = new StackFrame[instructions.size()];
     }
@@ -287,7 +287,7 @@ public class ProgramParser implements VariableDebugInformation {
             List<LocalVariableNode> localVarNodes = localVariableMap.get(i);
             if (localVarNodes != null) {
                 if (builtInstructions == null || builtInstructions.isEmpty()) {
-                    builtInstructions = Arrays.<Instruction>asList(new EmptyInstruction());
+                    builtInstructions = Arrays.asList(new EmptyInstruction());
                 }
                 Map<Integer, String> debugNames = new HashMap<>();
                 variableDebugNames.put(builtInstructions.get(0), debugNames);
@@ -503,7 +503,7 @@ public class ProgramParser implements VariableDebugInformation {
             Variable[] args = new Variable[types.length];
             int j = args.length;
             for (int i = types.length - 1; i >= 0; --i) {
-                args[--j] = types[i].getSize() == 2 ? getVariable(popDouble()) : getVariable(popSingle());
+                args[--j] = getVariable(types[i].getSize() == 2 ? popDouble() : popSingle());
             }
             insn.getArguments().addAll(Arrays.asList(args));
 
@@ -513,8 +513,8 @@ public class ProgramParser implements VariableDebugInformation {
             }
 
             insn.setMethod(new MethodDescriptor(name, MethodDescriptor.parseSignature(desc)));
-            for (int i = 0; i < bsmArgs.length; ++i) {
-                insn.getBootstrapArguments().add(convertConstant(bsmArgs[i]));
+            for (Object bsmArg : bsmArgs) {
+                insn.getBootstrapArguments().add(convertConstant(bsmArg));
             }
 
             addInstruction(insn);
@@ -569,7 +569,7 @@ public class ProgramParser implements VariableDebugInformation {
                     Variable[] args = new Variable[types.length];
                     int j = args.length;
                     for (int i = types.length - 1; i >= 0; --i) {
-                        args[--j] = types[i].getSize() == 2 ? getVariable(popDouble()) : getVariable(popSingle());
+                        args[--j] = getVariable(types[i].getSize() == 2 ? popDouble() : popSingle());
                     }
                     MethodDescriptor method = new MethodDescriptor(name, MethodDescriptor.parseSignature(desc));
                     int instance = -1;

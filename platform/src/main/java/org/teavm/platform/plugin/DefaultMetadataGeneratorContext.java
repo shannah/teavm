@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ class DefaultMetadataGeneratorContext implements MetadataGeneratorContext {
     private BuildTimeResourceProxyBuilder proxyBuilder = new BuildTimeResourceProxyBuilder();
     private ServiceRepository services;
 
-    public DefaultMetadataGeneratorContext(ListableClassReaderSource classSource, ClassLoader classLoader,
+    DefaultMetadataGeneratorContext(ListableClassReaderSource classSource, ClassLoader classLoader,
             Properties properties, ServiceRepository services) {
         this.classSource = classSource;
         this.classLoader = classLoader;

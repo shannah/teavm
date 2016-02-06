@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ class JSAliasRenderer implements RendererListener {
     private SourceWriter writer;
     private ClassReaderSource classSource;
 
-    public JSAliasRenderer(JSDependencyListener dependencyListener) {
+    JSAliasRenderer(JSDependencyListener dependencyListener) {
         this.dependencyListener = dependencyListener;
     }
 

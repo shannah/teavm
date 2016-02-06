@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public class MethodDescriptor {
 
     public ValueType parameterType(int index) {
         if (index >= signature.length - 1) {
-            throw new IndexOutOfBoundsException(String.valueOf(index) + "/" + (signature.length - 1));
+            throw new IndexOutOfBoundsException(index + "/" + (signature.length - 1));
         }
         return signature[index];
     }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public class JavaScriptBodyDependency extends AbstractDependencyListener {
 
     private static class OneDirectionalConnection implements DependencyConsumer {
         private DependencyNode target;
-        public OneDirectionalConnection(DependencyNode target) {
+        OneDirectionalConnection(DependencyNode target) {
             this.target = target;
         }
         @Override public void consume(DependencyType type) {
@@ -161,7 +161,7 @@ public class JavaScriptBodyDependency extends AbstractDependencyListener {
         private DependencyAgent agent;
         private MethodDependency caller;
         private CallLocation location;
-        public GeneratorJsCallback(DependencyAgent agent, MethodDependency caller, CallLocation location) {
+        GeneratorJsCallback(DependencyAgent agent, MethodDependency caller, CallLocation location) {
             this.agent = agent;
             this.caller = caller;
             this.location = location;
@@ -173,6 +173,7 @@ public class JavaScriptBodyDependency extends AbstractDependencyListener {
             MethodDependency methodDep = agent.linkMethod(ref, location);
             achievedMethods.get(caller.getReference()).add(ref);
             if (!methodDep.isMissing()) {
+                assert reader != null;
                 if (reader.hasModifier(ElementModifier.STATIC) || reader.hasModifier(ElementModifier.FINAL)) {
                     methodDep.use();
                     for (int i = 0; i < methodDep.getParameterCount(); ++i) {
@@ -191,11 +192,11 @@ public class JavaScriptBodyDependency extends AbstractDependencyListener {
         private MethodReader superMethod;
         private ClassReader superClass;
         private MethodDependency caller;
-        public VirtualCallbackConsumer(DependencyAgent agent, MethodReader superMethod, MethodDependency caller) {
+         VirtualCallbackConsumer(DependencyAgent agent, MethodReader superMethod, MethodDependency caller) {
             this.agent = agent;
             this.superMethod = superMethod;
             this.caller = caller;
-            this.superClass = agent.getClassSource().get(superMethod.getOwnerName());
+             superClass = agent.getClassSource().get(superMethod.getOwnerName());
         }
         @Override public void consume(DependencyType type) {
             if (!agent.getClassSource().isSuperType(superClass.getName(), type.getName()).orElse(false)) {

@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +27,7 @@ import org.junit.Test;
  * Class:  java.math.BigDecimal
  * Methods: add, subtract, multiply, divide
  */
+@SuppressWarnings("BigDecimalLegacyMethod")
 public class BigDecimalArithmeticTest {
     /**
      * Add two numbers of equal positive scales
@@ -1370,7 +1370,7 @@ public class BigDecimalArithmeticTest {
     	BigDecimal arg1 = new BigDecimal("320.0E+2147483647");
 		BigDecimal arg2 = new BigDecimal("6E-2147483647");
     	try {
-    		arg1.divide(arg2, Integer.MAX_VALUE, java.math.RoundingMode.CEILING);
+    		arg1.divide(arg2, Integer.MAX_VALUE, RoundingMode.CEILING);
     		fail("Expected ArithmeticException when dividing with a scale that's too large");
     	} catch (ArithmeticException e) {
     		// expected behaviour
@@ -1452,7 +1452,7 @@ public class BigDecimalArithmeticTest {
         int remScale = 70;
         BigDecimal aNumber = new BigDecimal(new BigInteger(a), aScale);
         BigDecimal bNumber = new BigDecimal(new BigInteger(b), bScale);
-        BigDecimal result[] = aNumber.divideAndRemainder(bNumber);
+        BigDecimal[] result = aNumber.divideAndRemainder(bNumber);
         assertEquals("incorrect quotient value", res, result[0].toString());
         assertEquals("incorrect quotient scale", resScale, result[0].scale());
         assertEquals("incorrect remainder value", rem, result[1].toString());
@@ -1476,7 +1476,7 @@ public class BigDecimalArithmeticTest {
         int remScale = 70;
         BigDecimal aNumber = new BigDecimal(new BigInteger(a), aScale);
         BigDecimal bNumber = new BigDecimal(new BigInteger(b), bScale);
-        BigDecimal result[] = aNumber.divideAndRemainder(bNumber);
+        BigDecimal[] result = aNumber.divideAndRemainder(bNumber);
         assertEquals("incorrect quotient value", res, result[0].toString());
         assertEquals("incorrect quotient scale", resScale, result[0].scale());
         assertEquals("incorrect remainder value", rem, result[1].toString());
@@ -1501,7 +1501,7 @@ public class BigDecimalArithmeticTest {
         int remScale = 70;
         BigDecimal aNumber = new BigDecimal(new BigInteger(a), aScale);
         BigDecimal bNumber = new BigDecimal(new BigInteger(b), bScale);
-        BigDecimal result[] = aNumber.divideAndRemainder(bNumber, mc);
+        BigDecimal[] result = aNumber.divideAndRemainder(bNumber, mc);
         assertEquals("incorrect quotient value", res, result[0].toString());
         assertEquals("incorrect quotient scale", resScale, result[0].scale());
         assertEquals("incorrect remainder value", rem, result[1].toString());
@@ -1526,7 +1526,7 @@ public class BigDecimalArithmeticTest {
         int remScale = 45;
         BigDecimal aNumber = new BigDecimal(new BigInteger(a), aScale);
         BigDecimal bNumber = new BigDecimal(new BigInteger(b), bScale);
-        BigDecimal result[] = aNumber.divideAndRemainder(bNumber, mc);
+        BigDecimal[] result = aNumber.divideAndRemainder(bNumber, mc);
         assertEquals("incorrect quotient value", res, result[0].toString());
         assertEquals("incorrect quotient scale", resScale, result[0].scale());
         assertEquals("incorrect remainder value", rem, result[1].toString());

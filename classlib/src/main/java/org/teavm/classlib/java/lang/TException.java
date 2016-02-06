@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ public class TException extends TThrowable {
     private static final long serialVersionUID = -2188339106250208952L;
 
     public TException() {
-        super();
     }
 
     public TException(TString message, TThrowable cause) {

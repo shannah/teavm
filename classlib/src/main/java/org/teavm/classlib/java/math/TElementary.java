@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ package org.teavm.classlib.java.math;
  * In addition to this, some <i><b>Inplace</b></i> (mutable) methods are
  * provided.
  */
-class TElementary {
+final class TElementary {
 
     /** Just to denote that this class can't be instantiated */
     private TElementary() {
@@ -347,14 +347,6 @@ class TElementary {
         return res;
     }
 
-    /**
-     * Same as
-     * {@link #inplaceSubtract(TBigInteger, TBigInteger)}, but without the
-     *       restriction of non-positive values
-     * @param op1
-     *            should have enough space to save the result
-     * @param op2
-     */
     static void completeInPlaceSubtract(TBigInteger op1, TBigInteger op2) {
         int resultSign = op1.compareTo(op2);
         if (op1.sign == 0) {

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -119,6 +119,7 @@ public class JCLComparisonBuilder {
     private List<JCLPackage> buildModel() throws IOException {
         Map<String, JCLPackage> packageMap = new HashMap<>();
         URL url = classLoader.getResource("java/lang/Object" + CLASS_SUFFIX);
+        assert url != null;
         String path = url.toString();
         if (!path.startsWith(JAR_PREFIX) || !path.endsWith(JAR_SUFFIX)) {
             throw new RuntimeException("Can't find JCL classes");
@@ -147,17 +148,9 @@ public class JCLComparisonBuilder {
     }
 
     private void processModel(List<JCLPackage> packages) {
-        Collections.sort(packages, new Comparator<JCLPackage>() {
-            @Override public int compare(JCLPackage o1, JCLPackage o2) {
-                return o1.name.compareTo(o2.name);
-            }
-        });
+        Collections.sort(packages, Comparator.comparing(p -> p.name));
         for (JCLPackage pkg : packages) {
-            Collections.sort(pkg.classes, new Comparator<JCLClass>() {
-                @Override public int compare(JCLClass o1, JCLClass o2) {
-                    return o1.name.compareTo(o2.name);
-                }
-            });
+            Collections.sort(pkg.classes, (o1, o2) -> o1.name.compareTo(o2.name));
         }
     }
 

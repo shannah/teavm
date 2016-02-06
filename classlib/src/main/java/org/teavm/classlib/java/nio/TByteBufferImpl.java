@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -436,7 +436,7 @@ class TByteBufferImpl extends TByteBuffer {
             throw new IndexOutOfBoundsException("Index " + index + " is outside of range [0;" + (limit - 3) + ")");
         }
         if (order == TByteOrder.BIG_ENDIAN) {
-            array[start + index + 0] = (byte) (value >> 56);
+            array[start + index] = (byte) (value >> 56);
             array[start + index + 1] = (byte) (value >> 48);
             array[start + index + 2] = (byte) (value >> 40);
             array[start + index + 3] = (byte) (value >> 32);
@@ -445,7 +445,7 @@ class TByteBufferImpl extends TByteBuffer {
             array[start + index + 6] = (byte) (value >> 8);
             array[start + index + 7] = (byte) value;
         } else {
-            array[start + index + 0] = (byte) value;
+            array[start + index] = (byte) value;
             array[start + index + 1] = (byte) (value >> 8);
             array[start + index + 2] = (byte) (value >> 16);
             array[start + index + 3] = (byte) (value >> 24);

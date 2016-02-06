@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ class LocationGraphBuilder {
         InstructionLocation location;
         Set<InstructionLocation> startLocations;
         int block;
-        public Step(InstructionLocation location, Set<InstructionLocation> startLocations, int block) {
+        Step(InstructionLocation location, Set<InstructionLocation> startLocations, int block) {
             this.location = location;
             this.startLocations = startLocations;
             this.block = block;
@@ -132,7 +132,7 @@ class LocationGraphBuilder {
     static class AdditionalConnection {
         InstructionLocation location;
         Set<InstructionLocation> successors;
-        public AdditionalConnection(InstructionLocation location, Set<InstructionLocation> successors) {
+        AdditionalConnection(InstructionLocation location, Set<InstructionLocation> successors) {
             this.location = location;
             this.successors = successors;
         }

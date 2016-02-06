@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -285,7 +285,7 @@ public class TCharacter extends TObject implements TComparable<TCharacter> {
         if (radix < MIN_RADIX || radix > MAX_RADIX || digit >= radix) {
             return '\0';
         }
-        return digit < 10 ? (char) ('0' + digit) : (char) ('a' + digit - 10);
+        return (char) (digit < 10 ? '0' + digit : 'a' + digit - 10);
     }
 
     public static boolean isDigit(char ch) {

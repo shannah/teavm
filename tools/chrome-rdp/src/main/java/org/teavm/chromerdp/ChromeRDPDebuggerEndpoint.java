@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -46,9 +46,9 @@ public class ChromeRDPDebuggerEndpoint implements ChromeRDPExchange {
 
     @OnClose
     public void close() {
-        if (this.debugger != null) {
-            this.debugger.setExchange(null);
-            this.debugger = null;
+        if (debugger != null) {
+            debugger.setExchange(null);
+            debugger = null;
         }
     }
 

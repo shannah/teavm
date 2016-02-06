@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class JCLComparisonVisitor extends ClassVisitor {
     private JCLPackage jclPackage;
     private JCLClass jclClass;
 
-    public JCLComparisonVisitor(ClassReaderSource classSource, Map<String, JCLPackage> packageMap) {
+    JCLComparisonVisitor(ClassReaderSource classSource, Map<String, JCLPackage> packageMap) {
         super(Opcodes.ASM5);
         this.classSource = classSource;
         this.packageMap = packageMap;

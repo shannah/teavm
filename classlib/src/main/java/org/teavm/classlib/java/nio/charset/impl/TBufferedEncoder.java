@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -37,12 +37,12 @@ public abstract class TBufferedEncoder extends TCharsetEncoder {
     @Override
     protected TCoderResult encodeLoop(TCharBuffer in, TByteBuffer out) {
         // Use intermediate array to batch buffer operations
-        int outPos = 0;
+        int outPos;
         char[] inArray = new char[Math.min(in.remaining(), 512)];
         int inPos = 0;
         int inSize = 0;
         byte[] outArray = new byte[Math.min(out.remaining(), 512)];
-        TCoderResult result = null;
+        TCoderResult result;
 
         while (true) {
             // If there were remaining bytes in input buffer, copy them to the beginning of input array
@@ -96,7 +96,6 @@ public abstract class TBufferedEncoder extends TCharsetEncoder {
         int outPosition;
 
         Controller(TCharBuffer in, TByteBuffer out) {
-            super();
             this.in = in;
             this.out = out;
         }

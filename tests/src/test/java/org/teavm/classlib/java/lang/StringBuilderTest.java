@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import org.junit.Test;
  *
  * @author Alexey Andreev
  */
+@SuppressWarnings("StringBufferReplaceableByString")
 public class StringBuilderTest {
     @Test
     public void integerAppended() {

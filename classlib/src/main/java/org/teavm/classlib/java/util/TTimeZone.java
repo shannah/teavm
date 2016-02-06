@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -67,8 +67,7 @@ import org.teavm.classlib.impl.unicode.CLDRHelper;
  * introduce serialization incompatibility issues between different
  * implementations.
  *
- * @see GregorianCalendar
- * @see TSimpleTimeZone
+ * @see TGregorianCalendar
  */
 public abstract class TTimeZone implements Serializable, Cloneable {
     private static final long serialVersionUID = 3581463369166924961L;
@@ -104,13 +103,12 @@ public abstract class TTimeZone implements Serializable, Cloneable {
      * time rules as this {@code TimeZone}.
      *
      * @return a shallow copy of this {@code TimeZone}.
-     * @see java.lang.Cloneable
+     * @see Cloneable
      */
     @Override
     public Object clone() {
         try {
-            TTimeZone zone = (TTimeZone) super.clone();
-            return zone;
+            return super.clone();
         } catch (CloneNotSupportedException e) {
             return null;
         }
@@ -284,7 +282,7 @@ public abstract class TTimeZone implements Serializable, Cloneable {
      *            the time of day in milliseconds.
      * @return the offset from GMT in milliseconds.
      */
-    abstract public int getOffset(int era, int year, int month, int day,
+    public abstract int getOffset(int era, int year, int month, int day,
             int dayOfWeek, int time);
 
     /**
@@ -292,7 +290,7 @@ public abstract class TTimeZone implements Serializable, Cloneable {
      *
      * @return the offset from GMT in milliseconds.
      */
-    abstract public int getRawOffset();
+    public abstract int getRawOffset();
 
     /**
      * Gets the {@code TimeZone} with the specified ID.
@@ -359,7 +357,7 @@ public abstract class TTimeZone implements Serializable, Cloneable {
             index++;
         }
 
-        if (buf.toString().indexOf(":") == -1) {
+        if (!buf.toString().contains(":")) {
             buf.append(':');
             buf.append("00");
         }
@@ -396,7 +394,7 @@ public abstract class TTimeZone implements Serializable, Cloneable {
      * @return {@code true} when the {@code Date} is in the daylight savings time period, {@code false}
      *         otherwise.
      */
-    abstract public boolean inDaylightTime(TDate time);
+    public abstract boolean inDaylightTime(TDate time);
 
     private static int parseNumber(String string, int offset, int[] position) {
         int index = offset;
@@ -447,7 +445,7 @@ public abstract class TTimeZone implements Serializable, Cloneable {
      * @param offset
      *            the offset from GMT in milliseconds.
      */
-    abstract public void setRawOffset(int offset);
+    public abstract void setRawOffset(int offset);
 
     /**
      * Returns whether this {@code TimeZone} has a daylight savings time period.
@@ -455,7 +453,7 @@ public abstract class TTimeZone implements Serializable, Cloneable {
      * @return {@code true} if this {@code TimeZone} has a daylight savings time period, {@code false}
      *         otherwise.
      */
-    abstract public boolean useDaylightTime();
+    public abstract boolean useDaylightTime();
 
     /**
      * Gets the name and the details of the user-selected TimeZone on the
@@ -489,7 +487,7 @@ public abstract class TTimeZone implements Serializable, Cloneable {
             return false;
         }
         TTimeZone other = (TTimeZone) obj;
-        return this.id.equals(other.id);
+        return id.equals(other.id);
     }
 
     @Override

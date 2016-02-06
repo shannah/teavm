@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -32,17 +32,13 @@ import org.teavm.classlib.java.util.regex.TPattern;
  * @author Alexey Andreev
  */
 public class TString extends TObject implements TSerializable, TComparable<TString>, TCharSequence {
-    public static final TComparator<TString> CASE_INSENSITIVE_ORDER = new TComparator<TString>() {
-        @Override public int compare(TString o1, TString o2) {
-            return o1.compareToIgnoreCase(o2);
-        }
-    };
+    public static final TComparator<TString> CASE_INSENSITIVE_ORDER = (o1, o2) -> o1.compareToIgnoreCase(o2);
     private char[] characters;
     private transient int hashCode;
     private static TMap<TString, TString> pool = new THashMap<>();
 
     public TString() {
-        this.characters = new char[0];
+        characters = new char[0];
     }
 
     public TString(TString other) {
@@ -57,9 +53,9 @@ public class TString extends TObject implements TSerializable, TComparable<TStri
     }
 
     public TString(char[] value, int offset, int count) {
-        this.characters = new char[count];
+        characters = new char[count];
         for (int i = 0; i < count; ++i) {
-            this.characters[i] = value[i + offset];
+            characters[i] = value[i + offset];
         }
     }
 
@@ -470,7 +466,7 @@ public class TString extends TObject implements TSerializable, TComparable<TStri
     }
 
     public static TString valueOf(TObject obj) {
-        return obj != null ? TString.wrap(obj.toString()) : TString.wrap("null");
+        return TString.wrap(obj != null ? obj.toString() : "null");
     }
 
     public static TString valueOf(char[] data) {
@@ -490,7 +486,7 @@ public class TString extends TObject implements TSerializable, TComparable<TStri
     }
 
     public static TString valueOf(boolean b) {
-        return b ? TString.wrap("true") : TString.wrap("false");
+        return TString.wrap(b ? "true" : "false");
     }
 
     public static TString valueOf(char c) {
@@ -632,15 +628,15 @@ public class TString extends TObject implements TSerializable, TComparable<TStri
     }
 
     public boolean matches(String regex) {
-        return TPattern.matches(regex, this.toString());
+        return TPattern.matches(regex, toString());
     }
 
     public String[] split(String regex) {
-        return TPattern.compile(regex).split(this.toString());
+        return TPattern.compile(regex).split(toString());
     }
 
     public String[] split(String regex, int limit) {
-        return TPattern.compile(regex).split(this.toString(), limit);
+        return TPattern.compile(regex).split(toString(), limit);
     }
 
     public String replaceAll(String regex, String replacement) {

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -70,6 +70,7 @@ public class StringTest {
         assertTrue("123".contentEquals(new StringBuilder().append('1').append('2').append('3')));
     }
 
+    @SuppressWarnings("RedundantStringConstructorCall")
     @Test
     public void comparesSameStrings() {
         String a = "123";
@@ -172,6 +173,7 @@ public class StringTest {
 
     @Test
     public void concatenatesStrings() {
+        //noinspection CallToStringConcatCanBeReplacedByOperator
         assertEquals("abcd", "ab".concat("cd"));
     }
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ class JSTypeHelper {
     private Map<String, Boolean> knownJavaScriptClasses = new HashMap<>();
     private Map<String, Boolean> knownJavaScriptImplementations = new HashMap<>();
 
-    public JSTypeHelper(ClassReaderSource classSource) {
+    JSTypeHelper(ClassReaderSource classSource) {
         this.classSource = classSource;
         knownJavaScriptClasses.put(JSObject.class.getName(), true);
     }
@@ -65,7 +65,7 @@ class JSTypeHelper {
                 return true;
             }
         }
-        return cls.getInterfaces().stream().anyMatch(iface -> isJavaScriptClass(iface));
+        return cls.getInterfaces().stream().anyMatch(this::isJavaScriptClass);
     }
 
     private boolean examineIfJavaScriptImplementation(String className) {
@@ -81,7 +81,7 @@ class JSTypeHelper {
                 return true;
             }
         }
-        return cls.getInterfaces().stream().anyMatch(iface -> isJavaScriptClass(iface));
+        return cls.getInterfaces().stream().anyMatch(this::isJavaScriptClass);
     }
 
     public boolean isSupportedType(ValueType type) {

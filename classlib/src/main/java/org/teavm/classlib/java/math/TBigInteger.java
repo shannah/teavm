@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -201,7 +201,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
         if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new NumberFormatException("Radix out of range");
         }
-        if (val.length() == 0) {
+        if (val.isEmpty()) {
             throw new NumberFormatException("Zero length BigInteger");
         }
         setFromString(this, val, radix);
@@ -374,7 +374,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
      * @return two's complement representation of {@code this}.
      */
     public byte[] toByteArray() {
-        if (this.sign == 0) {
+        if (sign == 0) {
             return new byte[] { 0 };
         }
         TBigInteger temp = this;
@@ -388,7 +388,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
         byte[] bytes = new byte[bytesLen];
         int firstByteNumber = 0;
         int highBytes;
-        int digitIndex = 0;
+        int digitIndex;
         int bytesInInteger = 4;
         int digit;
         int hB;
@@ -439,7 +439,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
         return bytes;
     }
 
-    /** @see TBigInteger#BigInteger(String, int) */
+    /** @see TBigInteger#TBigInteger(String, int) */
     private static void setFromString(TBigInteger bi, String val, int radix) {
         int sign;
         int[] digits;
@@ -925,7 +925,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
      *             if {@code val == null}.
      */
     public TBigInteger min(TBigInteger val) {
-        return (this.compareTo(val) == LESS) ? this : val;
+        return (compareTo(val) == LESS) ? this : val;
     }
 
     /**
@@ -938,7 +938,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
      *             if {@code val == null}
      */
     public TBigInteger max(TBigInteger val) {
-        return this.compareTo(val) == GREATER ? this : val;
+        return compareTo(val) == GREATER ? this : val;
     }
 
     /**
@@ -951,8 +951,8 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
         if (hashCode != 0) {
             return hashCode;
         }
-        for (int i = 0; i < digits.length; i++) {
-            hashCode = hashCode * 33 + (digits[i] & 0xffffffff);
+        for (int digit : digits) {
+            hashCode = hashCode * 33 + digit;
         }
         hashCode = hashCode * sign;
         return hashCode;
@@ -1026,7 +1026,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
      *             if {@code val == null}.
      */
     public TBigInteger gcd(TBigInteger val) {
-        TBigInteger val1 = this.abs();
+        TBigInteger val1 = abs();
         TBigInteger val2 = val.abs();
         // To avoid a possible division by zero
         if (val1.signum() == 0) {
@@ -1092,7 +1092,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
             while (!testBit(x)) {
                 x++;
             }
-            return getPowerOfTwo(x * exp).multiply(this.shiftRight(x).pow(exp));
+            return getPowerOfTwo(x * exp).multiply(shiftRight(x).pow(exp));
         }
         return TMultiplication.pow(this, exp);
     }
@@ -1131,13 +1131,12 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
         }
         int thisSign = sign;
         int quotientLength = thisLen - divisorLen + 1;
-        int remainderLength = divisorLen;
         int quotientSign = thisSign == divisorSign ? 1 : -1;
         int[] quotientDigits = new int[quotientLength];
         int[] remainderDigits = TDivision.divide(quotientDigits, quotientLength, thisDigits, thisLen, divisorDigits,
                 divisorLen);
         TBigInteger result0 = new TBigInteger(quotientSign, quotientLength, quotientDigits);
-        TBigInteger result1 = new TBigInteger(thisSign, remainderLength, remainderDigits);
+        TBigInteger result1 = new TBigInteger(thisSign, divisorLen, remainderDigits);
         result0.cutOffLeadingZeroes();
         result1.cutOffLeadingZeroes();
         return new TBigInteger[] { result0, result1 };
@@ -1160,7 +1159,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
         }
         int divisorSign = divisor.sign;
         if (divisor.isOne()) {
-            return divisor.sign > 0 ? this : this.negate();
+            return divisor.sign > 0 ? this : negate();
         }
         int thisSign = sign;
         int thisLen = numberLength;
@@ -1216,15 +1215,14 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
                 divisor.digits, thisLen)) == LESS) {
             return this;
         }
-        int resLength = divisorLen;
-        int[] resDigits = new int[resLength];
-        if (resLength == 1) {
+        int[] resDigits = new int[divisorLen];
+        if (divisorLen == 1) {
             resDigits[0] = TDivision.remainderArrayByInt(digits, thisLen, divisor.digits[0]);
         } else {
             int qLen = thisLen - divisorLen + 1;
             resDigits = TDivision.divide(null, qLen, digits, thisLen, divisor.digits, divisorLen);
         }
-        TBigInteger result = new TBigInteger(sign, resLength, resDigits);
+        TBigInteger result = new TBigInteger(sign, divisorLen, resDigits);
         result.cutOffLeadingZeroes();
         return result;
     }
@@ -1473,7 +1471,7 @@ public class TBigInteger extends Number implements Comparable<TBigInteger>, Seri
     int getFirstNonzeroDigit() {
         if (firstNonzeroDigit == -2) {
             int i;
-            if (this.sign == 0) {
+            if (sign == 0) {
                 i = -1;
             } else {
                 for (i = 0; digits[i] == 0; i++) {

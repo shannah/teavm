@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -398,7 +398,7 @@ public class GlobalValueNumbering implements MethodOptimization {
 
         @Override
         public void visit(InvokeDynamicInstruction insn) {
-            Optional.ofNullable(insn.getInstance()).map(mapper).ifPresent(var -> insn.setInstance(var));
+            Optional.ofNullable(insn.getInstance()).map(mapper).ifPresent(insn::setInstance);
             insn.getArguments().replaceAll(mapper);
         }
 

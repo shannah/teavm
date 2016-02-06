@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -233,7 +233,7 @@ public class AsyncProgramSplitter {
         int[] splitPoints;
         int[] originalBlocks;
 
-        public Part(int blockCount) {
+        Part(int blockCount) {
             blockSuccessors = new int[blockCount];
             Arrays.fill(blockSuccessors, -1);
             splitPoints = new int[blockCount];
@@ -254,7 +254,7 @@ public class AsyncProgramSplitter {
         private IntegerArray originalBlocks;
         private IntegerArray splitPoints;
 
-        public AsyncProgramSplittingBackend(GraphSplittingBackend inner, IntegerArray blockSuccessors,
+        AsyncProgramSplittingBackend(GraphSplittingBackend inner, IntegerArray blockSuccessors,
                 IntegerArray originalBlocks, IntegerArray splitPoints) {
             this.inner = inner;
             this.blockSuccessors = blockSuccessors;

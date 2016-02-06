@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import org.teavm.jso.JSBody;
  * @author Alexey Andreev
  */
 public class TDouble extends TNumber implements TComparable<TDouble> {
+    @SuppressWarnings("divzero")
     public static final double POSITIVE_INFINITY = 1 / 0.0;
     public static final double NEGATIVE_INFINITY = -POSITIVE_INFINITY;
     public static final double NaN = getNaN();
@@ -203,7 +204,7 @@ public class TDouble extends TNumber implements TComparable<TDouble> {
     @Override
     public int hashCode() {
         long h = doubleToLongBits(value);
-        return (int) (h >>> 32) ^ ((int) h | 0);
+        return (int) (h >>> 32) ^ ((int) h);
     }
 
     public static int compare(double a, double b) {
@@ -287,7 +288,7 @@ public class TDouble extends TNumber implements TComparable<TDouble> {
         if (isNaN(d)) {
             return TString.wrap("NaN");
         } else if (isInfinite(d)) {
-            return d > 0 ? TString.wrap("Infinity") : TString.wrap("-Infinity");
+            return TString.wrap(d > 0 ? "Infinity" : "-Infinity");
         }
         char[] buffer = new char[30];
         int sz = 0;

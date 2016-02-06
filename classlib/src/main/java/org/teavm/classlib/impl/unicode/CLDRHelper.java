@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -93,9 +93,8 @@ public final class CLDRHelper {
     private static String[] resolveDateFormatSymbols(ResourceMap<ResourceArray<StringResource>> map, String language,
             String country) {
         String localeCode = getCode(language, country);
-        ResourceArray<StringResource> arrayRes = map.has(localeCode)
-                ? map.get(localeCode)
-                : map.has(language) ? map.get(language) : map.get("root");
+        ResourceArray<StringResource> arrayRes = map.get(
+                map.has(localeCode) ? localeCode : map.has(language) ? language : "root");
         String[] result = new String[arrayRes.size()];
         for (int i = 0; i < result.length; ++i) {
             result[i] = arrayRes.get(i).getValue();
@@ -197,21 +196,19 @@ public final class CLDRHelper {
     private static DateFormatCollection resolveDateFormats(ResourceMap<DateFormatCollection> map,
             String language, String country) {
         String localeCode = getCode(language, country);
-        return map.has(localeCode) ? map.get(localeCode) : map.has(language) ? map.get(language) : map.get("root");
+        return map.get(map.has(localeCode) ? localeCode : map.has(language) ? language : "root");
     }
 
     private static String resolveFormatSymbols(ResourceMap<StringResource> map, String language, String country) {
         String localeCode = getCode(language, country);
-        StringResource res = map.has(localeCode) ? map.get(localeCode) : map.has(language) ? map.get(language)
-                : map.get("root");
+        StringResource res = map.get(map.has(localeCode) ? localeCode : map.has(language) ? language : "root");
         return res.getValue();
     }
 
     public static DecimalData resolveDecimalData(String language, String country) {
         ResourceMap<DecimalData> map = getDecimalDataMap();
         String localeCode = getCode(language, country);
-        return map.has(localeCode) ? map.get(localeCode) : map.has(language) ? map.get(language)
-                : map.get("root");
+        return map.get(map.has(localeCode) ? localeCode : map.has(language) ? language : "root");
     }
 
     @MetadataProvider(DecimalMetadataGenerator.class)

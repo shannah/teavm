@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -462,7 +462,7 @@ public class DebugInformation {
 
     void rebuildEntrances() {
         RecordArrayBuilder builder = new RecordArrayBuilder(0, 1);
-        for (int i = 0; i < exactMethods.length; ++i) {
+        for (long exactMethod : exactMethods) {
             builder.add();
         }
         GeneratedLocation prevLocation = new GeneratedLocation(0, 0);
@@ -499,8 +499,7 @@ public class DebugInformation {
         Arrays.sort(exactMethods);
         IntegerArray methods = new IntegerArray(1);
         int lastClass = -1;
-        for (int i = 0; i < exactMethods.length; ++i) {
-            long exactMethod = exactMethods[i];
+        for (long exactMethod : exactMethods) {
             int classIndex = (int) (exactMethod >>> 32);
             if (classIndex != lastClass) {
                 if (lastClass >= 0) {
@@ -627,7 +626,7 @@ public class DebugInformation {
     static class LocationList extends AbstractList<GeneratedLocation> implements RandomAccess {
         private RecordArray recordArray;
 
-        public LocationList(RecordArray recordArray) {
+        LocationList(RecordArray recordArray) {
             this.recordArray = recordArray;
         }
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -77,13 +77,15 @@ public class JavaScriptBodyGenerator implements Generator {
     private static class GeneratorJsCallback extends JsCallback {
         private ClassReaderSource classSource;
         private NamingStrategy naming;
-        public GeneratorJsCallback(ClassReaderSource classSource, NamingStrategy naming) {
+        GeneratorJsCallback(ClassReaderSource classSource, NamingStrategy naming) {
             this.classSource = classSource;
             this.naming = naming;
         }
         @Override protected CharSequence callMethod(String ident, String fqn, String method, String params) {
             MethodDescriptor desc = MethodDescriptor.parse(method + params + "V");
             MethodReader reader = findMethod(fqn, desc);
+            assert reader != null;
+
             StringBuilder sb = new StringBuilder();
             sb.append("(function(");
             if (ident != null) {

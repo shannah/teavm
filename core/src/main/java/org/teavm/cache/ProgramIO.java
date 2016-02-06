@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -721,7 +721,7 @@ public class ProgramIO {
 
     private static class IOExceptionWrapper extends RuntimeException {
         private static final long serialVersionUID = -1765050162629001951L;
-        public IOExceptionWrapper(Throwable cause) {
+        IOExceptionWrapper(Throwable cause) {
             super(cause);
         }
     }

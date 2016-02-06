@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -33,11 +33,10 @@ import org.teavm.vm.TeaVMBuilder;
 public class JSOTest {
     @Test
     public void reportsAboutWrongParameterOfJSBody() {
-        Problem foundProblem = build("callJSBodyWithWrongParameter").stream().filter(problem -> {
-            return problem.getLocation().getMethod().getName().equals("callJSBodyWithWrongParameter")
-                    && problem.getText().equals("Method {{m0}} is not a proper native JavaScript method "
-                        + " declaration. Its parameter #1 has invalid type {{t1}}");
-        }).findAny().orElse(null);
+        Problem foundProblem = build("callJSBodyWithWrongParameter").stream().filter(problem ->
+                problem.getLocation().getMethod().getName().equals("callJSBodyWithWrongParameter")
+                        && problem.getText().equals("Method {{m0}} is not a proper native JavaScript method "
+                            + " declaration. Its parameter #1 has invalid type {{t1}}")).findAny().orElse(null);
 
         assertNotNull(foundProblem);
         Object[] params = foundProblem.getParams();
@@ -55,11 +54,12 @@ public class JSOTest {
 
     @Test
     public void reportsAboutWrongNonStaticJSBody() {
-        Problem foundProblem = build("callWrongNonStaticJSBody").stream().filter(problem -> {
-            return problem.getLocation().getMethod().getName().equals("callWrongNonStaticJSBody")
-                    && problem.getText().equals("Method {{m0}} is not a proper native JavaScript method "
-                        + " declaration. It is non-static and declared on a non-overlay class {{c1}}");
-        }).findAny().orElse(null);
+        Problem foundProblem = build("callWrongNonStaticJSBody").stream().filter(problem ->
+                problem.getLocation().getMethod().getName().equals("callWrongNonStaticJSBody")
+                        && problem.getText().equals("Method {{m0}} is not a proper native JavaScript method "
+                            + " declaration. It is non-static and declared on a non-overlay class {{c1}}"))
+                .findAny()
+                .orElse(null);
 
         assertNotNull(foundProblem);
         Object[] params = foundProblem.getParams();
@@ -76,11 +76,12 @@ public class JSOTest {
 
     @Test
     public void reportsAboutJSBodyWithWrongReturningType() {
-        Problem foundProblem = build("callJSBodyWithWrongReturningType").stream().filter(problem -> {
-            return problem.getLocation().getMethod().getName().equals("callJSBodyWithWrongReturningType")
-                    && problem.getText().equals("Method {{m0}} is not a proper native JavaScript method "
-                            + " declaration, since it returns invalid type {{t1}}");
-        }).findAny().orElse(null);
+        Problem foundProblem = build("callJSBodyWithWrongReturningType").stream().filter(problem ->
+                problem.getLocation().getMethod().getName().equals("callJSBodyWithWrongReturningType")
+                        && problem.getText().equals("Method {{m0}} is not a proper native JavaScript method "
+                                + " declaration, since it returns invalid type {{t1}}"))
+                .findAny()
+                .orElse(null);
 
         assertNotNull(foundProblem);
         Object[] params = foundProblem.getParams();

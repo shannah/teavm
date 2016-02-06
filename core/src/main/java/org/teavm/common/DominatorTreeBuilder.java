@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ class DominatorTreeBuilder {
     private int[] path;
     private int effectiveSize;
 
-    public DominatorTreeBuilder(Graph graph) {
+    DominatorTreeBuilder(Graph graph) {
         this.graph = graph;
         semidominators = new int[graph.size()];
         vertices = new int[graph.size()];

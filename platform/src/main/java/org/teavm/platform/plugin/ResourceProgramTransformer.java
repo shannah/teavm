@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@ class ResourceProgramTransformer {
             accessInsn.getArguments().add(insn.getInstance());
             accessInsn.getArguments().addAll(insn.getArguments());
             accessInsn.setReceiver(insn.getReceiver());
-            return Arrays.<Instruction>asList(accessInsn);
+            return Arrays.asList(accessInsn);
         }
         ClassReader iface = innerSource.get(method.getClassName());
         if (iface == null || !innerSource.isSuperType(Resource.class.getName(), iface.getName()).orElse(false)) {
@@ -115,7 +115,7 @@ class ResourceProgramTransformer {
         transformInsn.getArguments().add(tmp);
         transformInsn.setReceiver(insn.getReceiver());
 
-        return Arrays.<Instruction>asList(keysInsn, transformInsn);
+        return Arrays.asList(keysInsn, transformInsn);
     }
 
     private List<Instruction> transformGetterInvocation(InvokeInstruction insn, String property) {

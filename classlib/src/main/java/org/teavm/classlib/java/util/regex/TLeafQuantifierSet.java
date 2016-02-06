@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,13 +28,13 @@ class TLeafQuantifierSet extends TQuantifierSet {
 
     public TLeafQuantifierSet(TLeafSet innerSet, TAbstractSet next, int type) {
         super(innerSet, next, type);
-        this.leaf = innerSet;
+        leaf = innerSet;
     }
 
     @Override
     public int matches(int stringIndex, CharSequence testString, TMatchResultImpl matchResult) {
         int i = 0;
-        int shift = 0;
+        int shift;
 
         while (stringIndex + leaf.charCount() <= matchResult.getRightBound() &&
                 (shift = leaf.accepts(stringIndex, testString)) > 0) {
@@ -67,9 +66,10 @@ class TLeafQuantifierSet extends TQuantifierSet {
      */
     @Override
     public void setInnerSet(TAbstractSet innerSet) {
-        if (!(innerSet instanceof TLeafSet))
+        if (!(innerSet instanceof TLeafSet)) {
             throw new RuntimeException("");
+        }
         super.setInnerSet(innerSet);
-        this.leaf = (TLeafSet)innerSet;
+        leaf = (TLeafSet)innerSet;
     }
 }

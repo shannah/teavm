@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -39,62 +39,62 @@ public class AnnotationValue {
     private Object value;
 
     public AnnotationValue(boolean value) {
-        this.type = BOOLEAN;
+        type = BOOLEAN;
         this.value = value;
     }
 
     public AnnotationValue(byte value) {
-        this.type = BYTE;
+        type = BYTE;
         this.value = value;
     }
 
     public AnnotationValue(short value) {
-        this.type = SHORT;
+        type = SHORT;
         this.value = value;
     }
 
     public AnnotationValue(int value) {
-        this.type = INT;
+        type = INT;
         this.value = value;
     }
 
     public AnnotationValue(long value) {
-        this.type = LONG;
+        type = LONG;
         this.value = value;
     }
 
     public AnnotationValue(float value) {
-        this.type = FLOAT;
+        type = FLOAT;
         this.value = value;
     }
 
     public AnnotationValue(double value) {
-        this.type = DOUBLE;
+        type = DOUBLE;
         this.value = value;
     }
 
     public AnnotationValue(String value) {
-        this.type = STRING;
+        type = STRING;
         this.value = value;
     }
 
     public AnnotationValue(ValueType value) {
-        this.type = CLASS;
+        type = CLASS;
         this.value = value;
     }
 
     public AnnotationValue(List<AnnotationValue> value) {
-        this.type = LIST;
+        type = LIST;
         this.value = value;
     }
 
     public AnnotationValue(AnnotationReader value) {
-        this.type = ANNOTATION;
+        type = ANNOTATION;
         this.value = value;
     }
 
     public AnnotationValue(FieldReference value) {
-        this.type = ENUM;
+        type = ENUM;
         this.value = value;
     }
 

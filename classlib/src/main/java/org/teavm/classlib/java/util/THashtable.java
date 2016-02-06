@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,22 +13,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-/*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+
+
 
 package org.teavm.classlib.java.util;
 
@@ -126,11 +112,6 @@ public class THashtable<K, V> extends TDictionary<K, V> implements TMap<K, V>,
 
         public boolean equalsKey(Object aKey, @SuppressWarnings("unused") int hash) {
             return hashcode == aKey.hashCode() && key.equals(aKey);
-        }
-
-        @Override
-        public String toString() {
-            return key + "=" + value;
         }
     }
 
@@ -339,12 +320,7 @@ public class THashtable<K, V> extends TDictionary<K, V> implements TMap<K, V>,
         if (elementCount == 0) {
             return (TEnumeration<V>) EMPTY_ENUMERATION;
         }
-        return new HashEnumIterator<>(new TMapEntry.Type<V, K, V>() {
-            @Override
-            public V get(TMapEntry<K, V> entry) {
-                return entry.value;
-            }
-        }, true);
+        return new HashEnumIterator<>(entry -> entry.value, true);
     }
 
     @Override
@@ -364,8 +340,7 @@ public class THashtable<K, V> extends TDictionary<K, V> implements TMap<K, V>,
             @SuppressWarnings("unchecked")
             public boolean remove(Object object) {
                 if (contains(object)) {
-                    THashtable.this.remove(((TMap.Entry<K, V>) object)
-                            .getKey());
+                    THashtable.this.remove(((TMap.Entry<K, V>) object).getKey());
                     return true;
                 }
                 return false;
@@ -374,21 +349,13 @@ public class THashtable<K, V> extends TDictionary<K, V> implements TMap<K, V>,
             @Override
             @SuppressWarnings("unchecked")
             public boolean contains(Object object) {
-                Entry<K, V> entry = getEntry(((TMap.Entry<K, V>) object)
-                        .getKey());
+                Entry<K, V> entry = getEntry(((TMap.Entry<K, V>) object).getKey());
                 return object.equals(entry);
             }
 
             @Override
             public TIterator<TMap.Entry<K, V>> iterator() {
-                return new HashIterator<>(
-                        new TMapEntry.Type<TMap.Entry<K, V>, K, V>() {
-                            @Override
-                            public TMap.Entry<K, V> get(
-                                    TMapEntry<K, V> entry) {
-                                return entry;
-                            }
-                        });
+                return new HashIterator<>(entry -> entry);
             }
        };
     }
@@ -475,12 +442,7 @@ public class THashtable<K, V> extends TDictionary<K, V> implements TMap<K, V>,
         if (elementCount == 0) {
             return (TEnumeration<K>) EMPTY_ENUMERATION;
         }
-        return new HashEnumIterator<>(new TMapEntry.Type<K, K, V>() {
-            @Override
-            public K get(TMapEntry<K, V> entry) {
-                return entry.key;
-            }
-        }, true);
+        return new HashEnumIterator<>(entry -> entry.key, true);
     }
 
     @Override
@@ -513,15 +475,10 @@ public class THashtable<K, V> extends TDictionary<K, V> implements TMap<K, V>,
             @SuppressWarnings("unchecked")
             @Override
             public TIterator<K> iterator() {
-                if (this.size() == 0) {
+                if (size() == 0) {
                     return (TIterator<K>) EMPTY_ITERATOR;
                 }
-                return new HashEnumIterator<>(new TMapEntry.Type<K, K, V>() {
-                    @Override
-                    public K get(TMapEntry<K, V> entry) {
-                        return entry.key;
-                    }
-                });
+                return new HashEnumIterator<>(entry -> entry.key);
             }
         };
     }
@@ -766,12 +723,7 @@ public class THashtable<K, V> extends TDictionary<K, V> implements TMap<K, V>,
             @Override
             public TIterator<V> iterator() {
                 return new HashIterator<>(
-                        new TMapEntry.Type<V, K, V>() {
-                            @Override
-                            public V get(TMapEntry<K, V> entry) {
-                                return entry.value;
-                            }
-                        });
+                        entry -> entry.value);
             }
         };
     }

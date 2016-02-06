@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -68,6 +67,7 @@ public class BigDecimalConstructorsTest {
     /**
      * new BigDecimal(BigInteger value)
      */
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void testConstrBI() {
         String a = "1231212478987482988429808779810457634781384756794987";
@@ -137,7 +137,7 @@ public class BigDecimalConstructorsTest {
      */
     @Test
     public void testConstrChar() {
-        char value[] = {'-', '1', '2', '3', '8', '0', '.', '4', '7', '3', '8', 'E', '-', '4', '2', '3'};
+        char[] value = { '-', '1', '2', '3', '8', '0', '.', '4', '7', '3', '8', 'E', '-', '4', '2', '3' };
         BigDecimal result = new BigDecimal(value);
         String res = "-1.23804738E-419";
         int resScale = 427;
@@ -149,6 +149,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(new char[] {});
             fail("NumberFormatException has not been thrown");
         } catch (NumberFormatException e) {
+            // As planned
         }
      }
 
@@ -157,7 +158,7 @@ public class BigDecimalConstructorsTest {
      */
     @Test
     public void testConstrCharIntInt() {
-        char value[] = {'-', '1', '2', '3', '8', '0', '.', '4', '7', '3', '8', 'E', '-', '4', '2', '3'};
+        char[] value = { '-', '1', '2', '3', '8', '0', '.', '4', '7', '3', '8', 'E', '-', '4', '2', '3' };
         int offset = 3;
         int len = 12;
         BigDecimal result = new BigDecimal(value, offset, len);
@@ -171,6 +172,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(new char[] {}, 0, 0);
             fail("NumberFormatException has not been thrown");
         } catch (NumberFormatException e) {
+            // as expected
         }
      }
 
@@ -179,7 +181,7 @@ public class BigDecimalConstructorsTest {
      */
     @Test
     public void testConstrCharIntIntMathContext() {
-        char value[] = {'-', '1', '2', '3', '8', '0', '.', '4', '7', '3', '8', 'E', '-', '4', '2', '3'};
+        char[] value = { '-', '1', '2', '3', '8', '0', '.', '4', '7', '3', '8', 'E', '-', '4', '2', '3' };
         int offset = 3;
         int len = 12;
         int precision = 4;
@@ -196,6 +198,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(new char[] {}, 0, 0, MathContext.DECIMAL32);
             fail("NumberFormatException has not been thrown");
         } catch (NumberFormatException e) {
+            // as expected
         }
      }
 
@@ -204,7 +207,7 @@ public class BigDecimalConstructorsTest {
      */
     @Test
     public void testConstrCharIntIntMathContextException1() {
-        char value[] = {'-', '1', '2', '3', '8', '0', '.', '4', '7', '3', '8', 'E', '-', '4', '2', '3'};
+        char[] value = { '-', '1', '2', '3', '8', '0', '.', '4', '7', '3', '8', 'E', '-', '4', '2', '3' };
         int offset = 3;
         int len = 120;
         int precision = 4;
@@ -214,6 +217,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(value, offset, len, mc);
             fail("NumberFormatException has not been thrown");
         } catch (NumberFormatException e) {
+            // as expected
         }
      }
 
@@ -222,7 +226,7 @@ public class BigDecimalConstructorsTest {
      */
     @Test
     public void testConstrCharIntIntMathContextException2() {
-        char value[] = {'-', '1', '2', '3', '8', '0', ',', '4', '7', '3', '8', 'E', '-', '4', '2', '3'};
+        char[] value = { '-', '1', '2', '3', '8', '0', ',', '4', '7', '3', '8', 'E', '-', '4', '2', '3' };
         int offset = 3;
         int len = 120;
         int precision = 4;
@@ -232,6 +236,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(value, offset, len, mc);
             fail("NumberFormatException has not been thrown");
         } catch (NumberFormatException e) {
+            // as expected
         }
      }
 
@@ -245,6 +250,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(new char[] {}, MathContext.DECIMAL32);
             fail("NumberFormatException has not been thrown");
         } catch (NumberFormatException e) {
+            // as expected
         }
     }
 
@@ -423,7 +429,16 @@ public class BigDecimalConstructorsTest {
     public void testConstrDoubleDenormalized() {
         double a = 2.274341322658976E-309;
         int aScale = 1073;
-        BigInteger bA = new BigInteger("227434132265897633950269241702666687639731047124115603942986140264569528085692462493371029187342478828091760934014851133733918639492582043963243759464684978401240614084312038547315281016804838374623558434472007664427140169018817050565150914041833284370702366055678057809362286455237716100382057360123091641959140448783514464639706721250400288267372238950016114583259228262046633530468551311769574111763316146065958042194569102063373243372766692713192728878701004405568459288708477607744497502929764155046100964958011009313090462293046650352146796805866786767887226278836423536035611825593567576424943331337401071583562754098901412372708947790843318760718495117047155597276492717187936854356663665005157041552436478744491526494952982062613955349661409854888916015625");
+        BigInteger bA = new BigInteger("22743413226589763395026924170266668763973104712411560394298614026456952"
+                + "808569246249337102918734247"
+                + "8828091760934014851133733918639492582043963243759464684978401240614084312038547315281016804838"
+                + "37462355843447200766442714016901881705056515091404183328437070236605567805780936228645523"
+                + "7716100382057360123091641959140448783514464639706721250400288267372238950016114583259"
+                + "2282620466335304685513117695741117633161460659580421945691020633732433727666927131927"
+                + "2887870100440556845928870847760774449750292976415504610096495801100931309046229304"
+                + "66503521467968058667867678872262788364235360356118255935675764249433313374010715835627540"
+                + "9890141237270894779084331876071849511704715559727649271718793685435666366500515704155"
+                + "2436478744491526494952982062613955349661409854888916015625");
         BigDecimal aNumber = new BigDecimal(a);
         assertEquals("incorrect value", bA, aNumber.unscaledValue());
         assertEquals("incorrect scale", aScale, aNumber.scale());
@@ -439,7 +454,9 @@ public class BigDecimalConstructorsTest {
         try {
             new BigDecimal(a);
             fail("NumberFormatException has not been caught");
-        } catch (NumberFormatException e) {}
+        } catch (NumberFormatException e) {
+            // as expected
+        }
     }
 
     /**
@@ -452,6 +469,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(a);
             fail("NumberFormatException has not been caught");
         } catch (NumberFormatException e) {
+            // as expected
         }
     }
 
@@ -465,6 +483,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(a);
             fail("NumberFormatException has not been caught");
         } catch (NumberFormatException e) {
+            // as expected
         }
     }
 
@@ -479,6 +498,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(a);
             fail("NumberFormatException has not been caught");
         } catch (NumberFormatException e) {
+            // as expected
         }
     }
 
@@ -493,6 +513,7 @@ public class BigDecimalConstructorsTest {
             new BigDecimal(a);
             fail("NumberFormatException has not been caught");
         } catch (NumberFormatException e) {
+            // as expected
         }
     }
 

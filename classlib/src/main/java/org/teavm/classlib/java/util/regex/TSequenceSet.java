@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,14 +35,14 @@ package org.teavm.classlib.java.util.regex;
  */
 class TSequenceSet extends TLeafSet {
 
-    private String string = null;
+    private String string;
 
     private IntHash leftToRight;
 
     private IntHash rightToLeft;
 
     TSequenceSet(StringBuffer substring) {
-        this.string = substring.toString();
+        string = substring.toString();
         charCount = substring.length();
 
         leftToRight = new IntHash(charCount);
@@ -68,10 +67,12 @@ class TSequenceSet extends TLeafSet {
         while (strIndex <= strLength) {
             strIndex = indexOf(testString, strIndex, strLength);
 
-            if (strIndex < 0)
+            if (strIndex < 0) {
                 return -1;
-            if (next.matches(strIndex + charCount, testString, matchResult) >= 0)
+            }
+            if (next.matches(strIndex + charCount, testString, matchResult) >= 0) {
                 return strIndex;
+            }
 
             strIndex++;
         }
@@ -86,10 +87,12 @@ class TSequenceSet extends TLeafSet {
         while (lastIndex >= strIndex) {
             lastIndex = lastIndexOf(testString, strIndex, lastIndex);
 
-            if (lastIndex < 0)
+            if (lastIndex < 0) {
                 return -1;
-            if (next.matches(lastIndex + charCount, testString, matchResult) >= 0)
+            }
+            if (next.matches(lastIndex + charCount, testString, matchResult) >= 0) {
                 return lastIndex;
+            }
 
             lastIndex--;
         }
@@ -113,11 +116,8 @@ class TSequenceSet extends TLeafSet {
                     || ((string.length() > 1) && ((TSupplRangeSet) set).contains(Character
                            .toCodePoint(string.charAt(0), string.charAt(1))));
         } else if ((set instanceof TSupplCharSet)) {
-            return  (string.length() > 1)
-                    ? ((TSupplCharSet) set).getCodePoint()
-                            == Character.toCodePoint(string.charAt(0),
-                            string.charAt(1))
-                    : false;
+            return string.length() > 1 && ((TSupplCharSet) set).getCodePoint() == Character.toCodePoint(
+                    string.charAt(0), string.charAt(1));
         }
 
         return true;
@@ -157,8 +157,9 @@ class TSequenceSet extends TLeafSet {
 
     protected boolean startsWith(CharSequence str, int from) {
         for (int i = 0; i < charCount; i++) {
-            if (str.charAt(i + from) != string.charAt(i))
+            if (str.charAt(i + from) != string.charAt(i)) {
                 return false;
+            }
         }
         return true;
     }

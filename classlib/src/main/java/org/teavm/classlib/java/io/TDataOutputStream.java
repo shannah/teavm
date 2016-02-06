@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ public class TDataOutputStream extends TFilterOutputStream implements TDataOutpu
 
     @Override
     public final void writeBytes(TString str) throws TIOException {
-        if (str.length() == 0) {
+        if (str.isEmpty()) {
             return;
         }
         byte[] bytes = new byte[str.length()];

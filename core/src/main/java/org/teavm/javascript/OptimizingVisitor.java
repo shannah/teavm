@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -29,9 +29,9 @@ class OptimizingVisitor implements StatementVisitor, ExprVisitor {
     private int[] readFrequencies;
     private List<Statement> resultSequence;
 
-    public OptimizingVisitor(boolean[] preservedVars, int[] readFreqencies) {
+    OptimizingVisitor(boolean[] preservedVars, int[] readFreqencies) {
         this.preservedVars = preservedVars;
-        this.readFrequencies = readFreqencies;
+        readFrequencies = readFreqencies;
     }
 
     private static boolean isZero(Expr expr) {
@@ -78,6 +78,7 @@ class OptimizingVisitor implements StatementVisitor, ExprVisitor {
                 case LESS_OR_EQUALS:
                 case GREATER:
                 case GREATER_OR_EQUALS: {
+                    assert p instanceof BinaryExpr;
                     BinaryExpr comparison = (BinaryExpr) p;
                     Expr result = BinaryExpr.binary(expr.getOperation(),
                             comparison.getFirstOperand(), comparison.getSecondOperand());
@@ -342,8 +343,7 @@ class OptimizingVisitor implements StatementVisitor, ExprVisitor {
     }
 
     private boolean processSequenceImpl(List<Statement> statements) {
-        for (int i = 0; i < statements.size(); ++i) {
-            Statement part = statements.get(i);
+        for (Statement part : statements) {
             if (part instanceof SequentialStatement) {
                 if (!processSequenceImpl(((SequentialStatement) part).getSequence())) {
                     return false;
@@ -440,7 +440,6 @@ class OptimizingVisitor implements StatementVisitor, ExprVisitor {
                             List<Statement> remaining = statements.subList(i + 1, statements.size());
                             cond.getConsequent().addAll(remaining);
                             remaining.clear();
-                            break check_conditional;
                         }
                     }
                 }

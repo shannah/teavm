@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ package org.teavm.classlib.java.math;
  * </li>
  * </ul>
  */
-class TDivision {
+final class TDivision {
     private TDivision() {
     }
 
@@ -65,7 +65,6 @@ class TDivision {
         int[] normA = new int[aLength + 1]; // the normalized dividend
         // an extra byte is needed for correct shift
         int[] normB = new int[bLength + 1]; // the normalized divisor;
-        int normBLength = bLength;
         /*
          * Step D1: normalize a and b and put the results to a1 and b1 the
          * normalized divisor's first digit must be >= 2^31
@@ -78,14 +77,14 @@ class TDivision {
             System.arraycopy(a, 0, normA, 0, aLength);
             System.arraycopy(b, 0, normB, 0, bLength);
         }
-        int firstDivisorDigit = normB[normBLength - 1];
+        int firstDivisorDigit = normB[bLength - 1];
         // Step D2: set the quotient index
         int i = quotLength - 1;
         int j = aLength;
 
         while (i >= 0) {
             // Step D3: calculate a guess digit guessDigit
-            int guessDigit = 0;
+            int guessDigit;
             if (normA[j] == firstDivisorDigit) {
                 // set guessDigit to the largest unsigned int value
                 guessDigit = -1;
@@ -97,8 +96,8 @@ class TDivision {
                                              // divideLongByInt
                 // decrease guessDigit by 1 while leftHand > rightHand
                 if (guessDigit != 0) {
-                    long leftHand = 0;
-                    long rightHand = 0;
+                    long leftHand;
+                    long rightHand;
                     boolean rOverflowed = false;
                     guessDigit++; // to have the proper value in the loop
                                   // below
@@ -108,7 +107,7 @@ class TDivision {
                             break;
                         }
                         // leftHand always fits in an unsigned long
-                        leftHand = (guessDigit & 0xffffffffL) * (normB[normBLength - 2] & 0xffffffffL);
+                        leftHand = (guessDigit & 0xffffffffL) * (normB[bLength - 2] & 0xffffffffL);
                         /*
                          * rightHand can overflow; in this case the loop
                          * condition will be true in the next step of the loop
@@ -131,15 +130,15 @@ class TDivision {
             // Step D4: multiply normB by guessDigit and subtract the production
             // from normA.
             if (guessDigit != 0) {
-                int borrow = TDivision.multiplyAndSubtract(normA, j - normBLength, normB, normBLength, guessDigit);
+                int borrow = TDivision.multiplyAndSubtract(normA, j - bLength, normB, bLength, guessDigit);
                 // Step D5: check the borrow
                 if (borrow != 0) {
                     // Step D6: compensating addition
                     guessDigit--;
                     long carry = 0;
-                    for (int k = 0; k < normBLength; k++) {
-                        carry += (normA[j - normBLength + k] & 0xffffffffL) + (normB[k] & 0xffffffffL);
-                        normA[j - normBLength + k] = (int) carry;
+                    for (int k = 0; k < bLength; k++) {
+                        carry += (normA[j - bLength + k] & 0xffffffffL) + (normB[k] & 0xffffffffL);
+                        normA[j - bLength + k] = (int) carry;
                         carry >>>= 32;
                     }
                 }
@@ -156,7 +155,7 @@ class TDivision {
          */
         if (divisorShift != 0) {
             // reuse normB
-            TBitLevel.shiftRight(normB, normBLength, normA, 0, divisorShift);
+            TBitLevel.shiftRight(normB, bLength, normA, 0, divisorShift);
             return normB;
         }
         System.arraycopy(normA, 0, normB, 0, bLength);
@@ -328,11 +327,10 @@ class TDivision {
             }
             return new TBigInteger[] { TBigInteger.valueOf(quo), TBigInteger.valueOf(rem) };
         }
-        int quotientLength = valLen;
         int quotientSign = valSign == divisorSign ? 1 : -1;
-        int[] quotientDigits = new int[quotientLength];
+        int[] quotientDigits = new int[valLen];
         int[] remainderDigits = { TDivision.divideArrayByInt(quotientDigits, valDigits, valLen, divisor) };
-        TBigInteger result0 = new TBigInteger(quotientSign, quotientLength, quotientDigits);
+        TBigInteger result0 = new TBigInteger(quotientSign, valLen, quotientDigits);
         TBigInteger result1 = new TBigInteger(valSign, 1, remainderDigits);
         result0.cutOffLeadingZeroes();
         result1.cutOffLeadingZeroes();
@@ -373,10 +371,6 @@ class TDivision {
     }
 
     /**
-     * @param m
-     *            a positive modulus Return the greatest common divisor of op1
-     *            and op2,
-     *
      * @param op1
      *            must be greater than zero
      * @param op2
@@ -763,7 +757,6 @@ class TDivision {
      * Koc - Montgomery Reduction with Even Modulus</i>. The square and multiply
      * algorithm and the Montgomery Reduction.
      *
-     * @ar.org.fitc.ref "C. K. Koc - Montgomery Reduction with Even Modulus"
      * @see TBigInteger#modPow(TBigInteger, TBigInteger)
      */
     static TBigInteger evenModPow(TBigInteger base, TBigInteger exponent, TBigInteger modulus) {
@@ -857,17 +850,10 @@ class TDivision {
      * {@code int} arrays. The arrays are supposed in <i>little endian</i>
      * notation.
      *
-     * @param a
-     *            The first factor of the product.
-     * @param b
-     *            The second factor of the product.
-     * @param modulus
-     *            The modulus of the operations. Z<sub>modulus</sub>.
-     * @param n2
-     *            The digit modulus'[0].
-     * @ar.org.fitc.ref "C. K. Koc - Analyzing and Comparing Montgomery
-     *                  Multiplication Algorithms"
-     * @see #modPowOdd(TBigInteger, TBigInteger, TBigInteger)
+     * @param a The first factor of the product.
+     * @param b The second factor of the product.
+     * @param modulus The modulus of the operations. Z<sub>modulus</sub>.
+     * @param n2 The digit modulus'[0].
      */
     static TBigInteger monPro(TBigInteger a, TBigInteger b, TBigInteger modulus, int n2) {
         int modulusLen = modulus.numberLength;
@@ -881,9 +867,6 @@ class TDivision {
 
     /**
      * Performs the final reduction of the Montgomery algorithm.
-     *
-     * @see #monPro(TBigInteger, TBigInteger, TBigInteger, long)
-     * @see #monSquare(TBigInteger, TBigInteger, long)
      */
     static TBigInteger finalSubtraction(int[] res, TBigInteger modulus) {
 

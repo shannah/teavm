@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -76,8 +76,8 @@ class IrreducibleGraphConverter {
             sharedDom = djGraph.getDomTree().commonDominatorOf(sharedDom, scc[i]);
         }
 
-        for (int i = 0; i < scc.length; ++i) {
-            if (scc[i] == sharedDom) {
+        for (int sccRepr : scc) {
+            if (sccRepr == sharedDom) {
                 collapse(djGraph, scc, nodeMap);
                 return;
             }
@@ -246,15 +246,14 @@ class IrreducibleGraphConverter {
 
     private static int[] flatten(int[][] array) {
         int count = 0;
-        for (int i = 0; i < array.length; ++i) {
-            count += array[i].length;
+        for (int[] elem : array) {
+            count += elem.length;
         }
         int[] flat = new int[count];
         int index = 0;
-        for (int i = 0; i < array.length; ++i) {
-            int[] part = array[i];
-            for (int j = 0; j < part.length; ++j) {
-                flat[index++] = part[j];
+        for (int[] part : array) {
+            for (int elem : part) {
+                flat[index++] = elem;
             }
         }
         return flat;
@@ -277,7 +276,7 @@ class IrreducibleGraphConverter {
         private DJGraph graph;
         private int level;
 
-        public DJGraphNodeFilter(DJGraph graph, int level) {
+        DJGraphNodeFilter(DJGraph graph, int level) {
             this.graph = graph;
             this.level = level;
         }

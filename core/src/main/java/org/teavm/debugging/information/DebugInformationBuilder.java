@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -152,7 +152,7 @@ public class DebugInformationBuilder implements DebugInformationEmitter {
     @Override
     public DeferredCallSite emitCallSite() {
         final RecordArrayBuilder.Record record = add(callSiteMapping, DebuggerCallSite.NONE);
-        DeferredCallSite callSite = new DeferredCallSite() {
+        return new DeferredCallSite() {
             @Override
             public void setVirtualMethod(MethodReference method) {
                 record.set(2, DebuggerCallSite.VIRTUAL);
@@ -181,7 +181,6 @@ public class DebugInformationBuilder implements DebugInformationEmitter {
                 return exactMethodIndex;
             }
         };
-        return callSite;
     }
 
     @Override

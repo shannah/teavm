@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -124,30 +123,30 @@ public final class TPattern implements Serializable {
     /**
      * Current <code>pattern</code> to be compiled;
      */
-    private transient TLexer lexemes = null;
+    private transient TLexer lexemes;
 
     /**
      * Pattern compile flags;
      */
-    private int flags = 0;
+    private int flags;
 
     /*
      * All backreferences that may be used in pattern.
      */
-    transient private TFSet backRefs[] = new TFSet[BACK_REF_NUMBER];
+    private transient TFSet[] backRefs = new TFSet[BACK_REF_NUMBER];
 
     /*
      * Is true if backreferenced sets replacement is needed
      */
-    transient private boolean needsBackRefReplacement = false;
+    private transient boolean needsBackRefReplacement;
 
-    transient private int globalGroupIndex = -1;
+    private transient int globalGroupIndex = -1;
 
-    transient private int compCount = -1;
+    private transient int compCount = -1;
 
-    transient private int consCount = -1;
+    private transient int consCount = -1;
 
-    transient TAbstractSet start = null;
+    transient TAbstractSet start;
 
     /**
      * Returns a {@link TMatcher} for the {@code Pattern} and a given input. The
@@ -213,7 +212,7 @@ public final class TPattern implements Serializable {
              * discard trailing empty strings
              */
             if (limit == 0) {
-                while (--index >= 0 && res.get(index).toString().length() == 0) {
+                while (--index >= 0 && res.get(index).toString().isEmpty()) {
                     res.remove(index);
                 }
             }
@@ -224,7 +223,7 @@ public final class TPattern implements Serializable {
     /**
      * Splits a given input around occurrences of a regular expression. This is
      * a convenience method that is equivalent to calling the method
-     * {@link #split(java.lang.CharSequence, int)} with a limit of 0.
+     * {@link #split(CharSequence, int)} with a limit of 0.
      *
      * @param input
      *            the input sequence.
@@ -247,7 +246,7 @@ public final class TPattern implements Serializable {
 
     @Override
     public String toString() {
-        return this.pattern();
+        return pattern();
     }
 
     /**
@@ -266,7 +265,7 @@ public final class TPattern implements Serializable {
      * @see #UNIX_LINES
      */
     public int flags() {
-        return this.flags;
+        return flags;
     }
 
     /**
@@ -316,7 +315,7 @@ public final class TPattern implements Serializable {
      * @return Compiled pattern
      */
     private TPattern compileImpl(String pattern, int flags) throws TPatternSyntaxException {
-        this.lexemes = new TLexer(pattern, flags);
+        lexemes = new TLexer(pattern, flags);
         this.flags = flags;
 
         start = processExpression(-1, this.flags, null);
@@ -332,12 +331,14 @@ public final class TPattern implements Serializable {
      */
     private TAbstractSet processAlternations(TAbstractSet last) {
         TCharClass auxRange = new TCharClass(hasFlag(TPattern.CASE_INSENSITIVE), hasFlag(TPattern.UNICODE_CASE));
-        while (!lexemes.isEmpty() &&
-                lexemes.isLetter() &&
-                (lexemes.lookAhead() == 0 || lexemes.lookAhead() == TLexer.CHAR_VERTICAL_BAR || lexemes.lookAhead() == TLexer.CHAR_RIGHT_PARENTHESIS)) {
+        while (!lexemes.isEmpty()
+                && lexemes.isLetter()
+                && (lexemes.lookAhead() == 0 || lexemes.lookAhead() == TLexer.CHAR_VERTICAL_BAR
+                        || lexemes.lookAhead() == TLexer.CHAR_RIGHT_PARENTHESIS)) {
             auxRange.add(lexemes.next());
-            if (lexemes.peek() == TLexer.CHAR_VERTICAL_BAR)
+            if (lexemes.peek() == TLexer.CHAR_VERTICAL_BAR) {
                 lexemes.next();
+            }
         }
         TAbstractSet rangeSet = processRangeSet(auxRange);
         rangeSet.setNext(last);
@@ -715,8 +716,8 @@ public final class TPattern implements Serializable {
                 }
 
                 case TLexer.QUANT_COMP: {
-                    TCompositeGroupQuantifierSet q = new TCompositeGroupQuantifierSet((TQuantifier)lexemes.nextSpecial(),
-                            term, last, TLexer.QUANT_ALT, ++compCount);
+                    TCompositeGroupQuantifierSet q = new TCompositeGroupQuantifierSet(
+                            (TQuantifier) lexemes.nextSpecial(), term, last, TLexer.QUANT_ALT, ++compCount);
                     term.setNext(q);
                     return q;
                 }
@@ -738,8 +739,9 @@ public final class TPattern implements Serializable {
             }
         } else {
             TLeafSet leaf = null;
-            if (term != null)
-                leaf = (TLeafSet)term;
+            if (term != null) {
+                leaf = (TLeafSet) term;
+            }
             switch (quant) {
                 case TLexer.QUANT_STAR:
                 case TLexer.QUANT_PLUS: {
@@ -781,7 +783,8 @@ public final class TPattern implements Serializable {
                 }
 
                 case TLexer.QUANT_COMP: {
-                    return new TCompositeQuantifierSet((TQuantifier)lexemes.nextSpecial(), leaf, last, TLexer.QUANT_COMP);
+                    return new TCompositeQuantifierSet((TQuantifier)lexemes.nextSpecial(), leaf, last,
+                            TLexer.QUANT_COMP);
                 }
 
                 case TLexer.QUANT_COMP_P: {
@@ -822,7 +825,7 @@ public final class TPattern implements Serializable {
                     }
                     lexemes.next();
                 }
-            } else
+            } else {
                 switch (ch) {
                     case TLexer.CHAR_LEFT_SQUARE_BRACKET: {
                         lexemes.next();
@@ -833,8 +836,9 @@ public final class TPattern implements Serializable {
                         }
 
                         term = processRange(negative, last);
-                        if (lexemes.peek() != TLexer.CHAR_RIGHT_SQUARE_BRACKET)
+                        if (lexemes.peek() != TLexer.CHAR_RIGHT_SQUARE_BRACKET) {
                             throw new TPatternSyntaxException("", lexemes.toString(), lexemes.getIndex());
+                        }
                         lexemes.setMode(TLexer.MODE_PATTERN);
                         lexemes.next();
                         break;
@@ -949,13 +953,13 @@ public final class TPattern implements Serializable {
                     }
 
                     case 0: {
-                        TAbstractCharClass cc = null;
-                        if ((cc = (TAbstractCharClass)lexemes.peekSpecial()) != null) {
+                        TAbstractCharClass cc;
+                        if ((cc = (TAbstractCharClass) lexemes.peekSpecial()) != null) {
                             term = processRangeSet(cc);
                         } else if (!lexemes.isEmpty()) {
 
                             // ch == 0
-                            term = new TCharSet((char)ch);
+                            term = new TCharSet((char) ch);
                         } else {
                             term = new TEmptySet(last);
                             break;
@@ -978,10 +982,11 @@ public final class TPattern implements Serializable {
                             }
                         } else {
                             throw new TPatternSyntaxException((lexemes.isSpecial() ? lexemes.peekSpecial().toString()
-                                    : Character.toString((char)ch)), lexemes.toString(), lexemes.getIndex());
+                                    : Character.toString((char) ch)), lexemes.toString(), lexemes.getIndex());
                         }
                     }
                 }
+            }
         } while (ch == TLexer.CHAR_FLAGS);
         return term;
     }
@@ -1004,12 +1009,14 @@ public final class TPattern implements Serializable {
         boolean notClosed = false;
         boolean firstInClass = true;
 
-        while (!lexemes.isEmpty() && (notClosed = (lexemes.peek()) != TLexer.CHAR_RIGHT_SQUARE_BRACKET || firstInClass)) {
+        while (!lexemes.isEmpty() && (notClosed = (lexemes.peek()) != TLexer.CHAR_RIGHT_SQUARE_BRACKET
+                || firstInClass)) {
             switch (lexemes.peek()) {
 
                 case TLexer.CHAR_RIGHT_SQUARE_BRACKET: {
-                    if (buffer >= 0)
+                    if (buffer >= 0) {
                         res.add(buffer);
+                    }
                     buffer = ']';
                     lexemes.next();
                     break;
@@ -1026,18 +1033,20 @@ public final class TPattern implements Serializable {
                         negative = true;
                     }
 
-                    if (intersection)
+                    if (intersection) {
                         res.intersection(processRangeExpression(negative));
-                    else
+                    } else {
                         res.union(processRangeExpression(negative));
+                    }
                     intersection = false;
                     lexemes.next();
                     break;
                 }
 
                 case TLexer.CHAR_AMPERSAND: {
-                    if (buffer >= 0)
+                    if (buffer >= 0) {
                         res.add(buffer);
+                    }
                     buffer = lexemes.next();
 
                     /*
@@ -1059,7 +1068,7 @@ public final class TPattern implements Serializable {
 
                                 // ignore "&&" at "[X&&]" ending where X !=
                                 // empty string
-                                if (!(lexemes.peek() == TLexer.CHAR_RIGHT_SQUARE_BRACKET)) {
+                                if (lexemes.peek() != TLexer.CHAR_RIGHT_SQUARE_BRACKET) {
                                     res.intersection(processRangeExpression(false));
                                 }
                             }
@@ -1078,8 +1087,9 @@ public final class TPattern implements Serializable {
                     if (firstInClass || lexemes.lookAhead() == TLexer.CHAR_RIGHT_SQUARE_BRACKET ||
                             lexemes.lookAhead() == TLexer.CHAR_LEFT_SQUARE_BRACKET || buffer < 0) {
                         // treat hypen as normal character
-                        if (buffer >= 0)
+                        if (buffer >= 0) {
                             res.add(buffer);
+                        }
                         buffer = '-';
                         lexemes.next();
                         // range
@@ -1110,16 +1120,18 @@ public final class TPattern implements Serializable {
                 }
 
                 case TLexer.CHAR_CARET: {
-                    if (buffer >= 0)
+                    if (buffer >= 0) {
                         res.add(buffer);
+                    }
                     buffer = '^';
                     lexemes.next();
                     break;
                 }
 
                 case 0: {
-                    if (buffer >= 0)
+                    if (buffer >= 0) {
                         res.add(buffer);
+                    }
                     TAbstractCharClass cs = (TAbstractCharClass)lexemes.peekSpecial();
                     if (cs != null) {
                         res.add(cs);
@@ -1133,8 +1145,9 @@ public final class TPattern implements Serializable {
                 }
 
                 default: {
-                    if (buffer >= 0)
+                    if (buffer >= 0) {
                         res.add(buffer);
+                    }
                     buffer = lexemes.next();
                     break;
                 }
@@ -1145,8 +1158,9 @@ public final class TPattern implements Serializable {
         if (notClosed) {
             throw new TPatternSyntaxException("", pattern(), lexemes.getIndex() - 1);
         }
-        if (buffer >= 0)
+        if (buffer >= 0) {
             res.add(buffer);
+        }
         return res;
     }
 
@@ -1268,7 +1282,7 @@ public final class TPattern implements Serializable {
      *
      * @return true if and only if the {@code Pattern} matches the input.
      *
-     * @see TPattern#compile(java.lang.String, int)
+     * @see TPattern#compile(String, int)
      * @see TMatcher#matches()
      */
     public static boolean matches(String regex, CharSequence input) {
@@ -1305,11 +1319,11 @@ public final class TPattern implements Serializable {
     }
 
     int compCount() {
-        return this.compCount + 1;
+        return compCount + 1;
     }
 
     int consCount() {
-        return this.consCount + 1;
+        return consCount + 1;
     }
 
     /**

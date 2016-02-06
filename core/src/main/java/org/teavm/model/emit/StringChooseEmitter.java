@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public class StringChooseEmitter {
         this.pe = pe;
         this.insn = insn;
         this.joinBlock = joinBlock;
-        this.otherwiseBlock = pe.prepareBlock();
+        otherwiseBlock = pe.prepareBlock();
         this.testValue = testValue;
         insn.setCondition(testValue.invokeVirtual("hashCode", int.class).getVariable());
         insn.setDefaultTarget(otherwiseBlock);

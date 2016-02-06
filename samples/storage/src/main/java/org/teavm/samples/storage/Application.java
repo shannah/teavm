@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public final class Application {
             String key = document.getElementById("key").<HTMLInputElement>cast().getValue();
             String value = document.getElementById("value").<HTMLInputElement>cast().getValue();
 
-            if (key != null && key.length() > 0 && value != null && value.length() > 0) {
+            if (key != null && !key.isEmpty() && value != null && !value.isEmpty()) {
                 storage.setItem(key, value);
                 draw();
             }
@@ -51,7 +51,7 @@ public final class Application {
         HTMLButtonElement deleteButton = document.getElementById("delete-button").cast();
         deleteButton.listenClick(e -> {
             String key = document.getElementById("key").<HTMLInputElement>cast().getValue();
-            if (key != null && key.length() > 0) {
+            if (key != null && !key.isEmpty()) {
                 storage.removeItem(key);
                 draw();
             }

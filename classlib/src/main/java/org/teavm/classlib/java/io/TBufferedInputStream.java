@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -207,7 +207,7 @@ public class TBufferedInputStream extends TFilterInputStream {
         if (buf == null) {
             throw new TIOException(TString.wrap("Stream is closed"));
         }
-        if (-1 == markpos) {
+        if (markpos == -1) {
             throw new TIOException(TString.wrap("Mark has been invalidated."));
         }
         pos = markpos;

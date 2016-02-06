@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -74,10 +74,8 @@ class TestEntryPointTransformer implements ClassHolderTransformer, TeaVMPlugin {
         ProgramEmitter pe = ProgramEmitter.create(method, innerSource);
         ValueEmitter testCaseVar = pe.getField(TestEntryPoint.class, "testCase", Object.class);
         pe.when(testCaseVar.isNull())
-            .thenDo(() -> {
-                pe.setField(TestEntryPoint.class, "testCase",
-                        pe.construct(testMethod.getClassName()).cast(Object.class));
-            });
+            .thenDo(() -> pe.setField(TestEntryPoint.class, "testCase",
+                    pe.construct(testMethod.getClassName()).cast(Object.class)));
         pe.getField(TestEntryPoint.class, "testCase", Object.class)
                 .cast(ValueType.object(testMethod.getClassName()))
                 .invokeSpecial(testMethod);

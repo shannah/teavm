@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ public class CountriesGenerator implements MetadataGenerator {
         int index = 0;
         while (index < row.length()) {
             char c = row.charAt(index);
-            int next = index;
+            int next;
             if (c == '"') {
                 ++index;
                 StringBuilder sb = new StringBuilder();

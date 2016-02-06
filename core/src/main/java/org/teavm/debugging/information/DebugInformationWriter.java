@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ class DebugInformationWriter {
     private DataOutput output;
     private int lastNumber;
 
-    public DebugInformationWriter(DataOutput output) {
+    DebugInformationWriter(DataOutput output) {
         this.output = output;
     }
 
@@ -71,8 +71,7 @@ class DebugInformationWriter {
     }
 
     private void writeClassMetadata(List<ClassMetadata> classes) throws IOException {
-        for (int i = 0; i < classes.size(); ++i) {
-            ClassMetadata cls = classes.get(i);
+        for (ClassMetadata cls : classes) {
             writeUnsignedNumber(cls.parentId != null ? cls.parentId + 1 : 0);
             writeUnsignedNumber(cls.fieldMap.size());
             List<Integer> keys = new ArrayList<>(cls.fieldMap.keySet());
@@ -97,8 +96,8 @@ class DebugInformationWriter {
 
     private void writeStringArray(String[] array) throws IOException {
         writeUnsignedNumber(array.length);
-        for (int i = 0; i < array.length; ++i) {
-            writeString(array[i]);
+        for (String anArray : array) {
+            writeString(anArray);
         }
     }
 
@@ -106,8 +105,7 @@ class DebugInformationWriter {
         int lastClass = 0;
         int lastMethod = 0;
         writeUnsignedNumber(array.length);
-        for (int i = 0; i < array.length; ++i) {
-            long item = array[i];
+        for (long item : array) {
             int classIndex = (int) (item >> 32);
             int methodIndex = (int) item;
             writeNumber(classIndex - lastClass);

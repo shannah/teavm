@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -150,10 +150,10 @@ public abstract class TAbstractCollection<E> extends TObject implements TCollect
         sb.append("[");
         TIterator<E> iter = iterator();
         if (iter.hasNext()) {
-            sb.append(String.valueOf(iter.next()));
+            sb.append(iter.next());
         }
         while (iter.hasNext()) {
-            sb.append(", ").append(String.valueOf(iter.next()));
+            sb.append(", ").append(iter.next());
         }
         sb.append("]");
         return sb.toString();

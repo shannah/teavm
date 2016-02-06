@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -265,7 +265,6 @@ public class TLong extends TNumber implements TComparable<TLong> {
             n |= 2;
         }
         if (i >>> 1 != 0) {
-            i >>>= 1;
             n |= 1;
         }
         return SIZE - n - 1;
@@ -297,7 +296,6 @@ public class TLong extends TNumber implements TComparable<TLong> {
             n |= 2;
         }
         if (i << 1 != 0) {
-            i <<= 1;
             n |= 1;
         }
         return SIZE - n - 1;

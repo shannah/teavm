@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class DJGraph {
             throw new IllegalArgumentException("Node count " + src.size() + " is not equal to weight array "
                     + weight.length);
         }
-        this.cfg = new MutableDirectedGraph(src);
+        cfg = new MutableDirectedGraph(src);
         domTree = GraphUtils.buildDominatorTree(src);
         buildGraph(src);
         buildLevels();

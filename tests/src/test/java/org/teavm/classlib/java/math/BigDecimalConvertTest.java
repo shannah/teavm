@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -271,7 +270,8 @@ public class BigDecimalConvertTest {
     @Test
     public void testToBigIntegerPos3() {
         String a = "123809648392384754573567356745735.63567890295784902768787678287E+45";
-        BigInteger bNumber = new BigInteger("123809648392384754573567356745735635678902957849027687876782870000000000000000");
+        BigInteger bNumber = new BigInteger("12380964839238475457356735674573563567890295784902768787678287"
+                + "0000000000000000");
         BigDecimal aNumber = new BigDecimal(a);
         BigInteger result = aNumber.toBigInteger();
         assertTrue("incorrect value", result.equals(bNumber));
@@ -307,7 +307,8 @@ public class BigDecimalConvertTest {
     @Test
     public void testToBigIntegerNeg3() {
         String a = "-123809648392384754573567356745735.63567890295784902768787678287E+45";
-        BigInteger bNumber = new BigInteger("-123809648392384754573567356745735635678902957849027687876782870000000000000000");
+        BigInteger bNumber = new BigInteger("-12380964839238475457356735674573563567890295784902768787678287"
+                + "0000000000000000");
         BigDecimal aNumber = new BigDecimal(a);
         BigInteger result = aNumber.toBigInteger();
          assertTrue("incorrect value", result.equals(bNumber));
@@ -347,8 +348,8 @@ public class BigDecimalConvertTest {
         try {
             aNumber.toBigIntegerExact();
             fail("java.lang.ArithmeticException has not been thrown");
-        } catch (java.lang.ArithmeticException e) {
-            return;
+        } catch (ArithmeticException e) {
+            // As expected
         }
     }
 
@@ -404,7 +405,8 @@ public class BigDecimalConvertTest {
     public void testToPlainStringNegNegExp() {
         String a = "-123809648392384754573567356745735.63567890295784902768787678287E-100";
         BigDecimal aNumber = new BigDecimal(a);
-        String result = "-0.000000000000000000000000000000000000000000000000000000000000000000012380964839238475457356735674573563567890295784902768787678287";
+        String result = "-0.0000000000000000000000000000000000000000000000000000000000000000000"
+                + "12380964839238475457356735674573563567890295784902768787678287";
         assertTrue("incorrect value", aNumber.toPlainString().equals(result));
     }
 
@@ -417,7 +419,8 @@ public class BigDecimalConvertTest {
     public void testToPlainStringNegPosExp() {
         String a = "-123809648392384754573567356745735.63567890295784902768787678287E100";
         BigDecimal aNumber = new BigDecimal(a);
-        String result = "-1238096483923847545735673567457356356789029578490276878767828700000000000000000000000000000000000000000000000000000000000000000000000";
+        String result = "-12380964839238475457356735674573563567890295784902768787678287"
+                + "00000000000000000000000000000000000000000000000000000000000000000000000";
         assertTrue("incorrect value", aNumber.toPlainString().equals(result));
     }
 
@@ -430,7 +433,8 @@ public class BigDecimalConvertTest {
     public void testToPlainStringPosNegExp() {
         String a = "123809648392384754573567356745735.63567890295784902768787678287E-100";
         BigDecimal aNumber = new BigDecimal(a);
-        String result = "0.000000000000000000000000000000000000000000000000000000000000000000012380964839238475457356735674573563567890295784902768787678287";
+        String result = "0.0000000000000000000000000000000000000000000000000000000000000000000"
+                + "12380964839238475457356735674573563567890295784902768787678287";
         assertTrue("incorrect value", aNumber.toPlainString().equals(result));
     }
 
@@ -443,7 +447,8 @@ public class BigDecimalConvertTest {
     public void testToPlainStringPosPosExp() {
         String a = "123809648392384754573567356745735.63567890295784902768787678287E+100";
         BigDecimal aNumber = new BigDecimal(a);
-        String result = "1238096483923847545735673567457356356789029578490276878767828700000000000000000000000000000000000000000000000000000000000000000000000";
+        String result = "12380964839238475457356735674573563567890295784902768787678287"
+                + "00000000000000000000000000000000000000000000000000000000000000000000000";
         assertTrue("incorrect value", aNumber.toPlainString().equals(result));
     }
 
@@ -561,7 +566,7 @@ public class BigDecimalConvertTest {
             BigDecimal.valueOf(a);
             fail("NumberFormatException has not been thrown for Double.NaN");
         } catch (NumberFormatException e) {
-            return;
+            // As expected
         }
     }
 }

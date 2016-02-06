@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public abstract class TCharsetEncoder {
 
     protected TCharsetEncoder(TCharset cs, float averageBytesPerChar, float maxBytesPerChar, byte[] replacement) {
         checkReplacement(replacement);
-        this.charset = cs;
+        charset = cs;
         this.replacement = replacement.clone();
         this.averageBytesPerChar = averageBytesPerChar;
         this.maxBytesPerChar = maxBytesPerChar;
@@ -59,7 +59,7 @@ public abstract class TCharsetEncoder {
 
     public final TCharsetEncoder replaceWith(byte[] newReplacement) {
         checkReplacement(newReplacement);
-        this.replacement = newReplacement.clone();
+        replacement = newReplacement.clone();
         implReplaceWith(newReplacement);
         return this;
     }

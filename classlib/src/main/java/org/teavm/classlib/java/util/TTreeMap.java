@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ import org.teavm.classlib.java.io.TSerializable;
 import org.teavm.classlib.java.lang.TCloneable;
 import org.teavm.classlib.java.lang.TComparable;
 import org.teavm.classlib.java.lang.TIllegalArgumentException;
+
+import java.util.Objects;
 
 public class TTreeMap<K, V> extends TAbstractMap<K, V> implements TCloneable, TSerializable, TNavigableMap<K, V> {
     static class TreeNode<K, V> extends SimpleEntry<K, V> {
@@ -103,7 +105,7 @@ public class TTreeMap<K, V> extends TAbstractMap<K, V> implements TCloneable, TS
     }
 
     public TTreeMap(TComparator<? super K> comparator) {
-        this.originalComparator = comparator;
+        originalComparator = comparator;
         if (comparator == null) {
             comparator = new TComparator<Object>() {
                 @SuppressWarnings("unchecked") @Override public int compare(Object o1, Object o2) {
@@ -120,11 +122,7 @@ public class TTreeMap<K, V> extends TAbstractMap<K, V> implements TCloneable, TS
         @SuppressWarnings("unchecked")
         Entry<K, V>[] entries = (Entry<K, V>[]) new Entry<?, ?>[m.size()];
         entries = m.entrySet().toArray(entries);
-        TArrays.sort(entries, new TComparator<Entry<K, V>>() {
-            @Override public int compare(Entry<K, V> o1, Entry<K, V> o2) {
-                return comparator.compare(o1.getKey(), o2.getKey());
-            }
-        });
+        TArrays.sort(entries, (o1, o2) -> comparator.compare(o1.getKey(), o2.getKey()));
         fillMap(entries);
     }
 
@@ -138,11 +136,7 @@ public class TTreeMap<K, V> extends TAbstractMap<K, V> implements TCloneable, TS
 
     private void ensureRevertedComparator() {
         if (revertedComparator == null) {
-            revertedComparator = new TComparator<K>() {
-                @Override public int compare(K o1, K o2) {
-                    return -originalComparator.compare(o1, o2);
-                }
-            };
+            revertedComparator = (o1, o2) -> -originalComparator.compare(o1, o2);
         }
     }
 
@@ -670,7 +664,7 @@ public class TTreeMap<K, V> extends TAbstractMap<K, V> implements TCloneable, TS
                 }
             }
             TreeNode<?, V> node = owner.findExact(key);
-            return node != null && node.equals(o);
+            return Objects.equals(node, o);
         }
 
         @Override

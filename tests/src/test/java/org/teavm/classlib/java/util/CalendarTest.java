@@ -1,17 +1,17 @@
 /*
- * Copyright 2015 Steve Hannah.
+ *  Copyright 2016 "Alexey Andreev"
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 package org.teavm.classlib.java.util;
 
@@ -30,9 +30,11 @@ import static org.junit.Assert.*;
 public class CalendarTest  {
     Locale defaultLocale;
 
-    /**
-     * @tests java.util.Calendar#set(int, int)
-     */
+    public CalendarTest() {
+        defaultLocale = Locale.getDefault();
+        Locale.setDefault(Locale.US);
+    }
+
     @Test
     public void test_setII() {
         // Test for correct result defined by the last set field
@@ -375,9 +377,6 @@ public class CalendarTest  {
         assertTrue(newValue != oldValue);
     }
 
-    /**
-     * @tests java.util.Calendar#setTime(java.util.Date)
-     */
     @Test
     public void test_setTimeLjava_util_Date() {
         Calendar cal = Calendar.getInstance();
@@ -391,9 +390,6 @@ public class CalendarTest  {
                 && cal.get(Calendar.DATE) == 25);
     }
 
-    /**
-     * @tests java.util.Calendar#compareTo(Calendar)
-     */
     @Test
     public void test_compareToLjava_util_Calendar_null() {
         Calendar cal = Calendar.getInstance();
@@ -405,9 +401,6 @@ public class CalendarTest  {
         }
     }
 
-    /**
-     * @tests java.util.Calendar#compareTo(Calendar)
-     */
     @Test
     public void test_compareToLjava_util_Calendar() {
         Calendar cal = Calendar.getInstance();
@@ -430,9 +423,6 @@ public class CalendarTest  {
         assertEquals(-1, cal.compareTo(anotherCal));
     }
 
-    /**
-     * @tests java.util.Calendar#clone()
-     */
     //@Test
     //public void test_clone() {
     //    // Regression for HARMONY-475
@@ -444,9 +434,6 @@ public class CalendarTest  {
     //            .getTimeZone());
     //}
 
-    /**
-     * @tests java.util.Calendar#getTimeInMillis()
-     */
     @Test
     public void test_getTimeInMillis() {
         Calendar cal = Calendar.getInstance();
@@ -464,10 +451,6 @@ public class CalendarTest  {
         assertEquals(6017546357372606464L, cal.getTimeInMillis());
     }
 
-    /**
-     * @tests java.util.Calendar#before(Object)
-     * @tests java.util.Calendar#after(Object)
-     */
     @Test
     public void test_before_after() {
         Calendar early = Calendar.getInstance();
@@ -545,10 +528,6 @@ public class CalendarTest  {
         assertFalse(early.after(late));
     }
 
-    /**
-     * @tests java.util.Calendar#clear()
-     * @tests java.util.Calendar#clear(int)
-     */
     @Test
     public void test_clear() {
         Calendar calendar = Calendar.getInstance();
@@ -585,9 +564,6 @@ public class CalendarTest  {
         }
     }
 
-    /**
-     * @tests java.util.Calendar#isSet(int)
-     */
     @Test
     public void test_isSet() {
         Calendar calendar = Calendar.getInstance();
@@ -597,10 +573,6 @@ public class CalendarTest  {
         }
     }
 
-    /**
-     * @tests java.util.Calendar#getInstance(Locale)
-     * @tests java.util.Calendar#getInstance(TimeZone, Locale)
-     */
     @Test
     public void test_getInstance() {
         // test getInstance(Locale)
@@ -622,9 +594,6 @@ public class CalendarTest  {
                 .getID(), est_calendar.getTimeZone().getID());
     }
 
-    /**
-     * @tests java.util.Calendar#internalGet(int)
-     */
     @Test
     public void test_internalGet() {
         MockGregorianCalendar c = new MockGregorianCalendar();
@@ -632,18 +601,12 @@ public class CalendarTest  {
         assertEquals(0, c.internal_get(Calendar.YEAR));
     }
 
-    /**
-     * @tests java.util.Calendar#hashCode()
-     */
     @Test
     public void test_hashcode() {
         Calendar calendar = Calendar.getInstance(Locale.JAPAN);
         assertTrue(calendar.hashCode() == calendar.hashCode());
     }
 
-    /**
-     * @tests java.util.Calendar#roll(int, int)
-     */
     @Test
     public void test_roll() {
         Calendar calendar = Calendar.getInstance();
@@ -674,12 +637,9 @@ public class CalendarTest  {
         //Should be the current time with no interrogation in the string.
         assertEquals(-1, calendar.toString().indexOf("?"));
         calendar.clear();
-        assertTrue(0 <= calendar.toString().indexOf("?"));
+        assertTrue(calendar.toString().contains("?"));
     }
 
-    /**
-     * @tests serialization/deserialization.
-     */
     //public void testSerializationSelf() throws Exception {
     //    Calendar calendar = Calendar.getInstance();
     //    calendar.set(2008, 3, 20, 17, 28, 12);
@@ -691,7 +651,7 @@ public class CalendarTest  {
         private static final long serialVersionUID = 1L;
 
         public int internal_get(int field) {
-            return super.internalGet(field);
+            return internalGet(field);
         }
     }
 
@@ -700,7 +660,6 @@ public class CalendarTest  {
         private static final long serialVersionUID = 1L;
 
         public MockCalendar() {
-            super();
         }
 
         @Override
@@ -740,10 +699,6 @@ public class CalendarTest  {
         }
     }
 
-    /**
-     * @tests {@link java.util.Calendar#getDisplayName(int, int, Locale)}
-     * @since 1.6
-     */
 //    public void test_getDisplayNameIILjava_util_Locale() {
 //        Calendar cal = Calendar.getInstance();
 //        for (int field = 0; field < Calendar.FIELD_COUNT; field++) {
@@ -893,10 +848,6 @@ public class CalendarTest  {
 //        }
 //    }
 
-    /**
-     * @tests {@link java.util.Calendar#getDisplayNames(int, int, Locale)}
-     * @since 1.6
-     */
 //    public void test_getDisplayNamesIILjava_util_Locale() {
 //        assertEquals(0, Calendar.ALL_STYLES);
 //        assertEquals(1, Calendar.SHORT);
@@ -1025,30 +976,15 @@ public class CalendarTest  {
 //        }
 //    }
 
-    /**
-     * @tests {@link java.util.Calendar#getActualMaximum(int)}
-     */
     @Test
     public void test_getActualMaximum_I() {
         Calendar c = new MockCalendar();
         assertEquals("should be equal to 0", 0, c.getActualMaximum(0));
     }
 
-    /**
-     * @tests {@link java.util.Calendar#getActualMinimum(int)}
-     */
     @Test
     public void test_getActualMinimum_I() {
         Calendar c = new MockCalendar();
         assertEquals("should be equal to 0", 0, c.getActualMinimum(0));
-    }
-
-    protected void setUp() {
-        defaultLocale = Locale.getDefault();
-        Locale.setDefault(Locale.US);
-    }
-
-    protected void tearDown() {
-        Locale.setDefault(defaultLocale);
     }
 }

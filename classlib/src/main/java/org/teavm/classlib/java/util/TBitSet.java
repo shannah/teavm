@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -89,14 +89,14 @@ public class TBitSet extends TObject implements TCloneable, TSerializable {
             case 3:
                 bytes[j++] = (byte) data[i];
                 bytes[j++] = (byte) (data[i] >>> 8);
-                bytes[j++] = (byte) (data[i] >>> 16);
+                bytes[j] = (byte) (data[i] >>> 16);
                 break;
             case 2:
                 bytes[j++] = (byte) data[i];
-                bytes[j++] = (byte) (data[i] >>> 8);
+                bytes[j] = (byte) (data[i] >>> 8);
                 break;
             case 1:
-                bytes[j++] = (byte) data[i];
+                bytes[j] = (byte) data[i];
                 break;
         }
         return bytes;

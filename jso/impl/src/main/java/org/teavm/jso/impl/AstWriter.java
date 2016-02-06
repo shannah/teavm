@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -52,7 +52,6 @@ import org.mozilla.javascript.ast.LabeledStatement;
 import org.mozilla.javascript.ast.LetNode;
 import org.mozilla.javascript.ast.Name;
 import org.mozilla.javascript.ast.NewExpression;
-import org.mozilla.javascript.ast.NodeVisitor;
 import org.mozilla.javascript.ast.NumberLiteral;
 import org.mozilla.javascript.ast.ObjectLiteral;
 import org.mozilla.javascript.ast.ObjectProperty;
@@ -137,19 +136,16 @@ public class AstWriter {
     }
 
     public void hoist(AstNode node) {
-        node.visit(new NodeVisitor() {
-            @Override
-            public boolean visit(AstNode node) {
-                if (node instanceof Scope) {
-                    Scope scope = (Scope) node;
-                    if (scope.getSymbolTable() != null) {
-                        for (String name : scope.getSymbolTable().keySet()) {
-                            declareName(name);
-                        }
+        node.visit(n -> {
+            if (n instanceof Scope) {
+                Scope scope = (Scope) n;
+                if (scope.getSymbolTable() != null) {
+                    for (String name : scope.getSymbolTable().keySet()) {
+                        declareName(name);
                     }
                 }
-                return true;
             }
+            return true;
         });
     }
 

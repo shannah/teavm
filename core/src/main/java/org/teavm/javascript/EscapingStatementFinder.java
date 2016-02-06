@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ class EscapingStatementFinder implements StatementVisitor {
     AllBlocksCountVisitor blockCountVisitor;
     public boolean escaping;
 
-    public EscapingStatementFinder(AllBlocksCountVisitor blockCountVisitor) {
+    EscapingStatementFinder(AllBlocksCountVisitor blockCountVisitor) {
         this.blockCountVisitor = blockCountVisitor;
     }
 

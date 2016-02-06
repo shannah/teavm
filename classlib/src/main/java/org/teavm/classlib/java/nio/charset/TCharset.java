@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -90,11 +90,7 @@ public abstract class TCharset implements Comparable<TCharset> {
 
     public final Set<String> aliases() {
         if (aliasSet == null) {
-            aliasSet = new HashSet<>();
-            for (String alias : aliases) {
-                aliasSet.add(alias);
-            }
-            aliasSet = Collections.unmodifiableSet(aliasSet);
+            aliasSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(aliases)));
         }
         return aliasSet;
     }

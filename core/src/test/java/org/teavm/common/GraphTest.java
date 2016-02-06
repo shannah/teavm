@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -235,8 +235,8 @@ public class GraphTest {
     private GraphNodeFilter filter = (int node) -> true;
 
     private void sortSccs(int[][] sccs) {
-        for (int i = 0; i < sccs.length; ++i) {
-            Arrays.sort(sccs[i]);
+        for (int[] scc : sccs) {
+            Arrays.sort(scc);
         }
         Arrays.sort(sccs, (o1, o2) -> Integer.compare(o1[0], o2[0]));
     }

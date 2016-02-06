@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -53,8 +53,8 @@ public class TVector<E> extends TAbstractList<E> implements TList<E>, TRandomAcc
     }
 
     @SuppressWarnings("unchecked")
-    private E[] newElementArray(int size) {
-        return (E[]) new Object[size];
+    private Object[] newElementArray(int size) {
+        return new Object[size];
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TVector<E> extends TAbstractList<E> implements TList<E>, TRandomAcc
 
     @Override
     public synchronized boolean addAll(int location, TCollection<? extends E> collection) {
-        if (0 <= location && location <= elementCount) {
+        if (location >= 0 && location <= elementCount) {
             int size = collection.size();
             if (size == 0) {
                 return false;
@@ -222,7 +222,7 @@ public class TVector<E> extends TAbstractList<E> implements TList<E>, TRandomAcc
     }
 
     private void grow(int newCapacity) {
-        E[] newData = newElementArray(newCapacity);
+        Object[] newData = newElementArray(newCapacity);
         // Assumes elementCount is <= newCapacity
         assert elementCount <= newCapacity;
         System.arraycopy(elementData, 0, newData, 0, elementCount);
@@ -243,7 +243,7 @@ public class TVector<E> extends TAbstractList<E> implements TList<E>, TRandomAcc
             adding = capacityIncrement;
         }
 
-        E[] newData = newElementArray(elementData.length + adding);
+        Object[] newData = newElementArray(elementData.length + adding);
         System.arraycopy(elementData, 0, newData, 0, elementCount);
         elementData = newData;
     }
@@ -264,7 +264,7 @@ public class TVector<E> extends TAbstractList<E> implements TList<E>, TRandomAcc
                 adding += capacityIncrement;
             }
         }
-        E[] newData = newElementArray(elementData.length + adding);
+        Object[] newData = newElementArray(elementData.length + adding);
         System.arraycopy(elementData, 0, newData, 0, elementCount);
         elementData = newData;
     }
@@ -304,7 +304,7 @@ public class TVector<E> extends TAbstractList<E> implements TList<E>, TRandomAcc
     }
 
     public synchronized void insertElementAt(E object, int location) {
-        if (0 <= location && location <= elementCount) {
+        if (location >= 0 && location <= elementCount) {
             if (elementCount == elementData.length) {
                 growByOne();
             }
@@ -405,7 +405,7 @@ public class TVector<E> extends TAbstractList<E> implements TList<E>, TRandomAcc
     }
 
     public synchronized void removeElementAt(int location) {
-        if (0 <= location && location < elementCount) {
+        if (location >= 0 && location < elementCount) {
             elementCount--;
             int size = elementCount - location;
             if (size > 0) {

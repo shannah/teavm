@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public class GraphBuilder {
     }
 
     public GraphBuilder(int sz) {
-        addedEdges.addAll(Collections.<IntSet>nCopies(sz, null));
+        addedEdges.addAll(Collections.nCopies(sz, null));
         this.sz = sz;
     }
 
@@ -53,7 +53,7 @@ public class GraphBuilder {
         if (addedEdges.size() == from) {
             addedEdges.add(IntOpenHashSet.from(to));
         } else if (addedEdges.size() <= from) {
-            addedEdges.addAll(Collections.<IntSet>nCopies(from - addedEdges.size(), null));
+            addedEdges.addAll(Collections.nCopies(from - addedEdges.size(), null));
             addedEdges.add(IntOpenHashSet.from(to));
         } else {
             IntSet set = addedEdges.get(from);
@@ -107,7 +107,7 @@ public class GraphBuilder {
         private final int[][] incomingEdgeList;
         private final int[][] outgoingEdgeList;
 
-        public GraphImpl(int[][] incomingEdgeList, int[][] outgoingEdgeList) {
+        GraphImpl(int[][] incomingEdgeList, int[][] outgoingEdgeList) {
             this.incomingEdgeList = incomingEdgeList;
             this.outgoingEdgeList = outgoingEdgeList;
         }

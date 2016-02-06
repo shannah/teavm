@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.teavm.classlib.java.lang.TStringBuilder;
  * methods used by the URI class, and performs encoding and decoding in a
  * slightly different way than {@code URLEncoder} and {@code URLDecoder}.
  */
-class TURIEncoderDecoder {
+final class TURIEncoderDecoder {
     static final TString digits = TString.wrap("0123456789ABCDEF");
 
     private TURIEncoderDecoder() {
@@ -128,10 +128,10 @@ class TURIEncoderDecoder {
                 buf.append(ch);
             } else {
                 byte[] bytes = new TString(new char[] { ch }).getBytes();
-                for (int j = 0; j < bytes.length; j++) {
+                for (byte aByte : bytes) {
                     buf.append('%');
-                    buf.append(digits.charAt((bytes[j] & 0xf0) >> 4));
-                    buf.append(digits.charAt(bytes[j] & 0xf));
+                    buf.append(digits.charAt((aByte & 0xf0) >> 4));
+                    buf.append(digits.charAt(aByte & 0xf));
                 }
             }
         }
@@ -159,10 +159,10 @@ class TURIEncoderDecoder {
                 buf.append(ch);
             } else {
                 byte[] bytes = new TString(new char[] { ch }).getBytes();
-                for (int j = 0; j < bytes.length; j++) {
+                for (byte b : bytes) {
                     buf.append('%');
-                    buf.append(digits.charAt((bytes[j] & 0xf0) >> 4));
-                    buf.append(digits.charAt(bytes[j] & 0xf));
+                    buf.append(digits.charAt((b & 0xf0) >> 4));
+                    buf.append(digits.charAt(b & 0xf));
                 }
             }
         }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ public class THashSet<E> extends TAbstractSet<E> implements TCloneable, TSeriali
      * {@code HashSet}.
      *
      * @return a shallow copy of this {@code HashSet}.
-     * @see java.lang.Cloneable
+     * @see Cloneable
      */
     @Rename("clone")
     @SuppressWarnings("unchecked")

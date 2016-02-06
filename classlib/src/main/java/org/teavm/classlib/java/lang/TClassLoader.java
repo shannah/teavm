@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ public abstract class TClassLoader extends TObject {
     @InjectedBy(ClassLoaderNativeGenerator.class)
     private static native ResourceContainer supplyResources();
 
-    static interface ResourceContainer extends JSObject {
+    interface ResourceContainer extends JSObject {
         @JSIndexer
         String getResource(String name);
     }

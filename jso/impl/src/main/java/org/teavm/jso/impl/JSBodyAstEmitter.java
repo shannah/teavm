@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ class JSBodyAstEmitter implements JSBodyEmitter {
     private AstNode ast;
     private String[] parameterNames;
 
-    public JSBodyAstEmitter(boolean isStatic, AstNode ast, String[] parameterNames) {
+    JSBodyAstEmitter(boolean isStatic, AstNode ast, String[] parameterNames) {
         this.isStatic = isStatic;
         this.ast = ast;
         this.parameterNames = parameterNames;
@@ -49,9 +49,9 @@ class JSBodyAstEmitter implements JSBodyEmitter {
             astWriter.declareNameEmitter("this", prec -> context.writeExpr(context.getArgument(index),
                     convert(prec)));
         }
-        for (int i = 0; i < parameterNames.length; ++i) {
+        for (String parameterName : parameterNames) {
             int index = paramIndex++;
-            astWriter.declareNameEmitter(parameterNames[i],
+            astWriter.declareNameEmitter(parameterName,
                     prec -> context.writeExpr(context.getArgument(index), convert(prec)));
         }
         astWriter.hoist(ast);
@@ -148,9 +148,9 @@ class JSBodyAstEmitter implements JSBodyEmitter {
             int index = paramIndex++;
             astWriter.declareNameEmitter("this", prec -> writer.append(context.getParameterName(index)));
         }
-        for (int i = 0; i < parameterNames.length; ++i) {
+        for (String parameterName : parameterNames) {
             int index = paramIndex++;
-            astWriter.declareNameEmitter(parameterNames[i], prec -> writer.append(context.getParameterName(index)));
+            astWriter.declareNameEmitter(parameterName, prec -> writer.append(context.getParameterName(index)));
         }
         astWriter.hoist(ast);
         if (ast instanceof Block) {

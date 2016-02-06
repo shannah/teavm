@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -103,7 +103,7 @@ public class ClassRefsRenamer implements InstructionVisitor {
     }
 
     private ValueType[] rename(ValueType[] types) {
-        return Arrays.stream(types).map(e -> rename(e)).toArray(sz -> new ValueType[sz]);
+        return Arrays.stream(types).map(this::rename).toArray(ValueType[]::new);
     }
 
     private RuntimeConstant rename(RuntimeConstant cst) {

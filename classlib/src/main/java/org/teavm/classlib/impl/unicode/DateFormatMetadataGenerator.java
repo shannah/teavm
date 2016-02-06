@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,23 +28,11 @@ public class DateFormatMetadataGenerator implements MetadataGenerator {
     public Resource generateMetadata(MetadataGeneratorContext context, MethodReference method) {
         switch (method.getName()) {
             case "getDateFormatMap":
-                return getDateFormatMap(context, new FormatExtractor() {
-                    @Override public CLDRDateFormats extract(CLDRLocale locale) {
-                        return locale.getDateFormats();
-                    }
-                });
+                return getDateFormatMap(context, locale -> locale.getDateFormats());
             case "getTimeFormatMap":
-                return getDateFormatMap(context, new FormatExtractor() {
-                    @Override public CLDRDateFormats extract(CLDRLocale locale) {
-                        return locale.getTimeFormats();
-                    }
-                });
+                return getDateFormatMap(context, locale -> locale.getTimeFormats());
             case "getDateTimeFormatMap":
-                return getDateFormatMap(context, new FormatExtractor() {
-                    @Override public CLDRDateFormats extract(CLDRLocale locale) {
-                        return locale.getDateTimeFormats();
-                    }
-                });
+                return getDateFormatMap(context, locale -> locale.getDateTimeFormats());
             default:
                 throw new IllegalArgumentException("Method is not supported: " + method);
         }

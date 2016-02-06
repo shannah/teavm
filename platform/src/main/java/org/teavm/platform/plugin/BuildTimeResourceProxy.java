@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ class BuildTimeResourceProxy implements InvocationHandler {
     private Map<Method, BuildTimeResourceMethod> methods;
     Object[] data;
 
-    public BuildTimeResourceProxy(Map<Method, BuildTimeResourceMethod> methods, Object[] initialData) {
+    BuildTimeResourceProxy(Map<Method, BuildTimeResourceMethod> methods, Object[] initialData) {
         this.methods = methods;
         data = Arrays.copyOf(initialData, initialData.length);
     }

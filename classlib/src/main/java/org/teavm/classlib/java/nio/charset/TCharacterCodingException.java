@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,4 @@ import java.io.IOException;
 public class TCharacterCodingException extends IOException {
     private static final long serialVersionUID = -2432441010404243409L;
 
-    public TCharacterCodingException() {
-        super();
-    }
 }

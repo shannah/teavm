@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ class BreakToContinueReplacer implements StatementVisitor {
     private IdentifiedStatement replacement;
     private ContinueStatement replaceBy;
 
-    public BreakToContinueReplacer(IdentifiedStatement replacedBreak, IdentifiedStatement replacement) {
+    BreakToContinueReplacer(IdentifiedStatement replacedBreak, IdentifiedStatement replacement) {
         this.replacedBreak = replacedBreak;
         this.replacement = replacement;
     }

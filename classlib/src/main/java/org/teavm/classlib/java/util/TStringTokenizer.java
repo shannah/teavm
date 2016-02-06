@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public class TStringTokenizer implements TEnumeration<Object> {
             this.string = string;
             this.delimiters = delimiters;
             this.returnDelimiters = returnDelimiters;
-            this.position = 0;
+            position = 0;
         } else {
             throw new NullPointerException();
         }
@@ -130,7 +130,7 @@ public class TStringTokenizer implements TEnumeration<Object> {
     }
 
     public String nextToken(String delims) {
-        this.delimiters = delims;
+        delimiters = delims;
         return nextToken();
     }
 }

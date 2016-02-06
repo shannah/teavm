@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -32,10 +32,10 @@ public class ImplementationTest {
     }
 
     @JSBody(params = { "a", "b" }, script = "return a + b;")
-    static final native int add(int a, int b);
+    static native int add(int a, int b);
 
     @JSBody(params = { "a", "b" }, script = "return a * b;")
-    static final native int mul(int a, int b);
+    static native int mul(int a, int b);
 
     @Test
     public void inliningUsageCounterWorksProperly() {
@@ -48,7 +48,7 @@ public class ImplementationTest {
     private static native void wrongInlineCandidate(JSObject a);
 
     static class ForInliningTest implements JSObject {
-        public int counter = 0;
+        public int counter;
 
         public ForInliningTest foo() {
             ++counter;

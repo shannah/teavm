@@ -1,27 +1,11 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-/*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -69,7 +53,7 @@ abstract class TAbstractCharClass extends TSpecialToken {
      */
     protected boolean mayContainSupplCodepoints;
 
-    abstract public boolean contains(int ch);
+    public abstract boolean contains(int ch);
 
     /**
      * Returns BitSet representing this character class or <code>null</code> if
@@ -86,8 +70,8 @@ abstract class TAbstractCharClass extends TSpecialToken {
     }
 
     public boolean hasLowHighSurrogates() {
-        return altSurrogates ? lowHighSurrogates.nextClearBit(0) < SURROGATE_CARDINALITY : lowHighSurrogates
-                .nextSetBit(0) < SURROGATE_CARDINALITY;
+        return (altSurrogates ? lowHighSurrogates.nextClearBit(0)
+                : lowHighSurrogates.nextSetBit(0)) < SURROGATE_CARDINALITY;
     }
 
     public boolean mayContainSupplCodepoints() {
@@ -113,11 +97,11 @@ abstract class TAbstractCharClass extends TSpecialToken {
                 public boolean contains(int ch) {
                     int index = ch - Character.MIN_SURROGATE;
 
-                    return ((index >= 0) && (index < TAbstractCharClass.SURROGATE_CARDINALITY)) ? this.altSurrogates
-                            ^ lHS.get(index) : false;
+                    return ((index >= 0) && (index < TAbstractCharClass.SURROGATE_CARDINALITY)) && altSurrogates
+                            ^ lHS.get(index);
                 }
             };
-            charClassWithSurrogates.setNegative(this.altSurrogates);
+            charClassWithSurrogates.setNegative(altSurrogates);
         }
 
         return charClassWithSurrogates;
@@ -134,8 +118,7 @@ abstract class TAbstractCharClass extends TSpecialToken {
                     int index = ch - Character.MIN_SURROGATE;
 
                     boolean containslHS = (index >= 0 && index < TAbstractCharClass.SURROGATE_CARDINALITY)
-                            ? this.altSurrogates ^ lHS.get(index)
-                            : false;
+                            && altSurrogates ^ lHS.get(index);
 
                     return thisClass.contains(ch) && !containslHS;
                 }
@@ -351,8 +334,7 @@ abstract class TAbstractCharClass extends TSpecialToken {
 
         @Override
         public TAbstractCharClass computeValue() {
-            TAbstractCharClass chCl = new TCharClass().add(start, end);
-            return chCl;
+            return new TCharClass().add(start, end);
         }
     }
 
@@ -372,13 +354,13 @@ abstract class TAbstractCharClass extends TSpecialToken {
 
         public LazyCategoryScope(int cat, boolean mayContainSupplCodepoints) {
             this.mayContainSupplCodepoints = mayContainSupplCodepoints;
-            this.category = cat;
+            category = cat;
         }
 
         public LazyCategoryScope(int cat, boolean mayContainSupplCodepoints, boolean containsAllSurrogates) {
             this.containsAllSurrogates = containsAllSurrogates;
             this.mayContainSupplCodepoints = mayContainSupplCodepoints;
-            this.category = cat;
+            category = cat;
         }
 
         @Override
@@ -402,13 +384,13 @@ abstract class TAbstractCharClass extends TSpecialToken {
 
         public LazyCategory(int cat, boolean mayContainSupplCodepoints) {
             this.mayContainSupplCodepoints = mayContainSupplCodepoints;
-            this.category = cat;
+            category = cat;
         }
 
         public LazyCategory(int cat, boolean mayContainSupplCodepoints, boolean containsAllSurrogates) {
             this.containsAllSurrogates = containsAllSurrogates;
             this.mayContainSupplCodepoints = mayContainSupplCodepoints;
-            this.category = cat;
+            category = cat;
         }
 
         @Override
@@ -869,8 +851,7 @@ abstract class TAbstractCharClass extends TSpecialToken {
                 { "Pf", new LazyCategory(Character.FINAL_QUOTE_PUNCTUATION, false) } };
 
         public Object getObject(String name) {
-            for (int i = 0; i < contents.length; ++i) {
-                Object[] row = contents[i];
+            for (Object[] row : contents) {
                 if (name.equals(row[0])) {
                     return row[1];
                 }

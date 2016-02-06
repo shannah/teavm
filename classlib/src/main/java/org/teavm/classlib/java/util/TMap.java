@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ package org.teavm.classlib.java.util;
  * @param <V>
  */
 public interface TMap<K, V> {
-    public interface Entry<K1, V1> {
+    interface Entry<K1, V1> {
         K1 getKey();
 
         V1 getValue();

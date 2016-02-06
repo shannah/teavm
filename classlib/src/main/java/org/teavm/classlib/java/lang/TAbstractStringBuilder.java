@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -115,7 +115,7 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
             } else {
                 insertSpace(target, target + 1);
             }
-            buffer[target++] = TCharacter.forDigit(value, radix);
+            buffer[target] = TCharacter.forDigit(value, radix);
         } else {
             int pos = 1;
             int sz = 1;
@@ -164,7 +164,7 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
             } else {
                 insertSpace(target, target + 1);
             }
-            buffer[target++] = Character.forDigit((int) value, radix);
+            buffer[target] = Character.forDigit((int) value, radix);
         } else {
             int sz = 1;
             long pos = 1;
@@ -197,20 +197,20 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
             insertSpace(target, target + 3);
             buffer[target++] = '0';
             buffer[target++] = '.';
-            buffer[target++] = '0';
+            buffer[target] = '0';
             return this;
         } else if (value == -0) {
             insertSpace(target, target + 4);
             buffer[target++] = '-';
             buffer[target++] = '0';
             buffer[target++] = '.';
-            buffer[target++] = '0';
+            buffer[target] = '0';
             return this;
         } else if (TFloat.isNaN(value)) {
             insertSpace(target, target + 3);
             buffer[target++] = 'N';
             buffer[target++] = 'a';
-            buffer[target++] = 'N';
+            buffer[target] = 'N';
             return this;
         } else if (TFloat.isInfinite(value)) {
             if (value > 0) {
@@ -226,7 +226,7 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
             buffer[target++] = 'n';
             buffer[target++] = 'i';
             buffer[target++] = 't';
-            buffer[target++] = 'y';
+            buffer[target] = 'y';
             return this;
         }
         // Get absolute value
@@ -239,10 +239,10 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
         }
 
         // Split into decimal mantissa and decimal exponent
-        int exp = 0;
-        int mantissa = 0;
+        int exp;
+        int mantissa;
         int intPart = 1;
-        int digits = 0;
+        int digits;
         if (value >= 1) {
             int bit = 32;
             exp = 0;
@@ -337,7 +337,7 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
             if (exp >= 10) {
                 buffer[target++] = (char) ('0' + exp / 10);
             }
-            buffer[target++] = (char) ('0' + exp % 10);
+            buffer[target] = (char) ('0' + exp % 10);
         }
         return this;
     }
@@ -351,20 +351,20 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
             insertSpace(target, target + 3);
             buffer[target++] = '0';
             buffer[target++] = '.';
-            buffer[target++] = '0';
+            buffer[target] = '0';
             return this;
         } else if (value == -0) {
             insertSpace(target, target + 4);
             buffer[target++] = '-';
             buffer[target++] = '0';
             buffer[target++] = '.';
-            buffer[target++] = '0';
+            buffer[target] = '0';
             return this;
         } else if (TDouble.isNaN(value)) {
             insertSpace(target, target + 3);
             buffer[target++] = 'N';
             buffer[target++] = 'a';
-            buffer[target++] = 'N';
+            buffer[target] = 'N';
             return this;
         } else if (TDouble.isInfinite(value)) {
             if (value > 0) {
@@ -380,7 +380,7 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
             buffer[target++] = 'n';
             buffer[target++] = 'i';
             buffer[target++] = 't';
-            buffer[target++] = 'y';
+            buffer[target] = 'y';
             return this;
         }
         // Get absolute value
@@ -393,10 +393,10 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
         }
 
         // Split into decimal mantissa and decimal exponent
-        int exp = 0;
-        long mantissa = 0;
+        int exp;
+        long mantissa;
         int intPart = 1;
-        int digits = 0;
+        int digits;
         if (value >= 1) {
             int bit = 256;
             exp = 0;
@@ -498,7 +498,7 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
             } else if (exp >= 10) {
                 buffer[target++] = (char) ('0' + exp / 10);
             }
-            buffer[target++] = (char) ('0' + exp % 10);
+            buffer[target] = (char) ('0' + exp % 10);
         }
         return this;
     }
@@ -547,7 +547,7 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
 
     protected TAbstractStringBuilder insert(int index, char c) {
         insertSpace(index, index + 1);
-        buffer[index++] = c;
+        buffer[index] = c;
         return this;
     }
 
@@ -574,7 +574,7 @@ class TAbstractStringBuilder extends TObject implements TSerializable, TCharSequ
     }
 
     protected TAbstractStringBuilder insert(int index, boolean b) {
-        return insert(index, b ? TString.wrap("true") : TString.wrap("false"));
+        return insert(index, TString.wrap(b ? "true" : "false"));
     }
 
     public void ensureCapacity(int capacity) {

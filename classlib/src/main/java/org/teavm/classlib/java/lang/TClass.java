@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -237,7 +237,7 @@ public class TClass<T> extends TObject implements TAnnotatedElement {
         return annotationsByType.containsKey(annotationClass);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "ClassExplicitlyAnnotation" })
     @Override
     public <S extends TAnnotation> S getAnnotation(TClass<S> annotationClass) {
         ensureAnnotationsByType();

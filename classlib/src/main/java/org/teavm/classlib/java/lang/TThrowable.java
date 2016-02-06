@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public class TThrowable extends RuntimeException {
         if (writableStackTrace) {
             fillInStackTrace();
         }
-        this.suppressionEnabled = enableSuppression;
+        suppressionEnabled = enableSuppression;
         this.writableStackTrace = writableStackTrace;
         this.message = message;
         this.cause = cause;
@@ -56,8 +56,8 @@ public class TThrowable extends RuntimeException {
 
     @Rename("<init>")
     private void init() {
-        this.suppressionEnabled = true;
-        this.writableStackTrace = true;
+        suppressionEnabled = true;
+        writableStackTrace = true;
         fillInStackTrace();
     }
 
@@ -67,8 +67,8 @@ public class TThrowable extends RuntimeException {
 
     @Rename("<init>")
     private void init(TString message) {
-        this.suppressionEnabled = true;
-        this.writableStackTrace = true;
+        suppressionEnabled = true;
+        writableStackTrace = true;
         fillInStackTrace();
         this.message = message;
     }
@@ -80,8 +80,8 @@ public class TThrowable extends RuntimeException {
 
     @Rename("<init>")
     private void init(TString message, TThrowable cause) {
-        this.suppressionEnabled = true;
-        this.writableStackTrace = true;
+        suppressionEnabled = true;
+        writableStackTrace = true;
         fillInStackTrace();
         this.message = message;
         this.cause = cause;
@@ -94,8 +94,8 @@ public class TThrowable extends RuntimeException {
 
     @Rename("<init>")
     private void init(TThrowable cause) {
-        this.suppressionEnabled = true;
-        this.writableStackTrace = true;
+        suppressionEnabled = true;
+        writableStackTrace = true;
         fillInStackTrace();
         this.cause = cause;
     }

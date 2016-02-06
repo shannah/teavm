@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.teavm.javascript.ast.*;
  * @author Alexey Andreev
  */
 class BreakEliminator implements StatementVisitor {
-    private Map<BlockStatement, List<Statement>> blockSuccessors = new HashMap<>();
+    private Map<IdentifiedStatement, List<Statement>> blockSuccessors = new HashMap<>();
     private Set<IdentifiedStatement> outerStatements = new HashSet<>();
     private List<Statement> currentSequence;
     private int currentIndex;
@@ -133,7 +133,7 @@ class BreakEliminator implements StatementVisitor {
 
     @Override
     public void visit(TryCatchStatement statement) {
-        Map<BlockStatement, List<Statement>> oldBlockSuccessors = blockSuccessors;
+        Map<IdentifiedStatement, List<Statement>> oldBlockSuccessors = blockSuccessors;
         Set<IdentifiedStatement> oldOuterStatements = outerStatements;
         outerStatements = new HashSet<>();
         blockSuccessors = new HashMap<>();

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,22 +13,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-/*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+
+
 
 package org.teavm.classlib.java.util;
 
@@ -42,6 +28,7 @@ import java.util.*;
 import org.junit.Test;
 import org.teavm.classlib.support.Support_ListTest;
 
+@SuppressWarnings({ "UseOfObsoleteCollectionType", "EnumerationCanBeIteration", "CollectionAddedToSelf" })
 public class VectorTest {
     private Vector<Object> tVector = new Vector<>();
 
@@ -134,12 +121,14 @@ public class VectorTest {
     public void test_ConstructorLjava_util_Collection() {
         // Test for method java.util.Vector(java.util.Collection)
         Collection<String> l = new LinkedList<>();
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++) {
             l.add("Test " + i);
+        }
         Vector<String> myVector = new Vector<>(l);
         assertTrue("Vector is not correct size", myVector.size() == objArray.length);
-        for (int counter = 0; counter < objArray.length; counter++)
+        for (int counter = 0; counter < objArray.length; counter++) {
             assertTrue("Vector does not contain correct elements", myVector.contains(((List<?>) l).get(counter)));
+        }
     }
 
     @Test
@@ -177,17 +166,19 @@ public class VectorTest {
         // Test for method boolean java.util.Vector.addAll(int,
         // java.util.Collection)
         Collection<String> l = new LinkedList<>();
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++) {
             l.add("Test " + i);
+        }
         Vector<String> v = new Vector<>();
         tVector.addAll(50, l);
-        for (int i = 50; i < 100; i++)
+        for (int i = 50; i < 100; i++) {
             assertTrue("Failed to add all elements", tVector.get(i) == ((List<String>) l).get(i - 50));
+        }
         v = new Vector<>();
         v.add("one");
         int r = 0;
         try {
-            v.addAll(3, Arrays.asList(new String[] { "two", "three" }));
+            v.addAll(3, Arrays.asList("two", "three"));
         } catch (ArrayIndexOutOfBoundsException e) {
             r = 1;
         }
@@ -214,15 +205,17 @@ public class VectorTest {
         // Test for method boolean java.util.Vector.addAll(java.util.Collection)
         Vector<String> v = new Vector<>();
         Collection<String> l = new LinkedList<>();
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++) {
             l.add("Test " + i);
+        }
         v.addAll(l);
         assertTrue("Failed to add all elements", tVector.equals(v));
 
         v.addAll(l);
         int vSize = tVector.size();
-        for (int counter = vSize - 1; counter >= 0; counter--)
+        for (int counter = vSize - 1; counter >= 0; counter--) {
             assertTrue("Failed to add elements correctly", v.get(counter) == v.get(counter + vSize));
+        }
 
         l = new LinkedList<>();
         l.add(null);
@@ -273,15 +266,17 @@ public class VectorTest {
         tVector.clear();
         assertEquals("a) Cleared Vector has non-zero size", 0, tVector.size());
         Enumeration<Object> e = orgVector.elements();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             assertTrue("a) Cleared vector contained elements", !tVector.contains(e.nextElement()));
+        }
 
         tVector.add(null);
         tVector.clear();
         assertEquals("b) Cleared Vector has non-zero size", 0, tVector.size());
         e = orgVector.elements();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             assertTrue("b) Cleared vector contained elements", !tVector.contains(e.nextElement()));
+        }
     }
 
     @Test
@@ -317,8 +312,9 @@ public class VectorTest {
         // Test for method boolean
         // java.util.Vector.containsAll(java.util.Collection)
         Collection<Object> s = new HashSet<>();
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++) {
             s.add("Test " + i);
+        }
 
         assertTrue("Returned false for valid collection", tVector.containsAll(s));
         s.add(null);
@@ -338,8 +334,9 @@ public class VectorTest {
         tVector.setElementAt(null, 20);
         tVector.copyInto(a);
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++) {
             assertTrue("copyInto failed", a[i] == tVector.elementAt(i));
+        }
     }
 
     @Test
@@ -398,8 +395,9 @@ public class VectorTest {
     public void test_equalsLjava_lang_Object() {
         // Test for method boolean java.util.Vector.equals(java.lang.Object)
         Vector<Object> v = new Vector<>();
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++) {
             v.addElement("Test " + i);
+        }
         assertTrue("a) Equal vectors returned false", tVector.equals(v));
         v.addElement(null);
         assertTrue("b) UnEqual vectors returned true", !tVector.equals(v));
@@ -497,7 +495,7 @@ public class VectorTest {
         String prevElement = (String) v.elementAt(99);
         v.insertElementAt("Inserted Element", 99);
         assertEquals("Element not inserted", "Inserted Element", v.elementAt(99));
-        assertTrue("Elements shifted incorrectly", ((String) v.elementAt(100)).equals(prevElement));
+        assertTrue("Elements shifted incorrectly", v.elementAt(100).equals(prevElement));
         v.insertElementAt(null, 20);
         assertNull("null not inserted", v.elementAt(20));
 
@@ -559,8 +557,9 @@ public class VectorTest {
     public void test_lastIndexOfLjava_lang_Object() {
         // Test for method int java.util.Vector.lastIndexOf(java.lang.Object)
         Vector<String> v = new Vector<>(9);
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 9; i++) {
             v.addElement("Test");
+        }
         v.addElement("z");
         assertEquals("Failed to return correct index", 8, v.lastIndexOf("Test"));
         tVector.setElementAt(null, 20);
@@ -659,8 +658,9 @@ public class VectorTest {
         // java.util.Vector.removeAll(java.util.Collection)
         Vector<Object> v = new Vector<>();
         Collection<String> l = new LinkedList<>();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++) {
             l.add("Test " + i);
+        }
         v.addElement(l);
 
         Collection<Object> s = new HashSet<>();
@@ -925,8 +925,9 @@ public class VectorTest {
         // Test for method java.util.List java.util.Vector.subList(int, int)
         List<Object> sl = tVector.subList(10, 25);
         assertEquals("Returned sublist of incorrect size", 15, sl.size());
-        for (int i = 10; i < 25; i++)
+        for (int i = 10; i < 25; i++) {
             assertTrue("Returned incorrect sublist", sl.contains(tVector.get(i)));
+        }
 
     }
 
@@ -942,20 +943,22 @@ public class VectorTest {
         // java.util.Vector.toArray(java.lang.Object [])
         Object[] o = new Object[1000];
         Object f = new Object();
-        for (int i = 0; i < o.length; i++)
+        for (int i = 0; i < o.length; i++) {
             o[i] = f;
+        }
         tVector.toArray(o);
         assertNull("Failed to set slot to null", o[100]);
-        for (int i = 0; i < tVector.size(); i++)
+        for (int i = 0; i < tVector.size(); i++) {
             assertTrue("Returned incorrect array", tVector.elementAt(i) == o[i]);
+        }
     }
 
+    @SuppressWarnings("ClassExtendsConcreteCollection")
     class SubVector<E> extends Vector<E> {
 
         private static final long serialVersionUID = 1L;
 
         public SubVector() {
-            super();
         }
 
         @Override
@@ -969,9 +972,6 @@ public class VectorTest {
             super.add(obj);
         }
 
-        /**
-         * @tests java.util.Vector#add(Object)
-         */
         @SuppressWarnings("nls")
         public void test_add() {
             SubVector<String> subvector = new SubVector<>();
@@ -1001,7 +1001,7 @@ public class VectorTest {
         // test last element
         v.addElement(v);
         String result = v.toString();
-        assertTrue("should contain self ref", result.indexOf("(this") > -1);
+        assertTrue("should contain self ref", result.contains("(this"));
     }
 
     @Test
@@ -1035,6 +1035,7 @@ public class VectorTest {
         return (Vector<T>) s.clone();
     }
 
+    @SuppressWarnings("ClassExtendsConcreteCollection")
     public class MockVector<T> extends Vector<T> {
         private static final long serialVersionUID = -8036311869188435980L;
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@ package org.teavm.classlib.java.math;
 
 /**
  * Static library that provides {@link TBigInteger} base conversion from/to any
- * integer represented in an {@link java.lang.String} Object.
+ * integer represented in an {@link String} Object.
  */
-class TConversion {
+final class TConversion {
 
     /** Just to denote that this class can't be instantiated */
     private TConversion() {

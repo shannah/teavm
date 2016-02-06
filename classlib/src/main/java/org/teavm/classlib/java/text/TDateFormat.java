@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,29 +21,29 @@ import org.teavm.classlib.java.util.*;
 
 public abstract class TDateFormat extends TFormat {
     protected TCalendar calendar;
-    public final static int DEFAULT = 2;
-    public final static int FULL = 0;
-    public final static int LONG = 1;
-    public final static int MEDIUM = 2;
-    public final static int SHORT = 3;
-    public final static int ERA_FIELD = 0;
-    public final static int YEAR_FIELD = 1;
-    public final static int MONTH_FIELD = 2;
-    public final static int DATE_FIELD = 3;
-    public final static int HOUR_OF_DAY1_FIELD = 4;
-    public final static int HOUR_OF_DAY0_FIELD = 5;
-    public final static int MINUTE_FIELD = 6;
-    public final static int SECOND_FIELD = 7;
-    public final static int MILLISECOND_FIELD = 8;
-    public final static int DAY_OF_WEEK_FIELD = 9;
-    public final static int DAY_OF_YEAR_FIELD = 10;
-    public final static int DAY_OF_WEEK_IN_MONTH_FIELD = 11;
-    public final static int WEEK_OF_YEAR_FIELD = 12;
-    public final static int WEEK_OF_MONTH_FIELD = 13;
-    public final static int AM_PM_FIELD = 14;
-    public final static int HOUR1_FIELD = 15;
-    public final static int HOUR0_FIELD = 16;
-    public final static int TIMEZONE_FIELD = 17;
+    public static final int DEFAULT = 2;
+    public static final int FULL = 0;
+    public static final int LONG = 1;
+    public static final int MEDIUM = 2;
+    public static final int SHORT = 3;
+    public static final int ERA_FIELD = 0;
+    public static final int YEAR_FIELD = 1;
+    public static final int MONTH_FIELD = 2;
+    public static final int DATE_FIELD = 3;
+    public static final int HOUR_OF_DAY1_FIELD = 4;
+    public static final int HOUR_OF_DAY0_FIELD = 5;
+    public static final int MINUTE_FIELD = 6;
+    public static final int SECOND_FIELD = 7;
+    public static final int MILLISECOND_FIELD = 8;
+    public static final int DAY_OF_WEEK_FIELD = 9;
+    public static final int DAY_OF_YEAR_FIELD = 10;
+    public static final int DAY_OF_WEEK_IN_MONTH_FIELD = 11;
+    public static final int WEEK_OF_YEAR_FIELD = 12;
+    public static final int WEEK_OF_MONTH_FIELD = 13;
+    public static final int AM_PM_FIELD = 14;
+    public static final int HOUR1_FIELD = 15;
+    public static final int HOUR0_FIELD = 16;
+    public static final int TIMEZONE_FIELD = 17;
 
     protected TDateFormat() {
         calendar = TCalendar.getInstance();
@@ -162,7 +162,7 @@ public abstract class TDateFormat extends TFormat {
         }
     }
 
-    public final static TDateFormat getInstance() {
+    public static TDateFormat getInstance() {
         return getDateTimeInstance(SHORT, SHORT);
     }
 
@@ -187,7 +187,7 @@ public abstract class TDateFormat extends TFormat {
         return styleName;
     }
 
-    public final static TDateFormat getTimeInstance() {
+    public static TDateFormat getTimeInstance() {
         return getTimeInstance(DEFAULT);
     }
 
@@ -251,32 +251,32 @@ public abstract class TDateFormat extends TFormat {
 
     public static class Field extends TFormat.Field {
         private static THashMap<Integer, Field> table = new THashMap<>();
-        public final static Field ERA = new Field("era", TCalendar.ERA);
-        public final static Field YEAR = new Field("year", TCalendar.YEAR);
-        public final static Field MONTH = new Field("month", TCalendar.MONTH);
-        public final static Field HOUR_OF_DAY0 = new Field("hour of day", TCalendar.HOUR_OF_DAY);
-        public final static Field HOUR_OF_DAY1 = new Field("hour of day 1", -1);
-        public final static Field MINUTE = new Field("minute", TCalendar.MINUTE);
-        public final static Field SECOND = new Field("second", TCalendar.SECOND);
-        public final static Field MILLISECOND = new Field("millisecond", TCalendar.MILLISECOND);
-        public final static Field DAY_OF_WEEK = new Field("day of week", TCalendar.DAY_OF_WEEK);
-        public final static Field DAY_OF_MONTH = new Field("day of month", TCalendar.DAY_OF_MONTH);
-        public final static Field DAY_OF_YEAR = new Field("day of year", TCalendar.DAY_OF_YEAR);
-        public final static Field DAY_OF_WEEK_IN_MONTH = new Field("day of week in month",
+        public static final Field ERA = new Field("era", TCalendar.ERA);
+        public static final Field YEAR = new Field("year", TCalendar.YEAR);
+        public static final Field MONTH = new Field("month", TCalendar.MONTH);
+        public static final Field HOUR_OF_DAY0 = new Field("hour of day", TCalendar.HOUR_OF_DAY);
+        public static final Field HOUR_OF_DAY1 = new Field("hour of day 1", -1);
+        public static final Field MINUTE = new Field("minute", TCalendar.MINUTE);
+        public static final Field SECOND = new Field("second", TCalendar.SECOND);
+        public static final Field MILLISECOND = new Field("millisecond", TCalendar.MILLISECOND);
+        public static final Field DAY_OF_WEEK = new Field("day of week", TCalendar.DAY_OF_WEEK);
+        public static final Field DAY_OF_MONTH = new Field("day of month", TCalendar.DAY_OF_MONTH);
+        public static final Field DAY_OF_YEAR = new Field("day of year", TCalendar.DAY_OF_YEAR);
+        public static final Field DAY_OF_WEEK_IN_MONTH = new Field("day of week in month",
                 TCalendar.DAY_OF_WEEK_IN_MONTH);
-        public final static Field WEEK_OF_YEAR = new Field("week of year", TCalendar.WEEK_OF_YEAR);
-        public final static Field WEEK_OF_MONTH = new Field("week of month", TCalendar.WEEK_OF_MONTH);
-        public final static Field AM_PM = new Field("am pm", TCalendar.AM_PM);
-        public final static Field HOUR0 = new Field("hour", TCalendar.HOUR);
-        public final static Field HOUR1 = new Field("hour 1", -1);
-        public final static Field TIME_ZONE = new Field("time zone", -1);
+        public static final Field WEEK_OF_YEAR = new Field("week of year", TCalendar.WEEK_OF_YEAR);
+        public static final Field WEEK_OF_MONTH = new Field("week of month", TCalendar.WEEK_OF_MONTH);
+        public static final Field AM_PM = new Field("am pm", TCalendar.AM_PM);
+        public static final Field HOUR0 = new Field("hour", TCalendar.HOUR);
+        public static final Field HOUR1 = new Field("hour 1", -1);
+        public static final Field TIME_ZONE = new Field("time zone", -1);
         private int calendarField = -1;
 
         protected Field(String fieldName, int calendarField) {
             super(fieldName);
             this.calendarField = calendarField;
-            if (calendarField != -1 && table.get(new Integer(calendarField)) == null) {
-                table.put(new Integer(calendarField), this);
+            if (calendarField != -1 && table.get(calendarField) == null) {
+                table.put(calendarField, this);
             }
         }
 
@@ -289,7 +289,7 @@ public abstract class TDateFormat extends TFormat {
                 throw new IllegalArgumentException();
             }
 
-            return table.get(new Integer(calendarField));
+            return table.get(calendarField);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2012 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -57,8 +57,8 @@ public class DependencyNode implements ValueDependencyInfo {
             }
         }
         if (smallTypes != null) {
-            for (int i = 0; i < smallTypes.length; ++i) {
-                if (smallTypes[i] == type.index) {
+            for (int smallType : smallTypes) {
+                if (smallType == type.index) {
                     return false;
                 }
             }
@@ -110,8 +110,7 @@ public class DependencyNode implements ValueDependencyInfo {
     public void propagate(DependencyType[] newTypes) {
         DependencyType[] types = new DependencyType[newTypes.length];
         int j = 0;
-        for (int i = 0; i < newTypes.length; ++i) {
-            DependencyType type = newTypes[i];
+        for (DependencyType type : newTypes) {
             if (type.getDependencyChecker() != dependencyChecker) {
                 throw new IllegalArgumentException("The given type does not belong to the same dependency checker");
             }
@@ -143,13 +142,13 @@ public class DependencyNode implements ValueDependencyInfo {
             return;
         }
         followers.add(consumer);
-        if (this.types != null) {
+        if (types != null) {
             List<DependencyType> types = new ArrayList<>();
             for (int index = this.types.nextSetBit(0); index >= 0; index = this.types.nextSetBit(index + 1)) {
                 types.add(dependencyChecker.types.get(index));
             }
             dependencyChecker.schedulePropagation(consumer, types.toArray(new DependencyType[types.size()]));
-        } else if (this.smallTypes != null) {
+        } else if (smallTypes != null) {
             DependencyType[] types = new DependencyType[smallTypes.length];
             for (int i = 0; i < types.length; ++i) {
                 types[i] = dependencyChecker.types.get(smallTypes[i]);
@@ -196,7 +195,7 @@ public class DependencyNode implements ValueDependencyInfo {
             if (DependencyChecker.shouldLog) {
                 arrayItemNode.tag = tag + "[";
             }
-            arrayItemNode.addConsumer(type -> propagate(type));
+            arrayItemNode.addConsumer(this::propagate);
         }
         return arrayItemNode;
     }
@@ -208,8 +207,8 @@ public class DependencyNode implements ValueDependencyInfo {
 
     public boolean hasType(DependencyType type) {
         if (smallTypes != null) {
-            for (int i = 0; i < smallTypes.length; ++i) {
-                if (smallTypes[i] == type.index) {
+            for (int smallType : smallTypes) {
+                if (smallType == type.index) {
                     return true;
                 }
             }

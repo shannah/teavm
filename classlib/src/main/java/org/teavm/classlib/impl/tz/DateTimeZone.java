@@ -1,5 +1,5 @@
 /*
- *  Copyright 2001-2014 Stephen Colebourne
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,62 +15,6 @@
  */
 package org.teavm.classlib.impl.tz;
 
-/**
- * DateTimeZone represents a time zone.
- * <p>
- * A time zone is a system of rules to convert time from one geographic
- * location to another. For example, Paris, France is one hour ahead of
- * London, England. Thus when it is 10:00 in London, it is 11:00 in Paris.
- * <p>
- * All time zone rules are expressed, for historical reasons, relative to
- * Greenwich, London. Local time in Greenwich is referred to as Greenwich Mean
- * Time (GMT).  This is similar, but not precisely identical, to Universal
- * Coordinated Time, or UTC. This library only uses the term UTC.
- * <p>
- * Using this system, America/Los_Angeles is expressed as UTC-08:00, or UTC-07:00
- * in the summer. The offset -08:00 indicates that America/Los_Angeles time is
- * obtained from UTC by adding -08:00, that is, by subtracting 8 hours.
- * <p>
- * The offset differs in the summer because of daylight saving time, or DST.
- * The following definitions of time are generally used:
- * <ul>
- * <li>UTC - The reference time.
- * <li>Standard Time - The local time without a daylight saving time offset.
- * For example, in Paris, standard time is UTC+01:00.
- * <li>Daylight Saving Time - The local time with a daylight saving time
- * offset. This offset is typically one hour, but not always. It is typically
- * used in most countries away from the equator.  In Paris, daylight saving
- * time is UTC+02:00.
- * <li>Wall Time - This is what a local clock on the wall reads. This will be
- * either Standard Time or Daylight Saving Time depending on the time of year
- * and whether the location uses Daylight Saving Time.
- * </ul>
- * <p>
- * Unlike the Java TimeZone class, DateTimeZone is immutable. It also only
- * supports long format time zone ids. Thus EST and ECT are not accepted.
- * However, the factory that accepts a TimeZone will attempt to convert from
- * the old short id to a suitable long id.
- * <p>
- * There are four approaches to loading time-zone data, which are tried in this order:
- * <ol>
- * <li>load the specific {@link Provider} specified by the system property
- *   {@code org.joda.time.DateTimeZone.Provider}.
- * <li>load {@link ZoneInfoProvider} using the data in the filing system folder
- *   pointed to by system property {@code org.joda.time.DateTimeZone.Folder}.
- * <li>load {@link ZoneInfoProvider} using the data in the classpath location
- *   {@code org/joda/time/tz/data}.
- * <li>load {@link UTCProvider}
- * </ol>
- * <p>
- * Unless you override the standard behaviour, the default if the third approach.
- * <p>
- * DateTimeZone is thread-safe and immutable, and all subclasses must be as
- * well.
- *
- * @author Brian S O'Neill
- * @author Stephen Colebourne
- * @since 1.0
- */
 public abstract class DateTimeZone {
     static final long MILLIS_PER_HOUR = 3600_000;
 
@@ -271,7 +215,6 @@ public abstract class DateTimeZone {
      * @param strict  whether the conversion should reject non-existent local times
      * @return the UTC instant with the same local time,
      * @throws ArithmeticException if the result overflows a long
-     * @throws IllegalInstantException if the zone has no equivalent local time
      * @since 1.5
      */
     public long convertLocalToUTC(long instantLocal, boolean strict) {

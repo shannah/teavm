@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Steve Hannah.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ public interface TObserver {
      * object has been updated.
      *
      * @param observable
-     *            the {@link Observable} object.
+     *            the {@link TObservable} object.
      * @param data
-     *            the data passed to {@link Observable#notifyObservers(Object)}.
+     *            the data passed to {@link TObservable#notifyObservers(Object)}.
      */
     void update(TObservable observable, Object data);
 }

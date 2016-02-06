@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -74,10 +74,10 @@ public final class TMathContext implements Serializable {
      * 'p','r','e','c','i','s','i','o','n','='}. It's used to improve the
      * methods related to {@code String} conversion.
      *
-     * @see #MathContext(String)
+     * @see #TMathContext(String)
      * @see #toString()
      */
-    private final static char[] chPrecision = { 'p', 'r', 'e', 'c', 'i', 's',
+    private static final char[] chPrecision = { 'p', 'r', 'e', 'c', 'i', 's',
             'i', 'o', 'n', '=' };
 
     /**
@@ -85,10 +85,10 @@ public final class TMathContext implements Serializable {
      * 'r','o','u','n','d','i','n','g','M','o','d','e','='}. It's used to
      * improve the methods related to {@code String} conversion.
      *
-     * @see #MathContext(String)
+     * @see #TMathContext(String)
      * @see #toString()
      */
-    private final static char[] chRoundingMode = { 'r', 'o', 'u', 'n', 'd',
+    private static final char[] chRoundingMode = { 'r', 'o', 'u', 'n', 'd',
             'i', 'n', 'g', 'M', 'o', 'd', 'e', '=' };
 
     /**
@@ -168,7 +168,7 @@ public final class TMathContext implements Serializable {
         if (digit == -1) {
             throw new IllegalArgumentException("bad string format");
         }
-        this.precision = this.precision * 10 + digit;
+        precision = precision * 10 + digit;
         i++;
 
         do {
@@ -183,8 +183,8 @@ public final class TMathContext implements Serializable {
                 throw new IllegalArgumentException("bad string format");
             }
             // Accumulating the value parsed
-            this.precision = this.precision * 10 + digit;
-            if (this.precision < 0) {
+            precision = precision * 10 + digit;
+            if (precision < 0) {
                 throw new IllegalArgumentException("bad string format");
             }
             i++;
@@ -198,7 +198,7 @@ public final class TMathContext implements Serializable {
             throw new IllegalArgumentException("bad string format");
         }
         // Parsing the value for "roundingMode"...
-        this.roundingMode = TRoundingMode.valueOf(String.valueOf(charVal, i, charVal.length - i));
+        roundingMode = TRoundingMode.valueOf(String.valueOf(charVal, i, charVal.length - i));
     }
 
     /* Public Methods */
@@ -276,13 +276,6 @@ public final class TMathContext implements Serializable {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(45);
-
-        sb.append(chPrecision);
-        sb.append(precision);
-        sb.append(' ');
-        sb.append(chRoundingMode);
-        sb.append(roundingMode);
-        return sb.toString();
+        return String.valueOf(chPrecision) + precision + ' ' + new String(chRoundingMode) + roundingMode;
     }
 }

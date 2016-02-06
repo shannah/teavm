@@ -1,17 +1,17 @@
-/* Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/*
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package org.teavm.classlib.java.util.regex;
@@ -20,13 +20,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.junit.Test;
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 /**
  * Tests simple Pattern compilation and Matcher methods
  */
 @SuppressWarnings("nls")
-public class Pattern2Test extends TestCase {
+public class Pattern2Test {
     @Test
     public void testSimpleMatch() throws PatternSyntaxException {
         Pattern p = Pattern.compile("foo.*");
@@ -668,7 +668,6 @@ public class Pattern2Test extends TestCase {
         // Graph, Print, Blank, Space, Cntrl
         // Test \p{Lower}
         /*
-         * FIXME: Requires complex range processing p = Pattern.compile("<\\p{Lower}\\d\\P{Lower}:[\\p{Lower}Z]\\s[^\\P{Lower}]>");
          * m = p.matcher("<a4P:g x>"); assertTrue(m.matches()); m = p.matcher("<p4%:Z\tq>");
          * assertTrue(m.matches()); m = p.matcher("<A6#:e e>");
          * assertFalse(m.matches());
@@ -716,7 +715,6 @@ public class Pattern2Test extends TestCase {
 
         // Test \p{Upper}
         /*
-         * FIXME: Requires complex range processing p = Pattern.compile("<\\p{Upper}\\d\\P{Upper}:[\\p{Upper}z]\\s[^\\P{Upper}]>");
          * m = p.matcher("<A4p:G X>"); assertTrue(m.matches()); m = p.matcher("<P4%:z\tQ>");
          * assertTrue(m.matches()); m = p.matcher("<a6#:E E>");
          * assertFalse(m.matches());
@@ -740,7 +738,6 @@ public class Pattern2Test extends TestCase {
 
         // Test \p{ASCII}
         /*
-         * FIXME: Requires complex range processing p = Pattern.compile("<\\p{ASCII}\\d\\P{ASCII}:[\\p{ASCII}\u1234]\\s[^\\P{ASCII}]>");
          * m = p.matcher("<A4\u0080:G X>"); assertTrue(m.matches()); m =
          * p.matcher("<P4\u00ff:\u1234\t\n>"); assertTrue(m.matches()); m =
          * p.matcher("<\u00846#:E E>"); assertFalse(m.matches())
@@ -1072,8 +1069,7 @@ public class Pattern2Test extends TestCase {
         String findString = "\\Qimport\\E";
 
         Pattern pattern = Pattern.compile(findString, 0);
-        Matcher matcher = pattern.matcher(new String(
-                "import a.A;\n\n import b.B;\nclass C {}"));
+        Matcher matcher = pattern.matcher("import a.A;\n\n import b.B;\nclass C {}");
 
         assertTrue(matcher.find(0));
     }
@@ -1158,6 +1154,7 @@ public class Pattern2Test extends TestCase {
         assertFalse(m.find());
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void testCompile4() throws PatternSyntaxException {
         String findString = "\\Qpublic\\E";
@@ -1184,7 +1181,7 @@ public class Pattern2Test extends TestCase {
     @Test
     public void testCompile5() throws PatternSyntaxException {
         Pattern p = Pattern.compile("^[0-9]");
-        String s[] = p.split("12", -1);
+        String[] s = p.split("12", -1);
         assertEquals("", s[0]);
         assertEquals("2", s[1]);
         assertEquals(2, s.length);
@@ -1264,7 +1261,7 @@ public class Pattern2Test extends TestCase {
             /* 02B0; 02FF; Spacing Modifier Letters */
             new UBInfo(0x02B0, 0x02FF, "SpacingModifierLetters"), // Character.UnicodeBlock.SPACING_MODIFIER_LETTERS
             /* 0300; 036F; Combining Diacritical Marks */
-            new UBInfo(0x0300, 0x036F, "CombiningDiacriticalMarks"), // Character.UnicodeBlock.COMBINING_DIACRITICAL_MARKS
+            new UBInfo(0x0300, 0x036F, "CombiningDiacriticalMarks"),
             /* 0370; 03FF; Greek */
             new UBInfo(0x0370, 0x03FF, "Greek"), // Character.UnicodeBlock.GREEK
             /* 0400; 04FF; Cyrillic */
@@ -1316,7 +1313,7 @@ public class Pattern2Test extends TestCase {
             /* 13A0; 13FF; Cherokee */
             new UBInfo(0x13A0, 0x13FF, "Cherokee"), // Character.UnicodeBlock.CHEROKEE
             /* 1400; 167F; Unified Canadian Aboriginal Syllabics */
-            new UBInfo(0x1400, 0x167F, "UnifiedCanadianAboriginalSyllabics"), // Character.UnicodeBlock.UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS
+            new UBInfo(0x1400, 0x167F, "UnifiedCanadianAboriginalSyllabics"),
             /* 1680; 169F; Ogham */
             new UBInfo(0x1680, 0x169F, "Ogham"), // Character.UnicodeBlock.OGHAM
             /* 16A0; 16FF; Runic */
@@ -1332,11 +1329,11 @@ public class Pattern2Test extends TestCase {
             /* 2000; 206F; General Punctuation */
             new UBInfo(0x2000, 0x206F, "GeneralPunctuation"), // Character.UnicodeBlock.GENERAL_PUNCTUATION
             /* 2070; 209F; Superscripts and Subscripts */
-            new UBInfo(0x2070, 0x209F, "SuperscriptsandSubscripts"), // Character.UnicodeBlock.SUPERSCRIPTS_AND_SUBSCRIPTS
+            new UBInfo(0x2070, 0x209F, "SuperscriptsandSubscripts"),
             /* 20A0; 20CF; Currency Symbols */
             new UBInfo(0x20A0, 0x20CF, "CurrencySymbols"), // Character.UnicodeBlock.CURRENCY_SYMBOLS
             /* 20D0; 20FF; Combining Marks for Symbols */
-            new UBInfo(0x20D0, 0x20FF, "CombiningMarksforSymbols"), // Character.UnicodeBlock.COMBINING_MARKS_FOR_SYMBOLS
+            new UBInfo(0x20D0, 0x20FF, "CombiningMarksforSymbols"),
             /* 2100; 214F; Letterlike Symbols */
             new UBInfo(0x2100, 0x214F, "LetterlikeSymbols"), // Character.UnicodeBlock.LETTERLIKE_SYMBOLS
             /* 2150; 218F; Number Forms */
@@ -1350,7 +1347,7 @@ public class Pattern2Test extends TestCase {
             /* 2400; 243F; Control Pictures */
             new UBInfo(0x2400, 0x243F, "ControlPictures"), // Character.UnicodeBlock.CONTROL_PICTURES
             /* 2440; 245F; Optical Character Recognition */
-            new UBInfo(0x2440, 0x245F, "OpticalCharacterRecognition"), // Character.UnicodeBlock.OPTICAL_CHARACTER_RECOGNITION
+            new UBInfo(0x2440, 0x245F, "OpticalCharacterRecognition"),
             /* 2460; 24FF; Enclosed Alphanumerics */
             new UBInfo(0x2460, 0x24FF, "EnclosedAlphanumerics"), // Character.UnicodeBlock.ENCLOSED_ALPHANUMERICS
             /* 2500; 257F; Box Drawing */
@@ -1370,9 +1367,9 @@ public class Pattern2Test extends TestCase {
             /* 2F00; 2FDF; Kangxi Radicals */
             new UBInfo(0x2F00, 0x2FDF, "KangxiRadicals"), // Character.UnicodeBlock.KANGXI_RADICALS
             /* 2FF0; 2FFF; Ideographic Description Characters */
-            new UBInfo(0x2FF0, 0x2FFF, "IdeographicDescriptionCharacters"), // Character.UnicodeBlock.IDEOGRAPHIC_DESCRIPTION_CHARACTERS
+            new UBInfo(0x2FF0, 0x2FFF, "IdeographicDescriptionCharacters"),
             /* 3000; 303F; CJK Symbols and Punctuation */
-            new UBInfo(0x3000, 0x303F, "CJKSymbolsandPunctuation"), // Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+            new UBInfo(0x3000, 0x303F, "CJKSymbolsandPunctuation"),
             /* 3040; 309F; Hiragana */
             new UBInfo(0x3040, 0x309F, "Hiragana"), // Character.UnicodeBlock.HIRAGANA
             /* 30A0; 30FF; Katakana */
@@ -1386,11 +1383,11 @@ public class Pattern2Test extends TestCase {
             /* 31A0; 31BF; Bopomofo Extended */
             new UBInfo(0x31A0, 0x31BF, "BopomofoExtended"), // Character.UnicodeBlock.BOPOMOFO_EXTENDED
             /* 3200; 32FF; Enclosed CJK Letters and Months */
-            new UBInfo(0x3200, 0x32FF, "EnclosedCJKLettersandMonths"), // Character.UnicodeBlock.ENCLOSED_CJK_LETTERS_AND_MONTHS
+            new UBInfo(0x3200, 0x32FF, "EnclosedCJKLettersandMonths"),
             /* 3300; 33FF; CJK Compatibility */
             new UBInfo(0x3300, 0x33FF, "CJKCompatibility"), // Character.UnicodeBlock.CJK_COMPATIBILITY
             /* 3400; 4DB5; CJK Unified Ideographs Extension A */
-            new UBInfo(0x3400, 0x4DB5, "CJKUnifiedIdeographsExtensionA"), // Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+            new UBInfo(0x3400, 0x4DB5, "CJKUnifiedIdeographsExtensionA"),
             /* 4E00; 9FFF; CJK Unified Ideographs */
             new UBInfo(0x4E00, 0x9FFF, "CJKUnifiedIdeographs"), // Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
             /* A000; A48F; Yi Syllables */
@@ -1404,11 +1401,11 @@ public class Pattern2Test extends TestCase {
             /* DC00; DFFF; Low Surrogates */
             /* E000; F8FF; Private Use */
             /* F900; FAFF; CJK Compatibility Ideographs */
-            new UBInfo(0xF900, 0xFAFF, "CJKCompatibilityIdeographs"), // Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+            new UBInfo(0xF900, 0xFAFF, "CJKCompatibilityIdeographs"),
             /* FB00; FB4F; Alphabetic Presentation Forms */
-            new UBInfo(0xFB00, 0xFB4F, "AlphabeticPresentationForms"), // Character.UnicodeBlock.ALPHABETIC_PRESENTATION_FORMS
+            new UBInfo(0xFB00, 0xFB4F, "AlphabeticPresentationForms"),
             /* FB50; FDFF; Arabic Presentation Forms-A */
-            new UBInfo(0xFB50, 0xFDFF, "ArabicPresentationForms-A"), // Character.UnicodeBlock.ARABIC_PRESENTATION_FORMS_A
+            new UBInfo(0xFB50, 0xFDFF, "ArabicPresentationForms-A"),
             /* FE20; FE2F; Combining Half Marks */
             new UBInfo(0xFE20, 0xFE2F, "CombiningHalfMarks"), // Character.UnicodeBlock.COMBINING_HALF_MARKS
             /* FE30; FE4F; CJK Compatibility Forms */
@@ -1421,7 +1418,7 @@ public class Pattern2Test extends TestCase {
             /* FEFF; FEFF; Specials */
             new UBInfo(0xFEFF, 0xFEFF, "Specials"), // Character.UnicodeBlock.SPECIALS
             /* FF00; FFEF; Halfwidth and Fullwidth Forms */
-            new UBInfo(0xFF00, 0xFFEF, "HalfwidthandFullwidthForms"), // Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS
+            new UBInfo(0xFF00, 0xFFEF, "HalfwidthandFullwidthForms"),
             /* FFF0; FFFD; Specials */
             new UBInfo(0xFFF0, 0xFFFD, "Specials") // Character.UnicodeBlock.SPECIALS
     };

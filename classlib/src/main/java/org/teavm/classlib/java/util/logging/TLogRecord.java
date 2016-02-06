@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -37,10 +37,10 @@ public class TLogRecord extends TObject implements TSerializable {
 
     public TLogRecord(TLevel level, TString msg) {
         this.level = level;
-        this.message = msg;
-        this.millis = TSystem.currentTimeMillis();
-        this.sequenceNumber = sequenceNumberGenerator++;
-        this.threadID = TThread.currentThread().getId();
+        message = msg;
+        millis = TSystem.currentTimeMillis();
+        sequenceNumber = sequenceNumberGenerator++;
+        threadID = TThread.currentThread().getId();
     }
 
     public TLevel getLevel() {

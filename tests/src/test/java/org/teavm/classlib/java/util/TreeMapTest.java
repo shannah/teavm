@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,22 +13,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-/*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+
+
 package org.teavm.classlib.java.util;
 
 import static org.junit.Assert.*;
@@ -36,6 +22,7 @@ import java.io.Serializable;
 import java.util.*;
 import org.junit.Test;
 
+@SuppressWarnings("SuspiciousMethodCalls")
 public class TreeMapTest {
 
     public static class ReversedComparator implements Comparator<Object> {
@@ -58,12 +45,10 @@ public class TreeMapTest {
             if (o1 == o2) {
                 return 0;
             }
-            if (null == o1 || null == o2) {
+            if (o1 == null || o2 == null) {
                 return -1;
             }
-            T c1 = o1;
-            T c2 = o2;
-            return c1.compareTo(c2);
+            return o1.compareTo(o2);
         }
     }
 
@@ -74,10 +59,10 @@ public class TreeMapTest {
             if (o1 == o2) {
                 return 0;
             }
-            if (null == o1) {
+            if (o1 == null) {
                 return -1;
             }
-            if (null == o2) { // comparator should be symmetric
+            if (o2 == null) { // comparator should be symmetric
                 return 1;
             }
             return o1.compareTo(o2);
@@ -86,12 +71,12 @@ public class TreeMapTest {
 
     TreeMap<Object, Object> tm;
 
-    Object objArray[] = new Object[1000];
+    Object[] objArray = new Object[1000];
 
     public TreeMapTest() {
         tm = new TreeMap<>();
         for (int i = 0; i < objArray.length; i++) {
-            Object x = objArray[i] = new Integer(i);
+            Object x = objArray[i] = i;
             tm.put(x.toString(), x);
         }
     }
@@ -104,8 +89,8 @@ public class TreeMapTest {
         TreeMap<Object, Object> reversedTreeMap = new TreeMap<>(comp);
         assertTrue("TreeMap answered incorrect comparator", reversedTreeMap
                 .comparator() == comp);
-        reversedTreeMap.put(new Integer(1).toString(), new Integer(1));
-        reversedTreeMap.put(new Integer(2).toString(), new Integer(2));
+        reversedTreeMap.put(new Integer(1).toString(), 1);
+        reversedTreeMap.put(new Integer(2).toString(), 2);
         assertTrue("TreeMap does not use comparator (firstKey was incorrect)",
                 reversedTreeMap.firstKey().equals(new Integer(2).toString()));
         assertTrue("TreeMap does not use comparator (lastKey was incorrect)",
@@ -128,8 +113,8 @@ public class TreeMapTest {
         // Test for method java.util.TreeMap(java.util.SortedMap)
         Comparator<Object> comp = new ReversedComparator();
         TreeMap<Object, Object> reversedTreeMap = new TreeMap<>(comp);
-        reversedTreeMap.put(new Integer(1).toString(), new Integer(1));
-        reversedTreeMap.put(new Integer(2).toString(), new Integer(2));
+        reversedTreeMap.put(new Integer(1).toString(), 1);
+        reversedTreeMap.put(new Integer(2).toString(), 2);
         TreeMap<Object, Object> anotherTreeMap = new TreeMap<>(reversedTreeMap);
         assertTrue("New tree map does not answer correct comparator",
                 anotherTreeMap.comparator() == comp);
@@ -186,8 +171,8 @@ public class TreeMapTest {
         Comparator<Object> comp = new ReversedComparator();
         TreeMap<Object, Object> reversedTreeMap = new TreeMap<>(comp);
         assertTrue("TreeMap answered incorrect comparator", reversedTreeMap.comparator() == comp);
-        reversedTreeMap.put(new Integer(1).toString(), new Integer(1));
-        reversedTreeMap.put(new Integer(2).toString(), new Integer(2));
+        reversedTreeMap.put(new Integer(1).toString(), 1);
+        reversedTreeMap.put(new Integer(2).toString(), 2);
         assertTrue("TreeMap does not use comparator (firstKey was incorrect)",
                 reversedTreeMap.firstKey().equals(new Integer(2).toString()));
         assertTrue("TreeMap does not use comparator (lastKey was incorrect)",
@@ -275,16 +260,7 @@ public class TreeMapTest {
         assertTrue(head instanceof Serializable);
 
         // Regression for ill-behaved collator
-        Comparator<String> c = new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                if (o1 == null) {
-                    return 0;
-                }
-                return o1.compareTo(o2);
-            }
-        };
-
+        Comparator<String> c = (o1, o2) -> o1 == null ? 0 : o1.compareTo(o2);
         TreeMap<String, String> treemap = new TreeMap<>(c);
         assertEquals(0, treemap.headMap(null).size());
 
@@ -304,13 +280,13 @@ public class TreeMapTest {
         try{
             sub.firstKey();
             fail("java.util.NoSuchElementException should be thrown");
-        } catch(java.util.NoSuchElementException e) {
+        } catch(NoSuchElementException e) {
         }
 
         try{
             sub.lastKey();
             fail("java.util.NoSuchElementException should be thrown");
-        } catch(java.util.NoSuchElementException e) {
+        } catch(NoSuchElementException e) {
         }
 
         size = 256;
@@ -324,13 +300,13 @@ public class TreeMapTest {
         try{
             sub.firstKey();
             fail("java.util.NoSuchElementException should be thrown");
-        } catch(java.util.NoSuchElementException e) {
+        } catch(NoSuchElementException e) {
         }
 
         try{
             sub.lastKey();
             fail("java.util.NoSuchElementException should be thrown");
-        } catch(java.util.NoSuchElementException e) {
+        } catch(NoSuchElementException e) {
         }
 
     }
@@ -360,7 +336,7 @@ public class TreeMapTest {
         assertTrue("Failed to put mapping", tm.get("Hello") == o);
 
         tm = new TreeMap<>();
-        assertNull(tm.put(new Integer(1), new Object()));
+        assertNull(tm.put(1, new Object()));
     }
 
     @Test
@@ -483,13 +459,13 @@ public class TreeMapTest {
         try{
             sub.firstKey();
             fail("java.util.NoSuchElementException should be thrown");
-        } catch(java.util.NoSuchElementException e) {
+        } catch(NoSuchElementException e) {
         }
 
         try{
             sub.lastKey();
             fail("java.util.NoSuchElementException should be thrown");
-        } catch(java.util.NoSuchElementException e) {
+        } catch(NoSuchElementException e) {
         }
 
         size = 256;
@@ -503,13 +479,13 @@ public class TreeMapTest {
         try{
             sub.firstKey();
             fail("java.util.NoSuchElementException should be thrown");
-        } catch(java.util.NoSuchElementException e) {
+        } catch(NoSuchElementException e) {
         }
 
         try{
             sub.lastKey();
             fail("java.util.NoSuchElementException should be thrown");
-        } catch(java.util.NoSuchElementException e) {
+        } catch(NoSuchElementException e) {
         }
 
     }
@@ -530,9 +506,9 @@ public class TreeMapTest {
             myTreeMap.put(objArray[i], objArray[i]);
         }
         Collection<Object> values = myTreeMap.values();
-        values.remove(new Integer(0));
+        values.remove(0);
         assertTrue("Removing from the values collection should remove from the original map",
-                !myTreeMap.containsValue(new Integer(0)));
+                !myTreeMap.containsValue(0));
     }
 
     /*

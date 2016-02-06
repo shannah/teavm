@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -46,11 +46,11 @@ public class ProgramNodeSplittingBackend implements GraphSplittingBackend {
             map.put(nodes[i], copies[i] + 1);
         }
         CopyBlockMapper copyBlockMapper = new CopyBlockMapper(map);
-        for (int i = 0; i < copies.length; ++i) {
-            copyBlockMapper.transform(program.basicBlockAt(copies[i]));
+        for (int copy : copies) {
+            copyBlockMapper.transform(program.basicBlockAt(copy));
         }
-        for (int i = 0; i < domain.length; ++i) {
-            copyBlockMapper.transform(program.basicBlockAt(domain[i]));
+        for (int domainElem : domain) {
+            copyBlockMapper.transform(program.basicBlockAt(domainElem));
         }
         return copies;
     }

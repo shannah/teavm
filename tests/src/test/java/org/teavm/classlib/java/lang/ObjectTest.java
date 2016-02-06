@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ public class ObjectTest {
         assertTrue(Object.class.isInstance(new Object()));
     }
 
+    @SuppressWarnings("ImplicitArrayToString")
     @Test
     public void toStringWorks() {
         assertTrue(new Object().toString().startsWith("java.lang.Object@"));

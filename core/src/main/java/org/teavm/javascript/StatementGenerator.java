@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -639,8 +639,8 @@ class StatementGenerator implements InstructionVisitor {
         Statement consequent = generateJumpStatement(consequentBlock);
         Statement alternative = generateJumpStatement(alternativeBlock);
         statements.add(Statement.cond(condition,
-                consequent != null ? Arrays.asList(consequent) : Collections.<Statement>emptyList(),
-                alternative != null ? Arrays.asList(alternative) : Collections.<Statement>emptyList()));
+                consequent != null ? Arrays.asList(consequent) : Collections.emptyList(),
+                alternative != null ? Arrays.asList(alternative) : Collections.emptyList()));
     }
 
     private Expr compare(BinaryOperation op, Variable value) {

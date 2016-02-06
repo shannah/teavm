@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -79,11 +79,8 @@ public class JavaScriptBodyTest {
     @Test
     public void unusedArgumentIgnored() {
         final int[] array = new int[1];
-        invokeCallback(new Callback() {
-            @Override
-            public void exec(Calendar input) {
-                array[0] = 23;
-            }
+        invokeCallback(input -> {
+            array[0] = 23;
         });
         assertEquals(23, array[0]);
     }

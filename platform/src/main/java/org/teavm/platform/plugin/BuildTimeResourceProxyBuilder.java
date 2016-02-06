@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.teavm.platform.metadata.ResourceMap;
  */
 class BuildTimeResourceProxyBuilder {
     private Map<Class<?>, BuildTimeResourceProxyFactory> factories = new HashMap<>();
-    private static Set<Class<?>> allowedPropertyTypes = new HashSet<>(Arrays.<Class<?>>asList(
+    private static Set<Class<?>> allowedPropertyTypes = new HashSet<>(Arrays.asList(
             boolean.class, byte.class, short.class, int.class, float.class, double.class,
             String.class, ResourceArray.class, ResourceMap.class));
     private static Map<Class<?>, Object> defaultValues = new HashMap<>();
@@ -64,8 +64,8 @@ class BuildTimeResourceProxyBuilder {
         private Object[] initialData;
         private Map<String, Class<?>> propertyTypes = new HashMap<>();
 
-        public ProxyFactoryCreation(Class<?> iface) {
-            this.rootIface = iface;
+        ProxyFactoryCreation(Class<?> iface) {
+            rootIface = iface;
         }
 
         BuildTimeResourceProxyFactory create() {

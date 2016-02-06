@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +22,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.junit.Test;
 
+@SuppressWarnings("ThrowablePrintedToSystemOut")
 public class PatternTest {
     String[] testPatterns = {
             "(a|b)*abb",
@@ -54,7 +54,7 @@ public class PatternTest {
         assertEquals(Pattern.compile("o").split("boo:and:foo", 5).length, 5);
         assertEquals(Pattern.compile("b").split("ab", -1).length, 2);
         // bug5391
-        String s[];
+        String[] s;
         Pattern pat = Pattern.compile("x");
         s = pat.split("zxx:zzz:zxx", 10);
         assertEquals(s.length, 5);
@@ -120,7 +120,7 @@ public class PatternTest {
 
     @Test
     public void testSplitCharSequence() {
-        String s[];
+        String[] s;
         Pattern pat = Pattern.compile("b");
         s = pat.split("abccbadfebb");
         assertEquals(s.length, 3);
@@ -367,7 +367,7 @@ public class PatternTest {
                 Pattern.compile(element);
                 fail("PatternSyntaxException was expected, but compilation succeeds");
             } catch (PatternSyntaxException pse) {
-                continue;
+                // As expected
             }
         }
         // Regression for HARMONY-1365
@@ -386,8 +386,8 @@ public class PatternTest {
     @Test
     public void testQuantComposition() {
         String pattern = "(a{1,3})aab";
-        java.util.regex.Pattern pat = java.util.regex.Pattern.compile(pattern);
-        java.util.regex.Matcher mat = pat.matcher("aaab");
+        Pattern pat = Pattern.compile(pattern);
+        Matcher mat = pat.matcher("aaab");
         mat.matches();
         mat.start(1);
         mat.group(1);
@@ -467,7 +467,7 @@ public class PatternTest {
 
     @Test
     public void testRangesSpecialCases() {
-        String neg_patterns[] = { "[a-&&[b-c]]", "[a-\\w]", "[b-a]", "[]" };
+        String[] neg_patterns = { "[a-&&[b-c]]", "[a-\\w]", "[b-a]", "[]" };
 
         for (String element : neg_patterns) {
             try {
@@ -477,7 +477,7 @@ public class PatternTest {
             }
         }
 
-        String pos_patterns[] = { "[-]+", "----", "[a-]+", "a-a-a-a-aa--",
+        String[] pos_patterns = { "[-]+", "----", "[a-]+", "a-a-a-a-aa--",
                 "[\\w-a]+", "123-2312--aaa-213", "[a-]]+", "-]]]]]]]]]]]]]]]" };
 
         for (int i = 0; i < pos_patterns.length; i++) {
@@ -536,20 +536,20 @@ public class PatternTest {
 
     @Test
     public void testBug197() {
-        Object[] vals = { ":", new Integer(2),
-                new String[] { "boo", "and:foo" }, ":", new Integer(5),
-                new String[] { "boo", "and", "foo" }, ":", new Integer(-2),
-                new String[] { "boo", "and", "foo" }, ":", new Integer(3),
-                new String[] { "boo", "and", "foo" }, ":", new Integer(1),
-                new String[] { "boo:and:foo" }, "o", new Integer(5),
+        Object[] vals = { ":", 2,
+                new String[] { "boo", "and:foo" }, ":", 5,
+                new String[] { "boo", "and", "foo" }, ":", -2,
+                new String[] { "boo", "and", "foo" }, ":", 3,
+                new String[] { "boo", "and", "foo" }, ":", 1,
+                new String[] { "boo:and:foo" }, "o", 5,
                 new String[] { "b", "", ":and:f", "", "" }, "o",
-                new Integer(4), new String[] { "b", "", ":and:f", "o" }, "o",
-                new Integer(-2), new String[] { "b", "", ":and:f", "", "" },
-                "o", new Integer(0), new String[] { "b", "", ":and:f" } };
+                4, new String[] { "b", "", ":and:f", "o" }, "o",
+                -2, new String[] { "b", "", ":and:f", "", "" },
+                "o", 0, new String[] { "b", "", ":and:f" } };
 
         for (int i = 0; i < vals.length / 3;) {
             String[] res = Pattern.compile(vals[i++].toString()).split(
-                    "boo:and:foo", ((Integer) vals[i++]).intValue());
+                    "boo:and:foo", (Integer) vals[i++]);
             String[] expectedRes = (String[]) vals[i++];
 
             assertEquals(expectedRes.length, res.length);

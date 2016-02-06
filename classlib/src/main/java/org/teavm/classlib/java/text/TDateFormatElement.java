@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -290,7 +290,7 @@ abstract class TDateFormatElement {
 
         @Override
         public void parse(String text, TCalendar date, TParsePosition position) {
-            int num = 0;
+            int num;
             int pos = position.getIndex();
             char c = text.charAt(pos++);
             if (c < '0' || c > '9') {
@@ -343,7 +343,7 @@ abstract class TDateFormatElement {
         }
     }
 
-    public static abstract class BaseTimezone extends TDateFormatElement {
+    public abstract static class BaseTimezone extends TDateFormatElement {
         private static Map<TLocale, TrieNode> cache;
         private static TrieNode idSearchTrie;
         protected TLocale locale;
@@ -683,11 +683,7 @@ abstract class TDateFormatElement {
                 builders.add(tmp);
                 tmp = tmp.sibling;
             }
-            Collections.sort(builders, new Comparator<TrieNodeBuilder>() {
-                @Override public int compare(TrieNodeBuilder o1, TrieNodeBuilder o2) {
-                    return Character.compare(o1.ch, o2.ch);
-                }
-            });
+            Collections.sort(builders, Comparator.comparing(o -> o.ch));
             node.chars = new char[builders.size()];
             node.childNodes = new TrieNode[builders.size()];
             for (int i = 0; i < node.chars.length; ++i) {

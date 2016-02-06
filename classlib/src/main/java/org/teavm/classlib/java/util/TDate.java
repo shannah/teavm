@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -32,25 +32,29 @@ public class TDate implements TComparable<TDate> {
     }
 
     public TDate(long date) {
-        this.value = date;
+        value = date;
     }
 
+    @SuppressWarnings("deprecation")
     @Deprecated
     public TDate(int year, int month, int date) {
         this(year, month, date, 0, 0);
     }
 
+    @SuppressWarnings("deprecation")
     @Deprecated
     public TDate(int year, int month, int date, int hrs, int min) {
         this(year, month, date, hrs, min, 0);
     }
 
+    @SuppressWarnings("deprecation")
     @Deprecated
     public TDate(int year, int month, int date, int hrs, int min, int sec) {
         this((long) JSDate.create(year, month, date, hrs, min, sec).getTime());
         setYear(year);
     }
 
+    @SuppressWarnings("deprecation")
     public TDate(String s) {
         this(parse(s));
     }
@@ -83,7 +87,7 @@ public class TDate implements TComparable<TDate> {
     public void setYear(int year) {
         JSDate date = JSDate.create(value);
         date.setFullYear(year + 1900);
-        this.value = (long) date.getTime();
+        value = (long) date.getTime();
     }
 
     @Deprecated
@@ -95,7 +99,7 @@ public class TDate implements TComparable<TDate> {
     public void setMonth(int month) {
         JSDate date = JSDate.create(value);
         date.setMonth(month);
-        this.value = (long) date.getTime();
+        value = (long) date.getTime();
     }
 
     @Deprecated
@@ -107,7 +111,7 @@ public class TDate implements TComparable<TDate> {
     public void setDate(int date) {
         JSDate d = JSDate.create(value);
         d.setDate(date);
-        this.value = (long) d.getTime();
+        value = (long) d.getTime();
     }
 
     @Deprecated
@@ -124,7 +128,7 @@ public class TDate implements TComparable<TDate> {
     public void setHours(int hours) {
         JSDate date = JSDate.create(value);
         date.setHours(hours);
-        this.value = (long) date.getTime();
+        value = (long) date.getTime();
     }
 
     @Deprecated
@@ -136,7 +140,7 @@ public class TDate implements TComparable<TDate> {
     public void setMinutes(int minutes) {
         JSDate date = JSDate.create(value);
         date.setMinutes(minutes);
-        this.value = (long) date.getTime();
+        value = (long) date.getTime();
     }
 
     @Deprecated
@@ -148,7 +152,7 @@ public class TDate implements TComparable<TDate> {
     public void setSeconds(int seconds) {
         JSDate date = JSDate.create(value);
         date.setSeconds(seconds);
-        this.value = (long) date.getTime();
+        value = (long) date.getTime();
     }
 
     public long getTime() {

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -112,8 +112,8 @@ public class TDateFormatSymbols implements TSerializable, TCloneable {
             if (element.length != element.length) {
                 return false;
             }
-            for (int j = 0; j < element.length; j++) {
-                if (!(element[j].equals(element[j]))) {
+            for (String part : element) {
+                if (!(part.equals(part))) {
                     return false;
                 }
             }
@@ -204,9 +204,9 @@ public class TDateFormatSymbols implements TSerializable, TCloneable {
             hashCode += element.hashCode();
         }
         for (String[] element : zoneStrings) {
-            for (int j = 0; j < element.length; j++) {
-                if (element[j] != null) {
-                    hashCode += element[j].hashCode();
+            for (String part : element) {
+                if (part != null) {
+                    hashCode += part.hashCode();
                 }
             }
         }

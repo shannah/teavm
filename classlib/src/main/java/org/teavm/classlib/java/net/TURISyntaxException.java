@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -104,7 +104,7 @@ public class TURISyntaxException extends TException {
      * @return the string describing the syntax error.
      */
     public TString getReason() {
-        return TString.wrap(super.getMessage());
+        return TString.wrap(getMessage());
     }
 
     /**
@@ -122,7 +122,7 @@ public class TURISyntaxException extends TException {
      * available.
      *
      * @return a sting containing information about the exception.
-     * @see java.lang.Throwable#getMessage()
+     * @see Throwable#getMessage()
      */
     @Override
     @Rename("getMessage")

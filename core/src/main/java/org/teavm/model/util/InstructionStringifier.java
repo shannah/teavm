@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -353,7 +353,7 @@ public class InstructionStringifier implements InstructionReader {
         sb.append(arguments.stream().map(arg -> "@"  + arg.getIndex()).collect(Collectors.joining(", ")));
         sb.append(") ");
         sb.append("[").append(convert(bootstrapMethod)).append('(');
-        sb.append(bootstrapArguments.stream().map(arg -> convert(arg)).collect(Collectors.joining(", ")));
+        sb.append(bootstrapArguments.stream().map(this::convert).collect(Collectors.joining(", ")));
         sb.append(")");
     }
 

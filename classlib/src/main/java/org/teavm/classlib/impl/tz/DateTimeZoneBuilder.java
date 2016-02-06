@@ -1,5 +1,5 @@
 /*
- *  Copyright 2001-2013 Stephen Colebourne
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,51 +19,6 @@ import java.util.*;
 import org.teavm.classlib.impl.Base46;
 import org.teavm.classlib.impl.CharFlow;
 
-/**
- * DateTimeZoneBuilder allows complex DateTimeZones to be constructed. Since
- * creating a new DateTimeZone this way is a relatively expensive operation,
- * built zones can be written to a file. Reading back the encoded data is a
- * quick operation.
- * <p>
- * DateTimeZoneBuilder itself is mutable and not thread-safe, but the
- * DateTimeZone objects that it builds are thread-safe and immutable.
- * <p>
- * It is intended that {@link ZoneInfoCompiler} be used to read time zone data
- * files, indirectly calling DateTimeZoneBuilder. The following complex
- * example defines the America/Los_Angeles time zone, with all historical
- * transitions:
- *
- * <pre>
- * DateTimeZone America_Los_Angeles = new DateTimeZoneBuilder()
- *     .addCutover(-2147483648, 'w', 1, 1, 0, false, 0)
- *     .setStandardOffset(-28378000)
- *     .setFixedSavings("LMT", 0)
- *     .addCutover(1883, 'w', 11, 18, 0, false, 43200000)
- *     .setStandardOffset(-28800000)
- *     .addRecurringSavings("PDT", 3600000, 1918, 1919, 'w',  3, -1, 7, false, 7200000)
- *     .addRecurringSavings("PST",       0, 1918, 1919, 'w', 10, -1, 7, false, 7200000)
- *     .addRecurringSavings("PWT", 3600000, 1942, 1942, 'w',  2,  9, 0, false, 7200000)
- *     .addRecurringSavings("PPT", 3600000, 1945, 1945, 'u',  8, 14, 0, false, 82800000)
- *     .addRecurringSavings("PST",       0, 1945, 1945, 'w',  9, 30, 0, false, 7200000)
- *     .addRecurringSavings("PDT", 3600000, 1948, 1948, 'w',  3, 14, 0, false, 7200000)
- *     .addRecurringSavings("PST",       0, 1949, 1949, 'w',  1,  1, 0, false, 7200000)
- *     .addRecurringSavings("PDT", 3600000, 1950, 1966, 'w',  4, -1, 7, false, 7200000)
- *     .addRecurringSavings("PST",       0, 1950, 1961, 'w',  9, -1, 7, false, 7200000)
- *     .addRecurringSavings("PST",       0, 1962, 1966, 'w', 10, -1, 7, false, 7200000)
- *     .addRecurringSavings("PST",       0, 1967, 2147483647, 'w', 10, -1, 7, false, 7200000)
- *     .addRecurringSavings("PDT", 3600000, 1967, 1973, 'w', 4, -1,  7, false, 7200000)
- *     .addRecurringSavings("PDT", 3600000, 1974, 1974, 'w', 1,  6,  0, false, 7200000)
- *     .addRecurringSavings("PDT", 3600000, 1975, 1975, 'w', 2, 23,  0, false, 7200000)
- *     .addRecurringSavings("PDT", 3600000, 1976, 1986, 'w', 4, -1,  7, false, 7200000)
- *     .addRecurringSavings("PDT", 3600000, 1987, 2147483647, 'w', 4, 1, 7, true, 7200000)
- *     .toDateTimeZone("America/Los_Angeles", true);
- * </pre>
- *
- * @author Brian S O'Neill
- * @see ZoneInfoCompiler
- * @see ZoneInfoProvider
- * @since 1.0
- */
 public class DateTimeZoneBuilder {
     private static TimeZone gmtCache;
     private static StorableDateTimeZone buildFixedZone(String id, int wallOffset, int standardOffset) {
@@ -101,7 +56,7 @@ public class DateTimeZoneBuilder {
      */
     public DateTimeZoneBuilder addCutover(int year, char mode, int monthOfYear, int dayOfMonth, int dayOfWeek,
             boolean advanceDayOfWeek, int millisOfDay) {
-        if (iRuleSets.size() > 0) {
+        if (!iRuleSets.isEmpty()) {
             OfYear ofYear = new OfYear(mode, monthOfYear, dayOfMonth, dayOfWeek, advanceDayOfWeek, millisOfDay);
             RuleSet lastRuleSet = iRuleSets.get(iRuleSets.size() - 1);
             lastRuleSet.setUpperLimit(year, ofYear);
@@ -131,7 +86,6 @@ public class DateTimeZoneBuilder {
     /**
      * Add a recurring daylight saving time rule.
      *
-     * @param nameKey  the name key of new rule
      * @param saveMillis  the milliseconds to add to standard offset
      * @param fromYear  the first year that rule is in effect, MIN_VALUE indicates
      * beginning of time
@@ -166,7 +120,7 @@ public class DateTimeZoneBuilder {
     }
 
     private RuleSet getLastRuleSet() {
-        if (iRuleSets.size() == 0) {
+        if (iRuleSets.isEmpty()) {
             addCutover(Integer.MIN_VALUE, 'w', 1, 1, 0, false, 0);
         }
         return iRuleSets.get(iRuleSets.size() - 1);
@@ -192,7 +146,7 @@ public class DateTimeZoneBuilder {
         DSTZone tailZone = null;
 
         long millis = Long.MIN_VALUE;
-        int saveMillis = 0;
+        int saveMillis;
 
         int ruleSetCount = iRuleSets.size();
         for (int i = 0; i < ruleSetCount; i++) {
@@ -229,7 +183,7 @@ public class DateTimeZoneBuilder {
         }
 
         // Check if a simpler zone implementation can be returned.
-        if (transitions.size() == 0) {
+        if (transitions.isEmpty()) {
             if (tailZone != null) {
                 // This shouldn't happen, but handle just in case.
                 return tailZone;
@@ -930,10 +884,7 @@ public class DateTimeZoneBuilder {
                     // Overflowed.
                     start = instant;
                 }
-            } catch (IllegalArgumentException e) {
-                // Overflowed.
-                start = instant;
-            } catch (ArithmeticException e) {
+            } catch (IllegalArgumentException | ArithmeticException e) {
                 // Overflowed.
                 start = instant;
             }
@@ -944,10 +895,7 @@ public class DateTimeZoneBuilder {
                     // Overflowed.
                     end = instant;
                 }
-            } catch (IllegalArgumentException e) {
-                // Overflowed.
-                end = instant;
-            } catch (ArithmeticException e) {
+            } catch (IllegalArgumentException | ArithmeticException e) {
                 // Overflowed.
                 end = instant;
             }
@@ -974,10 +922,7 @@ public class DateTimeZoneBuilder {
                     // Overflowed.
                     start = instant;
                 }
-            } catch (IllegalArgumentException e) {
-                // Overflowed.
-                start = instant;
-            } catch (ArithmeticException e) {
+            } catch (IllegalArgumentException | ArithmeticException e) {
                 // Overflowed.
                 start = instant;
             }
@@ -988,10 +933,7 @@ public class DateTimeZoneBuilder {
                     // Overflowed.
                     end = instant;
                 }
-            } catch (IllegalArgumentException e) {
-                // Overflowed.
-                end = instant;
-            } catch (ArithmeticException e) {
+            } catch (IllegalArgumentException | ArithmeticException e) {
                 // Overflowed.
                 end = instant;
             }
@@ -1009,20 +951,14 @@ public class DateTimeZoneBuilder {
 
             try {
                 start = startRecurrence.next(instant, standardOffset, endRecurrence.getSaveMillis());
-            } catch (IllegalArgumentException e) {
-                // Overflowed.
-                start = instant;
-            } catch (ArithmeticException e) {
+            } catch (IllegalArgumentException | ArithmeticException e) {
                 // Overflowed.
                 start = instant;
             }
 
             try {
                 end = endRecurrence.next(instant, standardOffset, startRecurrence.getSaveMillis());
-            } catch (IllegalArgumentException e) {
-                // Overflowed.
-                end = instant;
-            } catch (ArithmeticException e) {
+            } catch (IllegalArgumentException | ArithmeticException e) {
                 // Overflowed.
                 end = instant;
             }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -180,7 +180,9 @@ public class BuildJavascriptTestMojo extends AbstractJavascriptMojo {
     }
 
     private void findTestClasses(ClassLoader classLoader, File folder, String prefix) {
-        for (File file : folder.listFiles()) {
+        File[] files = folder.listFiles();
+        assert files != null;
+        for (File file : files) {
             if (file.isDirectory()) {
                 String newPrefix = prefix.isEmpty() ? file.getName() : prefix + "." + file.getName();
                 findTestClasses(classLoader, file, newPrefix);

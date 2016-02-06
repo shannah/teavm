@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -76,7 +75,7 @@ public class StringTokenizerTest {
             st.nextElement();
             fail("nextElement failed to throw a NoSuchElementException when it should have been out of elements");
         } catch (NoSuchElementException e) {
-            return;
+            // As expected
         }
     }
 
@@ -92,7 +91,7 @@ public class StringTokenizerTest {
             st.nextToken();
             fail("nextToken failed to throw a NoSuchElementException when it should have been out of elements");
         } catch (NoSuchElementException e) {
-            return;
+            // As expected
         }
     }
 
@@ -107,7 +106,7 @@ public class StringTokenizerTest {
 
     @Test
     public void test_hasMoreElements_NPE() {
-        StringTokenizer stringTokenizer = new StringTokenizer(new String(), (String)null, true);
+        StringTokenizer stringTokenizer = new StringTokenizer("",  null, true);
         try {
             stringTokenizer.hasMoreElements();
             fail("should throw NullPointerException");
@@ -115,7 +114,7 @@ public class StringTokenizerTest {
             // Expected
         }
 
-        stringTokenizer = new StringTokenizer(new String(), (String)null);
+        stringTokenizer = new StringTokenizer("", null);
         try {
             stringTokenizer.hasMoreElements();
             fail("should throw NullPointerException");
@@ -126,7 +125,7 @@ public class StringTokenizerTest {
 
     @Test
     public void test_hasMoreTokens_NPE() {
-        StringTokenizer stringTokenizer = new StringTokenizer(new String(), (String)null, true);
+        StringTokenizer stringTokenizer = new StringTokenizer("", null, true);
         try {
             stringTokenizer.hasMoreTokens();
             fail("should throw NullPointerException");
@@ -134,7 +133,7 @@ public class StringTokenizerTest {
             // Expected
         }
 
-        stringTokenizer = new StringTokenizer(new String(), (String)null);
+        stringTokenizer = new StringTokenizer("", null);
         try {
             stringTokenizer.hasMoreTokens();
             fail("should throw NullPointerException");
@@ -145,7 +144,7 @@ public class StringTokenizerTest {
 
     @Test
     public void test_nextElement_NPE() {
-        StringTokenizer stringTokenizer = new StringTokenizer(new String(), (String)null, true);
+        StringTokenizer stringTokenizer = new StringTokenizer("", null, true);
         try {
             stringTokenizer.nextElement();
             fail("should throw NullPointerException");
@@ -153,7 +152,7 @@ public class StringTokenizerTest {
             // Expected
         }
 
-        stringTokenizer = new StringTokenizer(new String(), (String)null);
+        stringTokenizer = new StringTokenizer("", null);
         try {
             stringTokenizer.nextElement();
             fail("should throw NullPointerException");
@@ -164,7 +163,7 @@ public class StringTokenizerTest {
 
     @Test
     public void test_nextToken_NPE() {
-        StringTokenizer stringTokenizer = new StringTokenizer(new String(), (String)null, true);
+        StringTokenizer stringTokenizer = new StringTokenizer("", null, true);
         try {
             stringTokenizer.nextToken();
             fail("should throw NullPointerException");
@@ -172,7 +171,7 @@ public class StringTokenizerTest {
             // Expected
         }
 
-        stringTokenizer = new StringTokenizer(new String(), (String)null);
+        stringTokenizer = new StringTokenizer("", null);
         try {
             stringTokenizer.nextToken();
             fail("should throw NullPointerException");
@@ -183,7 +182,7 @@ public class StringTokenizerTest {
 
     @Test
     public void test_nextTokenLjava_lang_String_NPE() {
-        StringTokenizer stringTokenizer = new StringTokenizer(new String());
+        StringTokenizer stringTokenizer = new StringTokenizer("");
         try {
             stringTokenizer.nextToken(null);
             fail("should throw NullPointerException");

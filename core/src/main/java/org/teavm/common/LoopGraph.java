@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -91,8 +91,7 @@ public class LoopGraph implements Graph {
                 frame.walkIndex = walkIndex++;
                 stack.push(frame);
                 int[] targetEdges = graph.outgoingEdges(frame.index);
-                for (int i = 0; i < targetEdges.length; ++i) {
-                    int next = targetEdges[i];
+                for (int next : targetEdges) {
                     LoopFrame nextFrame = frames[next];
                     if (nextFrame == null) {
                         nextFrame = new LoopFrame();
@@ -105,8 +104,7 @@ public class LoopGraph implements Graph {
                 frame.done = true;
                 LoopImpl bestLoop = null;
                 int[] targetEdges = graph.outgoingEdges(frame.index);
-                for (int i = 0; i < targetEdges.length; ++i) {
-                    int next = targetEdges[i];
+                for (int next : targetEdges) {
                     LoopFrame nextFrame = frames[next];
                     LoopImpl loop = nextFrame.loop;
                     if (!nextFrame.done) {

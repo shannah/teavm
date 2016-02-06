@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -65,8 +65,7 @@ public class DefaultGraphSplittingBackend implements GraphSplittingBackend {
             copyIndexes.add(++copyCount[proto]);
         }
 
-        for (int i = 0; i < domain.length; ++i) {
-            int node = domain[i];
+        for (int node : domain) {
             for (int succ : graph.outgoingEdges(node)) {
                 int succCopy = map.get(succ);
                 if (succCopy == 0) {

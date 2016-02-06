@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -165,17 +165,16 @@ public class SSATransformer {
                 insn.acceptVisitor(consumer);
             }
             int[] successors = domGraph.outgoingEdges(currentBlock.getIndex());
-            for (int i = 0; i < successors.length; ++i) {
+            for (int succ : successors) {
                 Task next = new Task();
                 next.variables = Arrays.copyOf(variableMap, variableMap.length);
-                next.block = program.basicBlockAt(successors[i]);
+                next.block = program.basicBlockAt(succ);
                 stack[head++] = next;
             }
             successors = cfg.outgoingEdges(currentBlock.getIndex());
-            for (int i = 0; i < successors.length; ++i) {
-                int successor = successors[i];
-                int[] phiIndexes = phiIndexMap[successor];
-                List<Phi> phis = program.basicBlockAt(successor).getPhis();
+            for (int succ : successors) {
+                int[] phiIndexes = phiIndexMap[succ];
+                List<Phi> phis = program.basicBlockAt(succ).getPhis();
                 for (int j = 0; j < phis.size(); ++j) {
                     Phi phi = phis.get(j);
                     Variable var = variableMap[phiIndexes[j]];

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ public class TCloneNotSupportedException extends TException {
     private static final long serialVersionUID = 4908200987785128012L;
 
     public TCloneNotSupportedException() {
-        super();
     }
 
     public TCloneNotSupportedException(TString message) {

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -59,17 +59,14 @@ public class TThread extends TObject implements TRunnable {
     }
 
     public void start() {
-        Platform.startThread(new PlatformRunnable() {
-            @Override
-            public void run() {
-                try {
-                    activeCount++;
-                    setCurrentThread(TThread.this);
-                    TThread.this.run();
-                } finally {
-                    activeCount--;
-                    setCurrentThread(mainThread);
-                }
+        Platform.startThread(() -> {
+            try {
+                activeCount++;
+                setCurrentThread(TThread.this);
+                TThread.this.run();
+            } finally {
+                activeCount--;
+                setCurrentThread(mainThread);
             }
         });
     }
@@ -135,11 +132,9 @@ public class TThread extends TObject implements TRunnable {
     static native void switchContext(TThread thread);
 
     private static void switchContext(final TThread thread, final AsyncCallback<Void> callback) {
-        Platform.postpone(new PlatformRunnable() {
-            @Override public void run() {
-                setCurrentThread(thread);
-                callback.complete(null);
-            }
+        Platform.postpone(() -> {
+            setCurrentThread(thread);
+            callback.complete(null);
         });
     }
 
@@ -201,11 +196,7 @@ public class TThread extends TObject implements TRunnable {
             thread.interruptedFlag = false;
             isInterrupted = true;
             Platform.killSchedule(scheduleId);
-            Platform.postpone(new PlatformRunnable() {
-                @Override public void run() {
-                    callback.error(new TInterruptedException());
-                }
-            });
+            Platform.postpone(() -> callback.error(new TInterruptedException()));
         }
 
         @Override
@@ -219,11 +210,11 @@ public class TThread extends TObject implements TRunnable {
     }
 
     public final void setPriority(int newPriority) {
-        this.priority = newPriority;
+        priority = newPriority;
     }
 
     public final int getPriority() {
-        return this.priority;
+        return priority;
     }
 
     public TStackTraceElement[] getStackTrace() {

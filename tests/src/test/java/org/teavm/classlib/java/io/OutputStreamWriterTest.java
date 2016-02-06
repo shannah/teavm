@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+@SuppressWarnings({ "ThrowablePrintedToSystemOut", "ConstantConditions" })
 public class OutputStreamWriterTest {
 
     private static final int UPPER = 0xd800;
@@ -36,10 +36,10 @@ public class OutputStreamWriterTest {
 
     private OutputStreamWriter writer;
 
-    static private final String source = "This is a test message with Unicode character. "
+    private static final String source = "This is a test message with Unicode character. "
             + "\u4e2d\u56fd is China's name in Chinese";
 
-    static private final String[] MINIMAL_CHARSETS = { "UTF-8" };
+    private static final String[] MINIMAL_CHARSETS = { "UTF-8" };
 
     OutputStreamWriter osw;
 
@@ -84,7 +84,7 @@ public class OutputStreamWriterTest {
 
         // Throws IndexOutOfBoundsException if offset is negative
         try {
-            writer.write((char[])null, -1, -1);
+            writer.write((char[]) null, -1, -1);
             fail("should throw IndexOutOfBoundsException");
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             // Expected

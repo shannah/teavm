@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -55,8 +55,8 @@ public class MissingItemsProcessor {
     }
 
     public void processMethod(MethodHolder method) {
-        this.methodHolder = method;
-        this.program = method.getProgram();
+        methodHolder = method;
+        program = method.getProgram();
         boolean wasModified = false;
         for (int i = 0; i < program.basicBlockCount(); ++i) {
             BasicBlock block = program.basicBlockAt(i);

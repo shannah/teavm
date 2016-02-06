@@ -1,12 +1,11 @@
 /*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
+ *  Copyright 2016 "Alexey Andreev"
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,13 +29,12 @@ class TUMultiLineEOLSet extends TAbstractSet {
     private int consCounter;
 
     public TUMultiLineEOLSet(int counter) {
-        this.consCounter = counter;
+        consCounter = counter;
     }
 
     @Override
     public int matches(int strIndex, CharSequence testString, TMatchResultImpl matchResult) {
-        int strDif = matchResult.hasAnchoringBounds() ? matchResult.getRightBound() - strIndex : testString.length() -
-                strIndex;
+        int strDif = (matchResult.hasAnchoringBounds() ? matchResult.getRightBound() : testString.length()) - strIndex;
         if (strDif <= 0) {
             matchResult.setConsumed(consCounter, 0);
             return next.matches(strIndex, testString, matchResult);

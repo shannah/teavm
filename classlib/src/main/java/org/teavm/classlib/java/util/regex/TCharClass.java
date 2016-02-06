@@ -1,27 +1,11 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-/*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,22 +29,22 @@ import java.util.BitSet;
  */
 class TCharClass extends TAbstractCharClass {
     // Flag indicates if we add supplement upper/lower case
-    boolean ci = false;
+    boolean ci;
 
-    boolean uci = false;
+    boolean uci;
 
     // Flag indicates if there are unicode supplements
-    boolean hasUCI = false;
+    boolean hasUCI;
 
-    boolean invertedSurrogates = false;
+    boolean invertedSurrogates;
 
-    boolean inverted = false;
+    boolean inverted;
 
-    boolean hideBits = false;
+    boolean hideBits;
 
     BitSet bits = new BitSet();
 
-    TAbstractCharClass nonBitSet = null;
+    TAbstractCharClass nonBitSet;
 
     public TCharClass() {
     }
@@ -104,8 +88,9 @@ class TCharClass extends TAbstractCharClass {
 
         if (!inverted) {
             bits.set(ch);
-        } else
+        } else {
             bits.clear(ch);
+        }
 
         if (!mayContainSupplCodepoints && Character.isSupplementaryCodePoint(ch)) {
             mayContainSupplCodepoints = true;
@@ -222,7 +207,7 @@ class TCharClass extends TAbstractCharClass {
                     nonBitSet = new TAbstractCharClass() {
                         @Override
                         public boolean contains(int ch) {
-                            return !(curAlt ^ (nb.contains(ch) || cc.contains(ch)));
+                            return curAlt == (nb.contains(ch) || cc.contains(ch));
                         }
                     };
                     // alt = true
@@ -242,8 +227,9 @@ class TCharClass extends TAbstractCharClass {
     }
 
     public TCharClass add(int st, int end) {
-        if (st > end)
+        if (st > end) {
             throw new IllegalArgumentException();
+        }
         if (!ci
 
         // no intersection with surrogate characters
@@ -268,8 +254,9 @@ class TCharClass extends TAbstractCharClass {
             mayContainSupplCodepoints = true;
         }
 
-        if (clazz.hasUCI())
-            this.hasUCI = true;
+        if (clazz.hasUCI()) {
+            hasUCI = true;
+        }
 
         if (altSurrogates ^ clazz.altSurrogates) {
 
@@ -395,8 +382,9 @@ class TCharClass extends TAbstractCharClass {
             mayContainSupplCodepoints = true;
         }
 
-        if (clazz.hasUCI())
-            this.hasUCI = true;
+        if (clazz.hasUCI()) {
+            hasUCI = true;
+        }
 
         if (altSurrogates ^ clazz.altSurrogates) {
 
@@ -515,23 +503,10 @@ class TCharClass extends TAbstractCharClass {
         }
     }
 
-    /**
-     * Returns <code>true</code> if character class contains symbol specified,
-     * <code>false</code> otherwise. Note: #setNegative() method changes the
-     * meaning of contains method;
-     *
-     * @param ch
-     * @return <code>true</code> if character class contains symbol specified;
-     *
-     *         TODO: currently <code>character class</code> implementation based
-     *         on BitSet, but this implementation possibly will be turned to
-     *         combined BitSet(for first 256 symbols) and Black/Red tree for the
-     *         rest of UTF.
-     */
     @Override
     public boolean contains(int ch) {
         if (nonBitSet == null) {
-            return this.alt ^ bits.get(ch);
+            return alt ^ bits.get(ch);
         } else {
             return alt ^ nonBitSet.contains(ch);
         }
@@ -539,14 +514,10 @@ class TCharClass extends TAbstractCharClass {
 
     @Override
     protected BitSet getBits() {
-        if (hideBits)
+        if (hideBits) {
             return null;
+        }
         return bits;
-    }
-
-    @Override
-    protected BitSet getLowHighSurrogates() {
-        return lowHighSurrogates;
     }
 
     @Override
@@ -558,7 +529,7 @@ class TCharClass extends TAbstractCharClass {
             TAbstractCharClass res = new TAbstractCharClass() {
                 @Override
                 public boolean contains(int ch) {
-                    return this.alt ^ bs.get(ch);
+                    return alt ^ bs.get(ch);
                 }
 
                 @Override
@@ -569,8 +540,9 @@ class TCharClass extends TAbstractCharClass {
                         temp.append('|');
                     }
 
-                    if (temp.length() > 0)
+                    if (temp.length() > 0) {
                         temp.deleteCharAt(temp.length() - 1);
+                    }
 
                     return temp.toString();
                 }
@@ -591,8 +563,9 @@ class TCharClass extends TAbstractCharClass {
             temp.append('|');
         }
 
-        if (temp.length() > 0)
+        if (temp.length() > 0) {
             temp.deleteCharAt(temp.length() - 1);
+        }
 
         return temp.toString();
     }

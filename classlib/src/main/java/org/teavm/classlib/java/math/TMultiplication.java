@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.teavm.classlib.java.math;
 /**
  * Static library that provides all multiplication of {@link TBigInteger} methods.
  */
-class TMultiplication {
+final class TMultiplication {
 
     /** Just to denote that this class can't be instantiated. */
     private TMultiplication() {
@@ -213,8 +213,8 @@ class TMultiplication {
      *
      *</tt>
      *
-     * @param op1 first factor of the multiplication {@code  op1 >= 0}
-     * @param op2 second factor of the multiplication {@code  op2 >= 0}
+     * @param a first factor of the multiplication {@code  op1 >= 0}
+     * @param b second factor of the multiplication {@code  op2 >= 0}
      * @return a {@code BigInteger} of value {@code  op1 * op2}
      */
     static TBigInteger multiplyPAP(TBigInteger a, TBigInteger b) {

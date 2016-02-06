@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -45,8 +45,7 @@ function $rt_createArray(cls, sz) {
     return arr;
 }
 function $rt_wrapArray(cls, data) {
-    var arr = new ($rt_arraycls(cls))(data);
-    return arr;
+    return new ($rt_arraycls(cls))(data);
 }
 function $rt_createUnfilledArray(cls, sz) {
     return new ($rt_arraycls(cls))(new Array(sz));
@@ -100,13 +99,13 @@ if (ArrayBuffer) {
           data[i] = 0;
       }
       return arr;
-    }
-    $rt_createByteArray = function(sz) { return $rt_createNumericArray($rt_bytecls(), sz); }
-    $rt_createShortArray = function(sz) { return $rt_createNumericArray($rt_shortcls(), sz); }
-    $rt_createIntArray = function(sz) { return $rt_createNumericArray($rt_intcls(), sz); }
-    $rt_createBooleanArray = function(sz) { return $rt_createNumericArray($rt_booleancls(), sz); }
-    $rt_createFloatArray = function(sz) { return $rt_createNumericArray($rt_floatcls(), sz); }
-    $rt_createDoubleArray = function(sz) { return $rt_createNumericArray($rt_doublecls(), sz); }
+    };
+    $rt_createByteArray = function(sz) { return $rt_createNumericArray($rt_bytecls(), sz); };
+    $rt_createShortArray = function(sz) { return $rt_createNumericArray($rt_shortcls(), sz); };
+    $rt_createIntArray = function(sz) { return $rt_createNumericArray($rt_intcls(), sz); };
+    $rt_createBooleanArray = function(sz) { return $rt_createNumericArray($rt_booleancls(), sz); };
+    $rt_createFloatArray = function(sz) { return $rt_createNumericArray($rt_floatcls(), sz); };
+    $rt_createDoubleArray = function(sz) { return $rt_createNumericArray($rt_doublecls(), sz); };
     $rt_createCharArray = function(sz) { return $rt_createNumericArray($rt_charcls(), sz); }
 }
 function $rt_arraycls(cls) {
@@ -127,7 +126,7 @@ function $rt_arraycls(cls) {
             }
             str += "]";
             return str;
-        }
+        };
         var name = "[" + cls.$meta.binaryName;
         arraycls.$meta = { item : cls, supertypes : [$rt_objcls()], primitive : false, superclass : $rt_objcls(),
                 name : name, binaryName : name, enum : false };
@@ -363,7 +362,7 @@ function $rt_putStderr(ch) {
 }
 function $rt_metadata(data) {
     for (var i = 0; i < data.length; i += 8) {
-        var cls = data[i + 0];
+        var cls = data[i];
         cls.$meta = {};
         var m = cls.$meta;
         m.name = data[i + 1];
@@ -375,7 +374,7 @@ function $rt_metadata(data) {
             m.supertypes.push(m.superclass);
             cls.prototype = new m.superclass();
         } else {
-            cls.prototype = new Object();
+            cls.prototype = {};
         }
         var flags = data[i + 4];
         m.enum = (flags & 1) != 0;
@@ -403,7 +402,7 @@ function $rt_metadata(data) {
 
         var virtualMethods = data[i + 7];
         for (var j = 0; j < virtualMethods.length; j += 2) {
-            var name = virtualMethods[j + 0];
+            var name = virtualMethods[j];
             var func = virtualMethods[j + 1];
             if (typeof name === 'string') {
                 name = [name];
@@ -457,22 +456,22 @@ TeaVMThread.prototype.push = function() {
         this.stack.push(arguments[i]);
     }
     return this;
-}
+};
 TeaVMThread.prototype.s = TeaVMThread.prototype.push;
 TeaVMThread.prototype.pop = function() {
     return this.stack.pop();
-}
+};
 TeaVMThread.prototype.l = TeaVMThread.prototype.pop;
 TeaVMThread.prototype.isResuming = function() {
     return this.status == 2;
-}
+};
 TeaVMThread.prototype.isSuspending = function() {
     return this.status == 1;
-}
+};
 TeaVMThread.prototype.suspend = function(callback) {
     this.suspendCallback = callback;
     this.status = 1;
-}
+};
 TeaVMThread.prototype.start = function(callback) {
     if (this.status != 3) {
         throw new Error("Thread already started");
@@ -487,14 +486,14 @@ TeaVMThread.prototype.start = function(callback) {
         }
     };
     this.run();
-}
+};
 TeaVMThread.prototype.resume = function() {
     if ($rt_currentNativeThread !== null) {
         throw new Error("Another thread is running");
     }
     this.status = 2;
     this.run();
-}
+};
 TeaVMThread.prototype.run = function() {
     $rt_currentNativeThread = this;
     var result;
@@ -515,7 +514,7 @@ TeaVMThread.prototype.run = function() {
     } else if (this.status === 0) {
         this.completeCallback(result);
     }
-}
+};
 function $rt_suspending() {
     var thread = $rt_nativeThread();
     return thread != null && thread.isSuspending();
@@ -596,7 +595,7 @@ Long.prototype.toString = function() {
     } while (n.lo != 0 || n.hi != 0);
     result = result.reverse().join('');
     return positive ? result : "-" + result;
-}
+};
 var Long_ZERO = new Long(0, 0);
 var Long_MAX_NORMAL = 1 << 18;
 function Long_fromInt(val) {
@@ -924,7 +923,8 @@ function LongInt_numOfLeadingZeroBits(a) {
 function LongInt_shl(a, b) {
     if (b == 0) {
         return;
-    } else if (b < 32) {
+    }
+    if (b < 32) {
         a.sup = ((a.hi >>> (32 - b)) | (a.sup << b)) & 0xFFFF;
         a.hi = (a.lo >>> (32 - b)) | (a.hi << b);
         a.lo <<= b;
@@ -949,7 +949,8 @@ function LongInt_shl(a, b) {
 function LongInt_shr(a, b) {
     if (b == 0) {
         return;
-    } else if (b == 32) {
+    }
+    if (b == 32) {
         a.lo = a.hi;
         a.hi = a.sup;
         a.sup = 0;

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -67,11 +67,11 @@ public class TDecimalFormatSymbols implements Cloneable {
         return TLocale.getAvailableLocales();
     }
 
-    public static final TDecimalFormatSymbols getInstance() {
+    public static TDecimalFormatSymbols getInstance() {
         return new TDecimalFormatSymbols();
     }
 
-    public static final TDecimalFormatSymbols getInstance(TLocale locale) {
+    public static TDecimalFormatSymbols getInstance(TLocale locale) {
         return new TDecimalFormatSymbols(locale);
     }
 

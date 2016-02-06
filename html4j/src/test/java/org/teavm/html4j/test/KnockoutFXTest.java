@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -50,9 +50,6 @@ public final class KnockoutFXTest extends KnockoutTCK implements Transfer, WSTra
     private KO4J ko4j = new KO4J();
     private final Map<String, Request> urlMap = new HashMap<>();
     private final Map<String, WSImpl> wsUrlMap = new HashMap<>();
-
-    public KnockoutFXTest() {
-    }
 
     static ClassLoader getClassLoader() throws InterruptedException {
         while (browserClass == null) {
@@ -200,9 +197,8 @@ public final class KnockoutFXTest extends KnockoutTCK implements Transfer, WSTra
             }
 
             if (call.isJSONP()) {
-                String scriptContent = content;
                 HTMLElement script = HTMLDocument.current().createElement("script")
-                        .withText(scriptContent)
+                        .withText(content)
                         .withAttr("id", "jsonp-" + callback)
                         .withAttr("type", "text/javascript");
                 HTMLDocument.current().getBody().appendChild(script);
@@ -274,7 +270,7 @@ public final class KnockoutFXTest extends KnockoutTCK implements Transfer, WSTra
     private static native void removeFunction(String name);
 
     @JSFunctor
-    static interface JSONPCallback extends JSObject {
+    interface JSONPCallback extends JSObject {
         void dataReceived(JSObject dataReceived);
     }
 

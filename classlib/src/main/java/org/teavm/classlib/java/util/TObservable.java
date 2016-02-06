@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Steve Hannah.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,13 +23,6 @@ public class TObservable {
     TList<TObserver> observers = new TArrayList<>();
 
     boolean changed;
-
-    /**
-     * Constructs a new {@code Observable} object.
-     */
-    public TObservable() {
-        super();
-    }
 
     /**
      * Adds the specified observer to the list of observers. If it is already
@@ -114,7 +107,7 @@ public class TObservable {
      *            the argument passed to {@code update()}.
      */
     public void notifyObservers(Object data) {
-        int size = 0;
+        int size;
         TObserver[] arrays = null;
         synchronized (this) {
             if (hasChanged()) {

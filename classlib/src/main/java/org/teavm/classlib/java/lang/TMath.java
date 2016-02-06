@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -298,7 +298,7 @@ public final class TMath extends TObject {
         return d + ulp(d);
     }
 
-    private static class ExponentConstants {
+    private static final class ExponentConstants {
         public static double[] exponents = { 0x1p1, 0x1p2, 0x1p4, 0x1p8, 0x1p16, 0x1p32, 0x1p64, 0x1p128,
                 0x1p256, 0x1p512 };
         public static double[] negativeExponents = { 0x1p-1, 0x1p-2, 0x1p-4, 0x1p-8, 0x1p-16, 0x1p-32,
@@ -307,7 +307,7 @@ public final class TMath extends TObject {
                 0x1p-63, 0x1p-127, 0x1p-255, 0x1p-511 };
     }
 
-    private static class FloatExponents {
+    private static final class FloatExponents {
         public static float[] exponents = { 0x1p1f, 0x1p2f, 0x1p4f, 0x1p8f, 0x1p16f, 0x1p32f, 0x1p64f };
         public static float[] negativeExponents = { 0x1p-1f, 0x1p-2f, 0x1p-4f, 0x1p-8f, 0x1p-16f, 0x1p-32f,
                 0x1p-64f };

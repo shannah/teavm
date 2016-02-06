@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -130,7 +130,7 @@ public final class TURI implements TComparable<TURI>, TSerializable {
             return;
         }
 
-        if (scheme != null && path != null && path.length() > 0 && path.charAt(0) != '/') {
+        if (scheme != null && path != null && !path.isEmpty() && path.charAt(0) != '/') {
             throw new TURISyntaxException(path, TString.wrap(""));
         }
 
@@ -231,7 +231,7 @@ public final class TURI implements TComparable<TURI>, TSerializable {
      */
     public TURI(TString scheme, TString authority, TString path, TString query, TString fragment)
             throws TURISyntaxException {
-        if (scheme != null && path != null && path.length() > 0 && path.charAt(0) != '/') {
+        if (scheme != null && path != null && !path.isEmpty() && path.charAt(0) != '/') {
             throw new TURISyntaxException(path, TString.wrap(""));
         }
 
@@ -299,12 +299,12 @@ public final class TURI implements TComparable<TURI>, TSerializable {
                 // the characters up to the first ':' comprise the scheme
                 absolute = true;
                 scheme = temp.substring(0, index);
-                if (scheme.length() == 0) {
+                if (scheme.isEmpty()) {
                     throw new TURISyntaxException(uri, TString.wrap(""));
                 }
                 validateScheme(uri, scheme, 0);
                 schemespecificpart = temp.substring(index + 1);
-                if (schemespecificpart.length() == 0) {
+                if (schemespecificpart.isEmpty()) {
                     throw new TURISyntaxException(uri, TString.wrap(""));
                 }
             } else {
@@ -312,7 +312,7 @@ public final class TURI implements TComparable<TURI>, TSerializable {
                 schemespecificpart = temp;
             }
 
-            if (scheme == null || schemespecificpart.length() > 0
+            if (scheme == null || !schemespecificpart.isEmpty()
                     && schemespecificpart.charAt(0) == '/') {
                 opaque = false;
                 // the URI is hierarchical
@@ -334,7 +334,7 @@ public final class TURI implements TComparable<TURI>, TSerializable {
                         path = temp.substring(index);
                     } else {
                         authority = temp.substring(2);
-                        if (authority.length() == 0 && query == null
+                        if (authority.isEmpty() && query == null
                                 && fragment == null) {
                             throw new TURISyntaxException(uri, TString.wrap(""));
                         }
@@ -344,7 +344,7 @@ public final class TURI implements TComparable<TURI>, TSerializable {
                         // never be null)
                     }
 
-                    if (authority.length() == 0) {
+                    if (authority.isEmpty()) {
                         authority = null;
                     } else {
                         validateAuthority(uri, authority, index1 + 3);
@@ -692,7 +692,7 @@ public final class TURI implements TComparable<TURI>, TSerializable {
                         // with
                         // an IPv4 ending, otherwise 7 :'s is bad
                         if (numberOfColons == 7
-                                && ipAddress.charAt(0 + offset) != ':'
+                                && ipAddress.charAt(offset) != ':'
                                 && ipAddress.charAt(1 + offset) != ':') {
                             return false;
                         }
@@ -762,10 +762,7 @@ public final class TURI implements TComparable<TURI>, TSerializable {
                     return false;
                 }
             }
-            if (TInteger.parseInt(word) > 255) {
-                return false;
-            }
-            return true;
+            return TInteger.parseInt(word) <= 255;
         }
 
         private boolean isValidHexChar(char c) {

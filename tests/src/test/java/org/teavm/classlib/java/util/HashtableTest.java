@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,22 +13,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-/*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+
+
 
 package org.teavm.classlib.java.util;
 
@@ -50,6 +36,8 @@ import org.junit.Test;
 import org.teavm.classlib.support.Support_MapTest2;
 import org.teavm.classlib.support.Support_UnmodifiableCollectionTest;
 
+@SuppressWarnings({ "UseOfObsoleteCollectionType", "EnumerationCanBeIteration", "CollectionAddedToSelf",
+        "SuspiciousMethodCalls" })
 public class HashtableTest {
 
     private Hashtable<String, String> ht10;
@@ -75,8 +63,9 @@ public class HashtableTest {
             elmVector.addElement("Val " + i);
         }
 
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 7; i++) {
             htfull.put("FKey " + i, "FVal " + i);
+        }
     }
 
     @Test
@@ -119,7 +108,7 @@ public class HashtableTest {
         // Test for method java.util.Hashtable(java.util.Map)
         Map<String, Object> map = new TreeMap<>();
         Object firstVal = "Gabba";
-        Object secondVal = new Integer(5);
+        Object secondVal = 5;
         map.put("Gah", firstVal);
         map.put("Ooga", secondVal);
         Hashtable<String, Object> ht = new Hashtable<>(map);
@@ -187,8 +176,9 @@ public class HashtableTest {
         // Test for method boolean
         // java.util.Hashtable.containsValue(java.lang.Object)
         Enumeration<String> e = elmVector.elements();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             assertTrue("Returned false for valid value", ht10.containsValue(e.nextElement()));
+        }
         assertTrue("Returned true for invalid value", !ht10.containsValue(new Object()));
     }
 
@@ -243,8 +233,9 @@ public class HashtableTest {
             s2.add(entry.getValue());
         }
         Enumeration<String> e = elmVector.elements();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             assertTrue("Returned incorrect entry set", s2.contains(e.nextElement()));
+        }
 
         boolean exception = false;
         try {
@@ -351,13 +342,14 @@ public class HashtableTest {
         // Test for method java.util.Set java.util.Hashtable.keySet()
         Set<String> s = ht10.keySet();
         Enumeration<String> e = keyVector.elements();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             assertTrue("Returned incorrect key set", s.contains(e.nextElement()));
+        }
 
         Map<Integer, String> map = new Hashtable<>(101);
-        map.put(new Integer(1), "1");
-        map.put(new Integer(102), "102");
-        map.put(new Integer(203), "203");
+        map.put(1, "1");
+        map.put(102, "102");
+        map.put(203, "203");
         Iterator<Integer> it = map.keySet().iterator();
         Integer remove1 = it.next();
         it.remove();
@@ -371,15 +363,16 @@ public class HashtableTest {
         assertTrue("Wrong contents", map.keySet().iterator().next().equals(list.get(0)));
 
         Map<Integer, String> map2 = new Hashtable<>(101);
-        map2.put(new Integer(1), "1");
-        map2.put(new Integer(4), "4");
+        map2.put(1, "1");
+        map2.put(4, "4");
         Iterator<Integer> it2 = map2.keySet().iterator();
         Integer remove3 = it2.next();
         Integer next;
-        if (remove3.intValue() == 1)
-            next = new Integer(4);
-        else
-            next = new Integer(1);
+        if (remove3 == 1) {
+            next = 4;
+        } else {
+            next = 1;
+        }
         it2.hasNext();
         it2.remove();
         assertTrue("Wrong result 2", it2.next().equals(next));
@@ -444,7 +437,7 @@ public class HashtableTest {
         // Test for method java.lang.Object
         // java.util.Hashtable.put(java.lang.Object, java.lang.Object)
         Hashtable<String, Integer> h = hashtableClone(ht100);
-        Integer key = new Integer(100);
+        Integer key = 100;
         h.put("Value 100", key);
         assertTrue("Key/Value not inserted", h.size() == 1 && (h.contains(key)));
     }
@@ -498,7 +491,7 @@ public class HashtableTest {
     @Test
     public void test_size() {
         // Test for method int java.util.Hashtable.size()
-        assertTrue("Returned invalid size", ht10.size() == 10 && (ht100.size() == 0));
+        assertTrue("Returned invalid size", ht10.size() == 10 && (ht100.isEmpty()));
     }
 
     @Test
@@ -512,7 +505,7 @@ public class HashtableTest {
         h.put(h, "3");
         h.put(h, h);
         String result = h.toString();
-        assertTrue("should contain self ref", result.indexOf("(this") > -1);
+        assertTrue("should contain self ref", result.contains("(this"));
     }
 
     @Test
@@ -520,17 +513,19 @@ public class HashtableTest {
         // Test for method java.util.Collection java.util.Hashtable.values()
         Collection<String> c = ht10.values();
         Enumeration<String> e = elmVector.elements();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             assertTrue("Returned incorrect values", c.contains(e.nextElement()));
+        }
 
         Hashtable<Integer, Integer> myHashtable = new Hashtable<>();
-        for (int i = 0; i < 100; i++)
-            myHashtable.put(new Integer(i), new Integer(i));
+        for (int i = 0; i < 100; i++) {
+            myHashtable.put(i, i);
+        }
         Collection<Integer> values = myHashtable.values();
         new Support_UnmodifiableCollectionTest(values).runTest();
-        values.remove(new Integer(0));
+        values.remove(0);
         assertTrue("Removing from the values collection should remove from the original map",
-                !myHashtable.containsValue(new Integer(0)));
+                !myHashtable.containsValue(0));
     }
 
     @Test
@@ -696,7 +691,7 @@ public class HashtableTest {
     }
 
     static class ReusableKey {
-        private int key = 0;
+        private int key;
 
         public void setKey(int key) {
             this.key = key;

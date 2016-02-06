@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -62,6 +62,7 @@ public class ClasspathResourceMapper implements Mapper<String, ClassHolder>, Cla
         } catch (IOException e) {
             throw new RuntimeException("Error reading resources", e);
         }
+        Mapper<String, String> classNameMapper = this::renameClass;
         renamer = new ClassRefsRenamer(new CachedMapper<>(classNameMapper));
         this.classLoader = classLoader;
     }
@@ -124,8 +125,6 @@ public class ClasspathResourceMapper implements Mapper<String, ClassHolder>, Cla
         }
         return name;
     }
-
-    private Mapper<String, String> classNameMapper = preimage -> renameClass(preimage);
 
     @Override
     public Date getModificationDate(String className) {

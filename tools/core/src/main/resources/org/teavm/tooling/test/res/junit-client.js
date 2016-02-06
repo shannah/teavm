@@ -1,3 +1,19 @@
+/*
+ *  Copyright 2016 "Alexey Andreev"
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 "use strict";
 var JUnitClient = {};
 JUnitClient.run = function() {
@@ -10,10 +26,10 @@ JUnitClient.run = function() {
                 });
                 break;
         }
-    }
+    };
     window.addEventListener("message", handler);
     window.parent.postMessage("ready", "*");
-}
+};
 JUnitClient.runTest = function() {
     var thread = $rt_nativeThread();
     var instance;
@@ -42,7 +58,7 @@ JUnitClient.runTest = function() {
         break loop;
     }}
     window.parent.postMessage(message, "*");
-}
+};
 JUnitClient.makeErrorMessage = function(message, e) {
     message.status = "exception";
     var stack = e.stack;
@@ -53,7 +69,7 @@ JUnitClient.makeErrorMessage = function(message, e) {
         message.stack += exceptionMessage ? $rt_ustr(exceptionMessage) : "";
     }
     message.stack += "\n" + stack;
-}
+};
 JUnitClient.reportError = function(error) {
     var handler = function() {
         window.removeEventListener("message", handler);
@@ -61,12 +77,12 @@ JUnitClient.reportError = function(error) {
         window.parent.postMessage(message, "*");
     };
     window.addEventListener("message", handler);
-}
+};
 JUnitClient.loadScript = function(scriptPath) {
     var script = document.createElement("script");
     script.src = scriptPath;
     document.body.appendChild(script);
-}
+};
 window.addEventListener("message", function(event) {
     var data = event.data;
     switch (data.command) {

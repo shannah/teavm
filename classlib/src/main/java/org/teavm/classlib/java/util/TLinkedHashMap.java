@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,22 +13,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-/*
- *  Licensed to the Apache Software Foundation (ASF) under one or more
- *  contributor license agreements.  See the NOTICE file distributed with
- *  this work for additional information regarding copyright ownership.
- *  The ASF licenses this file to You under the Apache License, Version 2.0
- *  (the "License"); you may not use this file except in compliance with
- *  the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+
+
 package org.teavm.classlib.java.util;
 
 import org.teavm.classlib.java.lang.TIllegalStateException;
@@ -36,8 +22,8 @@ import org.teavm.classlib.java.lang.TIllegalStateException;
 public class TLinkedHashMap<K, V> extends THashMap<K, V> implements TMap<K, V> {
     private final boolean accessOrder;
 
-    transient private LinkedHashMapEntry<K, V> head;
-    transient private LinkedHashMapEntry<K, V> tail;
+    private transient LinkedHashMapEntry<K, V> head;
+    private transient LinkedHashMapEntry<K, V> tail;
 
     public TLinkedHashMap() {
         accessOrder = false;
@@ -212,15 +198,15 @@ public class TLinkedHashMap<K, V> extends THashMap<K, V> implements TMap<K, V> {
     @Override
     public boolean containsValue(Object value) {
         LinkedHashMapEntry<K, V> entry = head;
-        if (null == value) {
-            while (null != entry) {
-                if (null == entry.value) {
+        if (value == null) {
+            while (entry != null) {
+                if (entry.value == null) {
                     return true;
                 }
                 entry = entry.chainForward;
             }
         } else {
-            while (null != entry) {
+            while (entry != null) {
                 if (value.equals(entry.value)) {
                     return true;
                 }

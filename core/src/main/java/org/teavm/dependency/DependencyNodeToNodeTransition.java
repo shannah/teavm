@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,8 +24,7 @@ class DependencyNodeToNodeTransition implements DependencyConsumer {
     DependencyNode destination;
     private DependencyTypeFilter filter;
 
-    public DependencyNodeToNodeTransition(DependencyNode source, DependencyNode destination,
-            DependencyTypeFilter filter) {
+    DependencyNodeToNodeTransition(DependencyNode source, DependencyNode destination, DependencyTypeFilter filter) {
         this.source = source;
         this.destination = destination;
         this.filter = filter;

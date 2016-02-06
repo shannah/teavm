@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -92,7 +92,7 @@ class JSClassProcessor {
     private int methodIndexGenerator;
     private Map<MethodReference, MethodReader> overridenMethodCache = new HashMap<>();
 
-    public JSClassProcessor(ClassReaderSource classSource, JSBodyRepository repository, Diagnostics diagnostics) {
+    JSClassProcessor(ClassReaderSource classSource, JSBodyRepository repository, Diagnostics diagnostics) {
         this.classSource = classSource;
         this.repository = repository;
         this.diagnostics = diagnostics;
@@ -427,8 +427,7 @@ class JSClassProcessor {
             if (annot.getValue("value") != null) {
                 propertyName = annot.getValue("value").getString();
             } else {
-                propertyName = method.getName().charAt(0) == 'i' ? cutPrefix(method.getName(), 2)
-                        : cutPrefix(method.getName(), 3);
+                propertyName = cutPrefix(method.getName(), method.getName().charAt(0) == 'i' ? 2 : 3);
             }
             Variable result = invoke.getReceiver() != null ? program.createVariable() : null;
             addPropertyGet(propertyName, invoke.getInstance(), result, invoke.getLocation());
@@ -588,7 +587,7 @@ class JSClassProcessor {
         String script = bodyAnnot.getValue("script").getString();
         String[] parameterNames = bodyAnnot.getValue("params").getList().stream()
                 .map(ann -> ann.getString())
-                .toArray(sz -> new String[sz]);
+                .toArray(String[]::new);
 
         // Parse JS script
         TeaVMErrorReporter errorReporter = new TeaVMErrorReporter(diagnostics,
@@ -1213,7 +1212,7 @@ class JSClassProcessor {
 
     private boolean isProperSetIndexer(MethodDescriptor desc) {
         return desc.parameterCount() == 2 && typeHelper.isSupportedType(desc.parameterType(0))
-                && typeHelper.isSupportedType(desc.parameterType(0)) && desc.getResultType() == ValueType.VOID;
+                && typeHelper.isSupportedType(desc.parameterType(1)) && desc.getResultType() == ValueType.VOID;
     }
 
     private String cutPrefix(String name, int prefixLength) {

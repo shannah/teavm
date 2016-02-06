@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -35,8 +35,6 @@ public class KOTestRunner implements TestRunner {
                     throw e;
                 }
                 Thread.sleep(50);
-            } catch (Throwable e) {
-                throw e;
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2013 Alexey Andreev.
+ *  Copyright 2016 "Alexey Andreev"
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ class DefaultDominatorTree implements DominatorTree {
     private int[] indexes;
     private int[] nodes;
 
-    public DefaultDominatorTree(int[] dominators, int[] vertices) {
+    DefaultDominatorTree(int[] dominators, int[] vertices) {
         lcaTree = new LCATree(dominators.length + 1);
         indexes = new int[dominators.length + 1];
         nodes = new int[dominators.length + 1];
